@@ -1,0 +1,17 @@
+.action {
+    padding: 24px 56px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .form-outline {
+        display: flex;
+        align-items: center;
+    }
+}
+.content {
+    padding: 24px 56px;
+    padding-top: 0;
+    table {
+        background-color: #fff;
+    }
+}

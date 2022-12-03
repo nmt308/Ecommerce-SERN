@@ -1,0 +1,119 @@
+@import 'normalize.css';
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700&display=swap');
+
+:root {
+    --primary-color: #fa842c;
+    --navbar-height: 63px;
+    --body-color: #e4e9f7;
+    --sidebar-color: #fff;
+    --primary-color: #695cfe;
+    --primary-color-light: #f6f5ff;
+    --toggle-color: #ddd;
+    --text-color: #707070;
+
+    /* ====== Transition ====== */
+    --tran-03: all 0.2s ease;
+    --tran-03: all 0.3s ease;
+    --tran-04: all 0.3s ease;
+    --tran-05: all 0.3s ease;
+}
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+body {
+    font-family: 'Montserrat', sans-serif;
+    text-rendering: optimizeSpeed;
+    min-height: 100vh;
+    background-color: var(--body-color);
+    transition: var(--tran-05);
+}
+::selection {
+    background-color: var(--primary-color);
+    color: #fff;
+}
+
+ol,
+ul {
+    padding-left: 0 !important;
+}
+li {
+    padding: 0 !important;
+}
+//Scrollbar
+html *::-webkit-scrollbar {
+    border-radius: 0;
+    width: 8px;
+}
+
+html *::-webkit-scrollbar {
+    border-radius: 0;
+    width: 8px;
+}
+html *::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background-color: rgba(22, 24, 35, 0.06);
+}
+html *::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background-color: rgba(22, 24, 35, 0.06);
+}
+html *::-webkit-scrollbar-track {
+    border-radius: 0;
+    background-color: rgba(0, 0, 0, 0);
+}
+html *::-webkit-scrollbar-track {
+    border-radius: 0;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+@media (max-width: 739px) {
+    .Toastify__toast-container {
+        width: 280px !important;
+        margin-top: 24px;
+        margin-left: auto;
+    }
+}
+
+.wrapper {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    background-color: rgb(191 198 208 / 27%);
+}
+footer {
+    margin-top: auto;
+}
+
+// Edit MDB5
+.form {
+    &-outline {
+        background-color: #fff;
+    }
+    &-select,
+    &-control-undefined {
+        margin-bottom: 20px;
+    }
+}
+.modal {
+    &-body {
+        max-height: 70vh;
+        overflow-y: overlay;
+    }
+    .form-outline {
+        margin-bottom: 20px;
+    }
+    &-dialog {
+        max-width: 750px !important;
+        p {
+            margin-bottom: 4px;
+        }
+    }
+}
+
+//CKeditor
+.ck.ck-reset.ck-editor.ck-rounded-corners {
+    margin-top: 8px;
+    margin-bottom: 20px;
+}
