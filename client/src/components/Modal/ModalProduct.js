@@ -23,12 +23,14 @@ import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 //Firestore
 import { storage } from '../../config/Firebase';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+//Local
 import ImageDefault from '../../assets/img/defaultimage.png';
 import './Modal.scss';
+//Redux
 import { useDispatch } from 'react-redux';
 import { addProduct, updateProduct, getDetailProduct } from '../../redux/actions/productAction';
 
-function Modal({ modalAdd, setModalAdd, modalUpdate, setModalUpdate, toggleShow, modalType, idProduct }) {
+function ModalProduct({ modalAdd, setModalAdd, modalUpdate, setModalUpdate, toggleShow, modalType, idProduct }) {
     const [name, setName] = useState('');
     const [oldprice, setOldPrice] = useState('');
     const [price, setPrice] = useState('');
@@ -36,8 +38,8 @@ function Modal({ modalAdd, setModalAdd, modalUpdate, setModalUpdate, toggleShow,
     const [description, setDescription] = useState('');
     const [specification, setSpecification] = useState('');
     const [quantity, setQuantity] = useState('');
-    const [brand, setBrand] = useState(0);
-    const [category, setCategory] = useState(0);
+    const [brand, setBrand] = useState(1);
+    const [category, setCategory] = useState(1);
     const inputField = useRef(); //Reset input file
     const listBrands = useRef([]);
     const listCategories = useRef([]);
@@ -50,8 +52,8 @@ function Modal({ modalAdd, setModalAdd, modalUpdate, setModalUpdate, toggleShow,
     const resetInputModal = () => {
         setName('');
         setOldPrice('');
-        setBrand(0);
-        setCategory(0);
+        setBrand(1);
+        setCategory(1);
         setPrice('');
         setDescription('');
         setSpecification('');
@@ -61,6 +63,11 @@ function Modal({ modalAdd, setModalAdd, modalUpdate, setModalUpdate, toggleShow,
 
     const handleImage = (e) => {
         let images = e.target.files;
+        if (images.length > 5) {
+            notify('error', 'Tối đa 5 hình ảnh !');
+            inputField.current.value = null;
+            return;
+        }
         for (let i = 0; i < images.length; i++) {
             listImages.push(images[i]);
             let url = URL.createObjectURL(images[i]);
@@ -74,6 +81,15 @@ function Modal({ modalAdd, setModalAdd, modalUpdate, setModalUpdate, toggleShow,
     };
 
     const handleSubmit = async () => {
+        if (oldprice < price) {
+            notify('warning', 'Giá giảm phải nhỏ hơn giá gốc');
+            return;
+        }
+        if (!name || !description || !price || !oldprice || !specification || !quantity) {
+            notify('warning', 'Vui lòng nhập đủ các giá trị');
+            return;
+        }
+
         if (image === null) {
             notify('error', 'Kiểm tra lại hình ảnh !');
             return;
@@ -199,10 +215,11 @@ function Modal({ modalAdd, setModalAdd, modalUpdate, setModalUpdate, toggleShow,
             <MDBModalDialog>
                 <MDBModalContent>
                     <MDBModalHeader>
-                        <MDBModalTitle>{modalType === 'Add' ? 'Thêm sản phẩm' : 'Chỉnh sửa sản phẩm'}</MDBModalTitle>
+                        <MDBModalTitle>{modalType === 'Add' ? 'Thêm sản phẩm' : 'Chi tiết sản phẩm'}</MDBModalTitle>
                     </MDBModalHeader>
                     <MDBModalBody>
                         <MDBInput
+                            placeholder="Nhập tên sản phẩm"
                             label="Tên sản phẩm"
                             type="text"
                             value={name}
@@ -212,8 +229,9 @@ function Modal({ modalAdd, setModalAdd, modalUpdate, setModalUpdate, toggleShow,
                             }}
                         />
                         <MDBInput
+                            placeholder="VNĐ"
                             label="Giá gốc"
-                            type="text"
+                            type="number"
                             value={oldprice}
                             name="oldprice"
                             onChange={(e) => {
@@ -221,8 +239,9 @@ function Modal({ modalAdd, setModalAdd, modalUpdate, setModalUpdate, toggleShow,
                             }}
                         />
                         <MDBInput
+                            placeholder="VNĐ"
                             label="Giá giảm"
-                            type="text"
+                            type="number"
                             value={price}
                             name="price"
                             onChange={(e) => {
@@ -230,15 +249,26 @@ function Modal({ modalAdd, setModalAdd, modalUpdate, setModalUpdate, toggleShow,
                             }}
                         />
                         <MDBInput
+                            placeholder="Số lượng hiện có"
                             label="Số lượng"
-                            type="text"
+                            type="number"
                             name="quantity"
                             value={quantity}
                             onChange={(e) => {
+                                if (e.target.value < 1) {
+                                    return;
+                                }
                                 setQuantity(e.target.value);
                             }}
                         />
-                        <p>Ảnh sản phẩm</p>
+
+                        <p>
+                            Ảnh sản phẩm
+                            <mark style={{ fontSize: '14px', padding: '0', marginLeft: '4px' }}>
+                                ( Tối đa 5 ảnh, ảnh đầu là ảnh đại diện )
+                            </mark>
+                        </p>
+
                         <div className="image-default">
                             {/* 1. Kiểm tra cả 2 modal image có null không
                            2. Sau đó render ra kiểu image theo modal
@@ -274,7 +304,7 @@ function Modal({ modalAdd, setModalAdd, modalUpdate, setModalUpdate, toggleShow,
                                 handleImage(e);
                             }}
                         />
-                        <p>Mô tả</p>
+                        <p style={{ marginTop: '18px' }}>Mô tả</p>
                         <CKEditor
                             editor={ClassicEditor}
                             data={description}
@@ -363,4 +393,4 @@ function Modal({ modalAdd, setModalAdd, modalUpdate, setModalUpdate, toggleShow,
     );
 }
 
-export default Modal;
+export default ModalProduct;

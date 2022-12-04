@@ -3,24 +3,18 @@ const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 
 export const getProduct = async (req, res) => {
-    const pageCurrent = parseInt(req.query.page);
+    const pageCurrent = parseInt(req.query.page) || 1;
     const pageSize = 4;
     const offset = (pageCurrent - 1) * pageSize;
-    let data;
-    let dataCount;
-    if (pageCurrent > 1) {
-        data = await db.Product.findAll({ include: db.Category, raw: true, offset: offset, limit: pageSize });
-        dataCount = await db.Product.count();
-    } else {
-        data = await db.Product.findAll({ include: db.Category, raw: true, limit: pageSize });
-        dataCount = await db.Product.count();
-    }
-    return res.status(200).json({ products: data, countAllProduct: dataCount });
+
+    const data = await db.Product.findAll({ include: db.Category, offset: offset, limit: pageSize });
+    const dataCount = await db.Product.count();
+
+    return res.status(200).json({ products: data, countAllProduct: dataCount }); // Count ll products without limit to set pageCount
 };
 
 export const addProduct = async (req, res) => {
     try {
-        console.log(req.body.image);
         await db.Product.create({
             name: req.body.name,
             price: req.body.price,
@@ -78,11 +72,24 @@ export const editProduct = async (req, res) => {
 
 export const searchProduct = async (req, res) => {
     const searchQuery = req.query.name;
+    const pageCurrent = parseInt(req.query.page) || 1;
+    const pageSize = 4;
+    const offset = (pageCurrent - 1) * pageSize;
+
     const data = await db.Product.findAll({
         where: {
             name: { [Op.substring]: searchQuery },
         },
         include: db.Category,
+        offset: offset,
+        limit: pageSize,
     });
-    return res.status(200).json({ result: data });
+
+    const dataCount = await db.Product.count({
+        where: {
+            name: { [Op.substring]: searchQuery },
+        },
+    });
+
+    return res.status(200).json({ result: data, availableProduct: dataCount });
 };

@@ -85,14 +85,17 @@ export const deleteProduct = (id) => {
     };
 };
 
-export const searchProduct = (searchText) => {
+export const searchProduct = (searchText, currentPage) => {
     return async (dispatch) => {
         const res = await axios.get(`http://localhost:8080/api/product/search`, {
             params: {
                 name: searchText,
+                page: currentPage,
             },
         });
-
-        return res.data.result;
+        return {
+            result: res.data.result,
+            availableProduct: res.data.availableProduct,
+        };
     };
 };

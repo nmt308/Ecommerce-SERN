@@ -1,20 +1,24 @@
-import classNames from 'classnames/bind';
-import Style from './Product.scss';
+//Local
+import './Product.scss';
 import Title from '../../../components/Title';
-import React, { useEffect, useState, useRef } from 'react';
-import Modal from '../../../components/Modal';
-import { MDBBadge, MDBInput, MDBBtn, MDBTable, MDBTableHead, MDBTableBody } from 'mdb-react-ui-kit';
+import ModalProduct from '../../../components/Modal/ModalProduct';
 import notify from '../../../components/Toast';
+import { MDBBadge, MDBInput, MDBBtn, MDBTable, MDBTableHead, MDBTableBody } from 'mdb-react-ui-kit';
+//React
+import React, { useEffect, useState } from 'react';
+import ReactPaginate from 'react-paginate';
+//Toastify
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+//Redux
 import { useDispatch, useSelector } from 'react-redux';
 import { getProducts, deleteProduct, searchProduct } from '../../../redux/actions/productAction';
+//Icon
 import { ImSearch } from 'react-icons/im';
 import { AiFillCloseCircle, AiFillEye, AiFillDelete } from 'react-icons/ai';
-import ReactPaginate from 'react-paginate';
+//Tippy
 import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
-const cx = classNames.bind(Style);
 
 function Product() {
     const [modalAdd, setModalAdd] = useState(false);
@@ -23,14 +27,12 @@ function Product() {
     const [searchText, setSearchText] = useState('');
     const [searchResult, setSearchResult] = useState('');
     const [countAllProduct, setCountAllProduct] = useState(1); //Tổng số sản phẩm có trong database
+    const [currentPage, setCurrentPage] = useState(''); // Reset paginate
 
     let dataRender;
     let pageSize = 4;
     let dispatch = useDispatch();
-    const ref = useRef();
-    useEffect(() => {
-        console.log(ref.current);
-    });
+
     useEffect(() => {
         const getProductsAndCountAll = async () => {
             const countProduct = await dispatch(getProducts());
@@ -71,8 +73,10 @@ function Product() {
         if (!searchText) {
             return;
         }
-        const result = await dispatch(searchProduct(searchText));
-        setSearchResult(result);
+        const res = await dispatch(searchProduct(searchText, 1));
+        setCountAllProduct(res.availableProduct);
+        setSearchResult(res.result);
+        setCurrentPage(0);
     };
 
     const handleValueSearch = (e) => {
@@ -80,12 +84,17 @@ function Product() {
         if (value.startsWith(' ')) {
             return;
         }
-        setSearchText(e.target.value);
+        setSearchText(value);
     };
 
-    const handlePageClick = (e) => {
+    const handlePageClick = async (e) => {
         const currentPage = e.selected + 1; // +1 vì e.selected lấy từ 0
-        dispatch(getProducts(currentPage));
+        if (searchResult) {
+            const res = await dispatch(searchProduct(searchText, currentPage));
+            setSearchResult(res.result);
+        } else {
+            dispatch(getProducts(currentPage));
+        }
     };
 
     if (searchResult.length > 0) {
@@ -93,11 +102,13 @@ function Product() {
     } else {
         dataRender = products;
     }
+
     return (
         <div>
             <Title name="Danh sách sản phẩm" />
             <div className="action">
                 <MDBInput
+                    placeholder="Nhập tên sản phẩm ..."
                     label="Tìm kiếm"
                     type="text"
                     value={searchText}
@@ -172,7 +183,7 @@ function Product() {
                                         </MDBBadge>
                                     </td>
                                     <td>{product.quantity}</td>
-                                    <td>{product['Category.name']}</td>
+                                    <td>{product.Category.name}</td>
                                     <td style={{ textAlign: 'center' }}>
                                         <div className="d-flex justify-content-center">
                                             <Tippy content="Chi tiết" placement="top">
@@ -186,7 +197,7 @@ function Product() {
                                                             setProductID(product.id);
                                                         }}
                                                     >
-                                                        <AiFillEye size={20} />
+                                                        <AiFillEye size={20} color="rgb(110 108 108)" />
                                                     </MDBBtn>
                                                 </div>
                                             </Tippy>
@@ -200,7 +211,7 @@ function Product() {
                                                             handleDelete(product.id);
                                                         }}
                                                     >
-                                                        <AiFillDelete size={20} />
+                                                        <AiFillDelete size={20} color="rgb(110 108 108)" />
                                                     </MDBBtn>
                                                 </div>
                                             </Tippy>
@@ -215,6 +226,7 @@ function Product() {
             <ReactPaginate
                 className="pagination justify-content-center"
                 nextLabel="Sau >"
+                forcePage={currentPage}
                 onPageChange={handlePageClick}
                 pageRangeDisplayed={3}
                 marginPagesDisplayed={2}
@@ -233,7 +245,7 @@ function Product() {
                 activeClassName="active"
                 renderOnZeroPageCount={null}
             />
-            <Modal
+            <ModalProduct
                 idProduct={productID}
                 modalType={modalUpdate ? 'Update' : 'Add'}
                 modalAdd={modalAdd}

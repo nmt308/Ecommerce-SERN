@@ -1,13 +1,7 @@
 import { toast } from 'react-toastify';
 
 const notify = (type, message) => {
-    let toastMsg;
-    if (type === 'success') {
-        toastMsg = message;
-    } else if (type === 'error') {
-        toastMsg = message;
-    }
-    toast[type](toastMsg, {
+    toast[type](message, {
         toastId: type,
         position: 'top-right',
         autoClose: 2000,
