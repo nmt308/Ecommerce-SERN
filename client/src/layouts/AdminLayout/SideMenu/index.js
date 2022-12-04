@@ -2,6 +2,13 @@ import Style from './SideMenu.scss';
 import logo1 from '../../../assets/icon/logo1.png';
 import classNames from 'classnames/bind';
 import { useState } from 'react';
+import { FiSearch } from 'react-icons/fi';
+import { MdOutlineSpaceDashboard, MdOutlineKeyboardArrowRight, MdNightlightRound } from 'react-icons/md';
+import { SlSocialDropbox } from 'react-icons/sl';
+import { FiSun } from 'react-icons/fi';
+import { TbReportMoney, TbDiscount2 } from 'react-icons/tb';
+import { BiCategory, BiCheckShield, BiNews, BiUser, BiCommentCheck } from 'react-icons/bi';
+import { NavLink } from 'react-router-dom';
 const cx = classNames.bind(Style);
 
 function SideMenu() {
@@ -26,78 +33,93 @@ function SideMenu() {
                     </div>
                 </div>
 
-                <i
-                    className={cx('bx bx-chevron-right toggle')}
+                <MdOutlineKeyboardArrowRight
+                    size={12}
+                    className={cx('toggle')}
                     onClick={() => {
                         setClose(!close);
                     }}
-                ></i>
+                />
             </header>
 
             <div className={cx('menu-bar')}>
                 <div className={cx('menu')}>
                     <li className={cx('search-box')}>
-                        <i className={cx('bx bx-search icon')}></i>
-                        <input type="text" placeholder="Search..." />
+                        <FiSearch className={cx('icon')} />
+                        <input type="text" placeholder="Tìm kiếm..." />
                     </li>
 
                     <ul className={cx('menu-links')}>
                         <li className={cx('nav-link')}>
-                            <a>
-                                <i className={cx('bx bx-home-alt icon')}></i>
-                                <span className={cx('text nav-text')}>Dashboard</span>
-                            </a>
+                            <NavLink to="/admin/dashboard">
+                                <MdOutlineSpaceDashboard className={cx('icon')} />
+                                <span className={cx('text nav-text')}>Thống kê</span>
+                            </NavLink>
                         </li>
 
                         <li className={cx('nav-link')}>
-                            <a>
-                                <i className={cx('bx bx-bar-chart-alt-2 icon')}></i>
-                                <span className={cx('text nav-text')}>Revenue</span>
-                            </a>
+                            <NavLink to="/admin/product">
+                                <SlSocialDropbox className={cx('icon')} />
+                                <span className={cx('text nav-text')}>Sản phẩm</span>
+                            </NavLink>
                         </li>
 
                         <li className={cx('nav-link')}>
-                            <a>
-                                <i className={cx('bx bx-bell icon')}></i>
-                                <span className={cx('text nav-text')}>Notifications</span>
-                            </a>
+                            <NavLink to="/admin/category">
+                                <BiCategory className={cx('icon')} />
+                                <span className={cx('text nav-text')}>Danh mục</span>
+                            </NavLink>
                         </li>
 
                         <li className={cx('nav-link')}>
-                            <a>
-                                <i className={cx('bx bx-pie-chart-alt icon')}></i>
-                                <span className={cx('text nav-text')}>Analytics</span>
-                            </a>
+                            <NavLink to="/admin/brand">
+                                <BiCheckShield className={cx('icon')} />
+                                <span className={cx('text nav-text')}>Thương hiệu</span>
+                            </NavLink>
                         </li>
 
                         <li className={cx('nav-link')}>
-                            <a>
-                                <i className={cx('bx bx-heart icon')}></i>
-                                <span className={cx('text nav-text')}>Likes</span>
-                            </a>
+                            <NavLink to="/admin/order">
+                                <TbReportMoney className={cx('icon')} />
+                                <span className={cx('text nav-text')}>Đơn hàng</span>
+                            </NavLink>
                         </li>
 
                         <li className={cx('nav-link')}>
-                            <a>
-                                <i className={cx('bx bx-wallet icon')}></i>
-                                <span className={cx('text nav-text')}>Wallets</span>
-                            </a>
+                            <NavLink to="/admin/news">
+                                <BiNews className={cx('icon')} />
+                                <span className={cx('text nav-text')}>Tin tức</span>
+                            </NavLink>
+                        </li>
+
+                        <li className={cx('nav-link')}>
+                            <NavLink to="/admin/discount">
+                                <TbDiscount2 className={cx('icon')} />
+                                <span className={cx('text nav-text')}>Khuyến mãi</span>
+                            </NavLink>
+                        </li>
+
+                        <li className={cx('nav-link')}>
+                            <NavLink to="/admin/feedback">
+                                <BiCommentCheck className={cx('icon')} />
+                                <span className={cx('text nav-text')}>Đánh giá</span>
+                            </NavLink>
+                        </li>
+
+                        <li className={cx('nav-link')}>
+                            <NavLink to="/admin/account">
+                                <BiUser className={cx('icon')} />
+                                <span className={cx('text nav-text')}>Tài khoản</span>
+                            </NavLink>
                         </li>
                     </ul>
                 </div>
 
                 <div className={cx('bottom-content')}>
-                    <li className={cx('')}>
-                        <a>
-                            <i className={cx('bx bx-log-out icon')}></i>
-                            <span className={cx('text nav-text')}>Logout</span>
-                        </a>
-                    </li>
-
                     <li className={cx('mode')}>
                         <div className={cx('sun-moon')}>
-                            <i className={cx('bx bx-moon icon moon')}></i>
-                            <i className={cx('bx bx-sun icon sun')}></i>
+                            <MdNightlightRound className={cx('icon moon')} />
+                            <FiSun className={cx('icon sun')} />
                         </div>
                         <span className={cx('mode-text text')}>{dark ? 'Dark mode' : 'Light mode'}</span>
 

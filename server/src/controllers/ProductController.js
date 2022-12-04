@@ -3,8 +3,19 @@ const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 
 export const getProduct = async (req, res) => {
-    const data = await db.Product.findAll({ include: db.Category, raw: true });
-    return res.status(200).json({ products: data });
+    const pageCurrent = parseInt(req.query.page);
+    const pageSize = 4;
+    const offset = (pageCurrent - 1) * pageSize;
+    let data;
+    let dataCount;
+    if (pageCurrent > 1) {
+        data = await db.Product.findAll({ include: db.Category, raw: true, offset: offset, limit: pageSize });
+        dataCount = await db.Product.count();
+    } else {
+        data = await db.Product.findAll({ include: db.Category, raw: true, limit: pageSize });
+        dataCount = await db.Product.count();
+    }
+    return res.status(200).json({ products: data, countAllProduct: dataCount });
 };
 
 export const addProduct = async (req, res) => {
