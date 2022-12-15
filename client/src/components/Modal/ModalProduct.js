@@ -12,6 +12,8 @@ import {
 } from 'mdb-react-ui-kit';
 //React
 import { useEffect, useRef, useState } from 'react';
+import { AiOutlineLoading3Quarters } from 'react-icons/ai';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import axios from 'axios';
 //Toastify
 import notify from '../Toast';
@@ -31,6 +33,7 @@ import { useDispatch } from 'react-redux';
 import { addProduct, updateProduct, getDetailProduct } from '../../redux/actions/productAction';
 
 function ModalProduct({ modalAdd, setModalAdd, modalUpdate, setModalUpdate, toggleShow, modalType, idProduct }) {
+    const [loading, setLoading] = useState(false);
     const [name, setName] = useState('');
     const [oldprice, setOldPrice] = useState('');
     const [price, setPrice] = useState('');
@@ -38,22 +41,27 @@ function ModalProduct({ modalAdd, setModalAdd, modalUpdate, setModalUpdate, togg
     const [description, setDescription] = useState('');
     const [specification, setSpecification] = useState('');
     const [quantity, setQuantity] = useState('');
-    const [brand, setBrand] = useState(1);
-    const [category, setCategory] = useState(1);
+    const [brand, setBrand] = useState('');
+    const [category, setCategory] = useState('');
+    const [searchParams, setSearchParams] = useSearchParams();
     const inputField = useRef(); //Reset input file
     const listBrands = useRef([]);
     const listCategories = useRef([]);
     const URLImageLocal = useRef([]); //Lặp qua URLImageLocal để hiển thị hình khi Add
     let listImages = []; //Lặp qua listImages để up hình lên Firestore
-    const type = ['image/png', 'image/jpeg', 'image/PNG', 'image/JPG', 'image/jpg'];
 
+    const type = ['image/png', 'image/jpeg', 'image/PNG', 'image/JPG', 'image/jpg'];
+    const nameParam = searchParams.get('name');
+    const pageParam = searchParams.get('page');
+
+    let navigation = useNavigate();
     let dispatch = useDispatch();
 
     const resetInputModal = () => {
         setName('');
         setOldPrice('');
-        setBrand(1);
-        setCategory(1);
+        setBrand('');
+        setCategory('');
         setPrice('');
         setDescription('');
         setSpecification('');
@@ -75,22 +83,27 @@ function ModalProduct({ modalAdd, setModalAdd, modalUpdate, setModalUpdate, togg
             if (images && type.includes(images[i].type)) {
                 setImage(listImages);
             } else {
+                notify('warning', 'Kiểm tra lại hình ảnh');
                 setImage(null);
             }
         }
     };
 
     const handleSubmit = async () => {
+        setLoading(true);
         if (oldprice < price) {
+            setLoading(false);
             notify('warning', 'Giá giảm phải nhỏ hơn giá gốc');
             return;
         }
         if (!name || !description || !price || !oldprice || !specification || !quantity) {
+            setLoading(false);
             notify('warning', 'Vui lòng nhập đủ các giá trị');
             return;
         }
 
         if (image === null) {
+            setLoading(false);
             notify('error', 'Kiểm tra lại hình ảnh !');
             return;
         }
@@ -119,23 +132,37 @@ function ModalProduct({ modalAdd, setModalAdd, modalUpdate, setModalUpdate, togg
             price,
             image: `${getDownloadURLS}`,
             quantity,
-            brand,
-            category,
+            brand: brand || listBrands.current[0].id,
+            category: category || listCategories.current[0].id,
             specification,
             description,
         };
 
-        const res = await dispatch(addProduct(data));
+        const res = await dispatch(addProduct(data, pageParam));
         notify(res.type, res.message);
+        setLoading(false);
         setModalAdd(!modalAdd);
         resetInputModal();
         inputField.current.value = null;
     };
 
     const handleUpdate = async () => {
+        setLoading(true);
         let getDownloadURLS;
 
+        if (oldprice < price) {
+            setLoading(false);
+            notify('warning', 'Giá giảm phải nhỏ hơn giá gốc');
+            return;
+        }
+        if (!name || !description || !price || !oldprice || !specification || !quantity) {
+            setLoading(false);
+            notify('warning', 'Vui lòng nhập đủ các giá trị');
+            return;
+        }
+
         if (typeof image !== 'string') {
+            // image là object khi up hình mới
             const handleUploadImage = () => {
                 let listUrls = [];
                 return new Promise((resolve) => {
@@ -167,20 +194,36 @@ function ModalProduct({ modalAdd, setModalAdd, modalUpdate, setModalUpdate, togg
             description,
         };
 
-        const res = await dispatch(updateProduct(idProduct, data));
+        const res = await dispatch(updateProduct(idProduct, data, pageParam));
         notify(res.type, res.message);
+        setLoading(false);
         setModalUpdate(!modalUpdate);
         resetInputModal();
         inputField.current.value = null;
+        if (nameParam) {
+            navigation('/admin/product');
+        }
     };
 
     useEffect(() => {
-        axios.get('http://localhost:8080/api/brands').then((data) => {
-            listBrands.current = data.data.brands;
-        });
-        axios.get('http://localhost:8080/api/categories').then((data) => {
-            listCategories.current = data.data.categories;
-        });
+        axios
+            .get('http://localhost:8080/api/brands', {
+                params: {
+                    getAll: 'true',
+                },
+            })
+            .then((data) => {
+                listBrands.current = data.data.brands;
+            });
+        axios
+            .get('http://localhost:8080/api/categories', {
+                params: {
+                    getAll: 'true',
+                },
+            })
+            .then((data) => {
+                listCategories.current = data.data.categories;
+            });
     }, []);
 
     useEffect(() => {
@@ -212,7 +255,7 @@ function ModalProduct({ modalAdd, setModalAdd, modalUpdate, setModalUpdate, togg
             setShow={modalType === 'Add' ? setModalAdd : setModalUpdate}
             tabIndex="-1"
         >
-            <MDBModalDialog>
+            <MDBModalDialog centered>
                 <MDBModalContent>
                     <MDBModalHeader>
                         <MDBModalTitle>{modalType === 'Add' ? 'Thêm sản phẩm' : 'Chi tiết sản phẩm'}</MDBModalTitle>
@@ -377,8 +420,10 @@ function ModalProduct({ modalAdd, setModalAdd, modalUpdate, setModalUpdate, togg
                             Hủy
                         </MDBBtn>
                         {modalType === 'Add' ? (
-                            <MDBBtn onClick={handleSubmit} color="success">
-                                Thêm mới
+                            <MDBBtn onClick={handleSubmit} color="success" disabled={loading}>
+                                <div style={{ minWidth: '60px' }}>
+                                    {loading ? <AiOutlineLoading3Quarters className="loading" /> : 'Thêm mới'}
+                                </div>
                             </MDBBtn>
                         ) : (
                             <MDBBtn onClick={handleUpdate} color="success">

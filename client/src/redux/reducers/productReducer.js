@@ -1,6 +1,7 @@
 const initialState = {
     products: [],
     product: {},
+    totalProduct: 1,
 };
 
 const productReducer = (state = initialState, action) => {
@@ -8,7 +9,8 @@ const productReducer = (state = initialState, action) => {
         case 'GET_ALL_PRODUCTS':
             return {
                 ...state,
-                products: action.payload,
+                products: action.payload.products,
+                totalProduct: action.payload.countAllProduct,
             };
 
         case 'GET_DETAIL_PRODUCT':

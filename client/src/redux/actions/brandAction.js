@@ -1,40 +1,40 @@
 import axios from 'axios';
 
-export const getProducts = (currentPage) => {
+export const getBrands = (currentPage) => {
     // Thunk action creator return 1 thunk action (1 action trả về 1 function)
     return async (dispatch) => {
-        const res = await axios.get('http://localhost:8080/api/products', {
+        const res = await axios.get('http://localhost:8080/api/brands', {
             params: {
                 page: currentPage,
             },
         });
-        const products = res.data.products;
-        const countAllProduct = res.data.countAllProduct; // All products without limit to set pageCount
+        const brands = res.data.brands;
+        const countAllBrand = res.data.countAllBrand; // All brands without limit to set pageCount
         dispatch({
-            type: 'GET_ALL_PRODUCTS',
-            payload: { products, countAllProduct },
+            type: 'GET_ALL_BRANDS',
+            payload: { brands, countAllBrand },
         });
     };
 };
 
-export const getDetailProduct = (id) => {
+export const getDetailBrand = (id) => {
     // Thunk action creator return 1 thunk action (1 action trả về 1 function)
     return async (dispatch) => {
-        const res = await axios.get(`http://localhost:8080/api/product/detail/${id}`);
-        const product = res.data.product;
+        const res = await axios.get(`http://localhost:8080/api/brand/detail/${id}`);
+        const brand = res.data.brand;
         dispatch({
-            type: 'GET_DETAIL_PRODUCT',
-            payload: product,
+            type: 'GET_DETAIL_BRAND',
+            payload: brand,
         });
-        return product;
+        return brand;
     };
 };
 
-export const addProduct = (data, page) => {
+export const addBrand = (data, page) => {
     return async (dispatch) => {
-        const res = await axios.post('http://localhost:8080/api/product/add', data);
+        const res = await axios.post('http://localhost:8080/api/brand/add', data);
         if (res.status === 200) {
-            dispatch(getProducts(page));
+            dispatch(getBrands(page));
             return {
                 type: 'success',
                 message: res.data.message,
@@ -48,11 +48,11 @@ export const addProduct = (data, page) => {
     };
 };
 
-export const updateProduct = (id, data, page) => {
+export const updateBrand = (id, data, page) => {
     return async (dispatch) => {
-        const res = await axios.put(`http://localhost:8080/api/product/edit/${id}`, data);
+        const res = await axios.put(`http://localhost:8080/api/brand/edit/${id}`, data);
         if (res.status === 200) {
-            dispatch(getProducts(page));
+            dispatch(getBrands(page));
             return {
                 type: 'success',
                 message: res.data.message,
@@ -66,11 +66,11 @@ export const updateProduct = (id, data, page) => {
     };
 };
 
-export const deleteProduct = (id, page) => {
+export const deleteBrand = (id, page) => {
     return async (dispatch) => {
-        const res = await axios.delete(`http://localhost:8080/api/product/delete/${id}`);
+        const res = await axios.delete(`http://localhost:8080/api/brand/delete/${id}`);
         if (res.status === 200) {
-            dispatch(getProducts(page));
+            dispatch(getBrands(page));
             return {
                 type: 'success',
                 message: res.data.message,
@@ -84,9 +84,9 @@ export const deleteProduct = (id, page) => {
     };
 };
 
-export const searchProduct = (searchText, currentPage) => {
+export const searchBrand = (searchText, currentPage) => {
     return async (dispatch) => {
-        const res = await axios.get(`http://localhost:8080/api/product/search`, {
+        const res = await axios.get(`http://localhost:8080/api/brand/search`, {
             params: {
                 name: searchText,
                 page: currentPage,
@@ -94,7 +94,7 @@ export const searchProduct = (searchText, currentPage) => {
         });
         return {
             result: res.data.result,
-            availableProduct: res.data.availableProduct,
+            availableBrand: res.data.availableBrand,
         };
     };
 };

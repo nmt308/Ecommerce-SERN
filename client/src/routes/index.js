@@ -1,5 +1,4 @@
-import { Home } from '../pages';
-import { Product } from '../pages';
+import { Product, Category, Brand, Home } from '../pages';
 import { DefaultLayout, AdminLayout } from '../layouts';
 
 export const AllRoute = [
@@ -11,6 +10,16 @@ export const AllRoute = [
     {
         path: '/Admin/Product',
         component: Product,
+        layout: AdminLayout,
+    },
+    {
+        path: '/Admin/Category',
+        component: Category,
+        layout: AdminLayout,
+    },
+    {
+        path: '/Admin/Brand',
+        component: Brand,
         layout: AdminLayout,
     },
 ];

@@ -35,9 +35,19 @@ module.exports = {
             },
             brand_id: {
                 type: Sequelize.INTEGER,
+                allowNull: false,
+                references: {
+                    model: 'Brands',
+                    key: 'id',
+                },
             },
             category_id: {
                 type: Sequelize.INTEGER,
+                allowNull: false,
+                references: {
+                    model: 'Categories',
+                    key: 'id',
+                },
             },
             createdAt: {
                 allowNull: false,

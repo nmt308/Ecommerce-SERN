@@ -1,40 +1,40 @@
 import axios from 'axios';
 
-export const getProducts = (currentPage) => {
+export const getCategories = (currentPage) => {
     // Thunk action creator return 1 thunk action (1 action trả về 1 function)
     return async (dispatch) => {
-        const res = await axios.get('http://localhost:8080/api/products', {
+        const res = await axios.get('http://localhost:8080/api/categories', {
             params: {
                 page: currentPage,
             },
         });
-        const products = res.data.products;
-        const countAllProduct = res.data.countAllProduct; // All products without limit to set pageCount
+        const categories = res.data.categories;
+        const countAllCategory = res.data.countAllCategory; // All categories without limit to set pageCount
         dispatch({
-            type: 'GET_ALL_PRODUCTS',
-            payload: { products, countAllProduct },
+            type: 'GET_ALL_CATEGORIES',
+            payload: { categories, countAllCategory },
         });
     };
 };
 
-export const getDetailProduct = (id) => {
+export const getDetailCategory = (id) => {
     // Thunk action creator return 1 thunk action (1 action trả về 1 function)
     return async (dispatch) => {
-        const res = await axios.get(`http://localhost:8080/api/product/detail/${id}`);
-        const product = res.data.product;
+        const res = await axios.get(`http://localhost:8080/api/category/detail/${id}`);
+        const category = res.data.category;
         dispatch({
-            type: 'GET_DETAIL_PRODUCT',
-            payload: product,
+            type: 'GET_DETAIL_CATEGORY',
+            payload: category,
         });
-        return product;
+        return category;
     };
 };
 
-export const addProduct = (data, page) => {
+export const addCategory = (data, page) => {
     return async (dispatch) => {
-        const res = await axios.post('http://localhost:8080/api/product/add', data);
+        const res = await axios.post('http://localhost:8080/api/category/add', data);
         if (res.status === 200) {
-            dispatch(getProducts(page));
+            dispatch(getCategories(page));
             return {
                 type: 'success',
                 message: res.data.message,
@@ -48,11 +48,11 @@ export const addProduct = (data, page) => {
     };
 };
 
-export const updateProduct = (id, data, page) => {
+export const updateCategory = (id, data, page) => {
     return async (dispatch) => {
-        const res = await axios.put(`http://localhost:8080/api/product/edit/${id}`, data);
+        const res = await axios.put(`http://localhost:8080/api/category/edit/${id}`, data);
         if (res.status === 200) {
-            dispatch(getProducts(page));
+            dispatch(getCategories(page));
             return {
                 type: 'success',
                 message: res.data.message,
@@ -66,11 +66,12 @@ export const updateProduct = (id, data, page) => {
     };
 };
 
-export const deleteProduct = (id, page) => {
+export const deleteCategory = (id, page) => {
     return async (dispatch) => {
-        const res = await axios.delete(`http://localhost:8080/api/product/delete/${id}`);
+        const res = await axios.delete(`http://localhost:8080/api/category/delete/${id}`);
+        console.log(res);
         if (res.status === 200) {
-            dispatch(getProducts(page));
+            dispatch(getCategories(page));
             return {
                 type: 'success',
                 message: res.data.message,
@@ -84,9 +85,9 @@ export const deleteProduct = (id, page) => {
     };
 };
 
-export const searchProduct = (searchText, currentPage) => {
+export const searchCategory = (searchText, currentPage) => {
     return async (dispatch) => {
-        const res = await axios.get(`http://localhost:8080/api/product/search`, {
+        const res = await axios.get(`http://localhost:8080/api/category/search`, {
             params: {
                 name: searchText,
                 page: currentPage,
@@ -94,7 +95,7 @@ export const searchProduct = (searchText, currentPage) => {
         });
         return {
             result: res.data.result,
-            availableProduct: res.data.availableProduct,
+            availableCategory: res.data.availableCategory,
         };
     };
 };

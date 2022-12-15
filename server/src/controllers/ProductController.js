@@ -28,18 +28,22 @@ export const addProduct = async (req, res) => {
         });
         return res.status(200).json({ message: 'Thêm mới thành công' });
     } catch {
-        return res.status(500).json({ message: 'Thêm mới thất bại' });
+        return res.status(201).json({ message: 'Thêm mới thất bại' });
     }
 };
 
 export const deleteProduct = async (req, res) => {
     const idProduct = req.params.id;
-    await db.Product.destroy({
-        where: {
-            id: idProduct,
-        },
-    });
-    return res.status(200).json({ message: 'Xóa sản phẩm thành công' });
+    try {
+        await db.Product.destroy({
+            where: {
+                id: idProduct,
+            },
+        });
+        return res.status(200).json({ message: 'Xóa sản phẩm thành công' });
+    } catch (e) {
+        return res.status(201).json({ message: 'Sản phẩm này không thể xóa' });
+    }
 };
 
 export const detailProduct = async (req, res) => {
@@ -66,7 +70,7 @@ export const editProduct = async (req, res) => {
 
         return res.status(200).json({ message: 'Cập nhật thành công' });
     } catch {
-        return res.status(500).json({ message: 'Cập nhật thất bại' });
+        return res.status(201).json({ message: 'Cập nhật thất bại' });
     }
 };
 

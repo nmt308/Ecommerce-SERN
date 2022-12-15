@@ -3,10 +3,12 @@ import './Product.scss';
 import Title from '../../../components/Title';
 import ModalProduct from '../../../components/Modal/ModalProduct';
 import notify from '../../../components/Toast';
-import { MDBBadge, MDBInput, MDBBtn, MDBTable, MDBTableHead, MDBTableBody } from 'mdb-react-ui-kit';
+import { useNavigateSearch } from '../../../CustomHook';
 //React
 import React, { useEffect, useState } from 'react';
 import ReactPaginate from 'react-paginate';
+import { useSearchParams } from 'react-router-dom';
+import { MDBBadge, MDBInput, MDBBtn, MDBTable, MDBTableHead, MDBTableBody } from 'mdb-react-ui-kit';
 //Toastify
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -26,25 +28,46 @@ function Product() {
     const [productID, setProductID] = useState('');
     const [searchText, setSearchText] = useState('');
     const [searchResult, setSearchResult] = useState('');
-    const [countAllProduct, setCountAllProduct] = useState(1); //Tổng số sản phẩm có trong database
+    const [searchCount, setSearchCount] = useState('');
     const [currentPage, setCurrentPage] = useState(''); // Reset paginate
+    const [searchParams, setSearchParams] = useSearchParams();
+
+    let dispatch = useDispatch();
+    let navigate = useNavigateSearch();
 
     let dataRender;
     let pageSize = 4;
-    let dispatch = useDispatch();
+
+    const name = searchParams.get('name');
+    const page = searchParams.get('page');
 
     useEffect(() => {
-        const getProductsAndCountAll = async () => {
-            const countProduct = await dispatch(getProducts());
-            setCountAllProduct(countProduct);
-        };
-        getProductsAndCountAll();
+        if (name) {
+            const getSearchResult = async () => {
+                const res = await dispatch(searchProduct(name, page));
+                setSearchCount(res.availableProduct);
+                setSearchResult(res.result);
+                setCurrentPage(parseInt(page) - 1);
+            };
+            getSearchResult();
+        } else {
+            setSearchResult('');
+            setSearchText('');
+            dispatch(getProducts(page));
+            setCurrentPage(parseInt(page) - 1 > 0 ? parseInt(page) - 1 : 0); //Vì lần đầu page = null, null - 1 = -1
+        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [name, page, dispatch]);
 
     const products = useSelector((state) => state.productState.products);
+    const totalProduct = useSelector((state) => state.productState.totalProduct);
+    let pageCount;
 
-    const pageCount = Math.ceil(countAllProduct / pageSize);
+    if (searchResult) {
+        pageCount = Math.ceil(searchCount / pageSize);
+    } else {
+        pageCount = Math.ceil(totalProduct / pageSize);
+    }
 
     const toggleShow = (typeModal) => {
         switch (typeModal) {
@@ -62,8 +85,7 @@ function Product() {
     const handleDelete = (id) => {
         setTimeout(async () => {
             if (window.confirm('Bạn có muốn xóa sản phẩm này ?')) {
-                const res = await dispatch(deleteProduct(id));
-                console.log('notify');
+                const res = await dispatch(deleteProduct(id, page));
                 notify(res.type, res.message);
             }
         }, 500);
@@ -73,10 +95,7 @@ function Product() {
         if (!searchText) {
             return;
         }
-        const res = await dispatch(searchProduct(searchText, 1));
-        setCountAllProduct(res.availableProduct);
-        setSearchResult(res.result);
-        setCurrentPage(0);
+        navigate('/admin/product', { name: searchText, page: 1 });
     };
 
     const handleValueSearch = (e) => {
@@ -90,11 +109,14 @@ function Product() {
     const handlePageClick = async (e) => {
         const currentPage = e.selected + 1; // +1 vì e.selected lấy từ 0
         if (searchResult) {
-            const res = await dispatch(searchProduct(searchText, currentPage));
-            setSearchResult(res.result);
+            navigate('/admin/product', { name: searchText, page: currentPage || 1 });
         } else {
-            dispatch(getProducts(currentPage));
+            navigate('/admin/product', { page: currentPage });
         }
+    };
+
+    const formatCurrency = (value) => {
+        return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(value);
     };
 
     if (searchResult.length > 0) {
@@ -156,70 +178,82 @@ function Product() {
                         </tr>
                     </MDBTableHead>
                     <MDBTableBody>
-                        {dataRender.map((product) => {
-                            return (
-                                <tr key={product.id}>
-                                    <td>{product.id}</td>
-                                    <td>
-                                        <div className="d-flex align-items-center">
-                                            <p className="fw-bold mb-1">{product.name}</p>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <img
-                                            src={product.image.split(',')[0]}
-                                            alt=""
-                                            style={{ width: '45px', height: '45px' }}
-                                            className="rounded-circle"
-                                        />
-                                    </td>
-                                    <td>
-                                        <p className="fw-normal mb-1">{product.price}</p>
-                                        <p className="text-muted mb-0">{product.oldprice}</p>
-                                    </td>
-                                    <td>
-                                        <MDBBadge color="success" pill>
-                                            Active
-                                        </MDBBadge>
-                                    </td>
-                                    <td>{product.quantity}</td>
-                                    <td>{product.Category.name}</td>
-                                    <td style={{ textAlign: 'center' }}>
-                                        <div className="d-flex justify-content-center">
-                                            <Tippy content="Chi tiết" placement="top">
-                                                <div>
-                                                    <MDBBtn
-                                                        color="link"
-                                                        rounded
-                                                        size="sm"
-                                                        onClick={() => {
-                                                            toggleShow('Update');
-                                                            setProductID(product.id);
-                                                        }}
-                                                    >
-                                                        <AiFillEye size={20} color="rgb(110 108 108)" />
-                                                    </MDBBtn>
-                                                </div>
-                                            </Tippy>
-                                            <Tippy content="Xóa" placement="top">
-                                                <div>
-                                                    <MDBBtn
-                                                        color="link"
-                                                        rounded
-                                                        size="sm"
-                                                        onClick={() => {
-                                                            handleDelete(product.id);
-                                                        }}
-                                                    >
-                                                        <AiFillDelete size={20} color="rgb(110 108 108)" />
-                                                    </MDBBtn>
-                                                </div>
-                                            </Tippy>
-                                        </div>
-                                    </td>
-                                </tr>
-                            );
-                        })}
+                        {dataRender.length < 1 ? (
+                            <tr className="text-center">
+                                <td colSpan="7">
+                                    <div style={{ padding: '12px 0', marginRight: '16px' }}>
+                                        Không tìm thấy dữ liệu tương ứng
+                                    </div>
+                                </td>
+                            </tr>
+                        ) : (
+                            dataRender.map((product) => {
+                                return (
+                                    <tr key={product.id}>
+                                        <td>{product.id}</td>
+                                        <td>
+                                            <div className="d-flex align-items-center">
+                                                <p className="fw-bold mb-1">{product.name}</p>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <img
+                                                src={product.image.split(',')[0]}
+                                                alt=""
+                                                style={{ width: '45px', height: '45px' }}
+                                                className="rounded-circle"
+                                            />
+                                        </td>
+                                        <td>
+                                            <p className="fw-normal mb-1">{formatCurrency(product.price)}</p>
+                                            <p className="text-muted mb-0">
+                                                <del>{formatCurrency(product.oldprice)}</del>
+                                            </p>
+                                        </td>
+                                        <td>
+                                            <MDBBadge color="success" pill>
+                                                Active
+                                            </MDBBadge>
+                                        </td>
+                                        <td>{product.quantity}</td>
+                                        <td>{product.Category.name}</td>
+                                        <td style={{ textAlign: 'center' }}>
+                                            <div className="d-flex justify-content-center">
+                                                <Tippy content="Chi tiết" placement="top">
+                                                    <div>
+                                                        <MDBBtn
+                                                            color="link"
+                                                            rounded
+                                                            size="sm"
+                                                            onClick={() => {
+                                                                toggleShow('Update');
+                                                                setProductID(product.id);
+                                                            }}
+                                                        >
+                                                            <AiFillEye size={20} color="rgb(110 108 108)" />
+                                                        </MDBBtn>
+                                                    </div>
+                                                </Tippy>
+                                                <Tippy content="Xóa" placement="top">
+                                                    <div>
+                                                        <MDBBtn
+                                                            color="link"
+                                                            rounded
+                                                            size="sm"
+                                                            onClick={() => {
+                                                                handleDelete(product.id);
+                                                            }}
+                                                        >
+                                                            <AiFillDelete size={20} color="rgb(110 108 108)" />
+                                                        </MDBBtn>
+                                                    </div>
+                                                </Tippy>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                );
+                            })
+                        )}
                     </MDBTableBody>
                 </MDBTable>
             </div>

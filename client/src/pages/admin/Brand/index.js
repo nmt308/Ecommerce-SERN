@@ -1,19 +1,19 @@
 //Local
 import Title from '../../../components/Title';
 import notify from '../../../components/Toast';
-import ModalCategory from '../../../components/Modal/ModalCategory';
+import ModalBrand from '../../../components/Modal/ModalBrand';
 import { useNavigateSearch } from '../../../CustomHook';
 //React
 import React, { useEffect, useState } from 'react';
 import ReactPaginate from 'react-paginate';
-import { useSearchParams, useNavigate } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import { MDBBadge, MDBInput, MDBBtn, MDBTable, MDBTableHead, MDBTableBody } from 'mdb-react-ui-kit';
 //Toastify
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 //Redux
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteCategory, getCategories, searchCategory } from '../../../redux/actions/categoryAction';
+import { deleteBrand, getBrands, searchBrand } from '../../../redux/actions/brandAction';
 //Icon
 import { ImSearch } from 'react-icons/im';
 import { AiFillCloseCircle, AiFillEye, AiFillDelete } from 'react-icons/ai';
@@ -21,10 +21,10 @@ import { AiFillCloseCircle, AiFillEye, AiFillDelete } from 'react-icons/ai';
 import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
 
-function Category() {
+function Brand() {
     const [modalAdd, setModalAdd] = useState(false);
     const [modalUpdate, setModalUpdate] = useState(false);
-    const [categoryID, setCategoryID] = useState('');
+    const [brandID, setBrandID] = useState('');
     const [searchText, setSearchText] = useState('');
     const [searchResult, setSearchResult] = useState('');
     const [currentPage, setCurrentPage] = useState(''); // Reset paginate
@@ -33,15 +33,15 @@ function Category() {
 
     let dispatch = useDispatch();
     let navigate = useNavigateSearch();
-    let navigation = useNavigate();
+
     const name = searchParams.get('name');
     const page = searchParams.get('page');
 
     useEffect(() => {
         if (name) {
             const getSearchResult = async () => {
-                const res = await dispatch(searchCategory(name, page));
-                setSearchCount(res.availableCategory);
+                const res = await dispatch(searchBrand(name, page));
+                setSearchCount(res.availableBrand);
                 setSearchResult(res.result);
                 setCurrentPage(parseInt(page) - 1);
             };
@@ -49,7 +49,7 @@ function Category() {
         } else {
             setSearchResult('');
             setSearchText('');
-            dispatch(getCategories(page));
+            dispatch(getBrands(page));
             setCurrentPage(parseInt(page) - 1 > 0 ? parseInt(page) - 1 : 0); //Vì lần đầu page = null, null - 1 = -1
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -58,8 +58,8 @@ function Category() {
     let dataRender;
     let pageSize = 4;
 
-    const categories = useSelector((state) => state.categoryState.categories);
-    const totalCategoy = useSelector((state) => state.categoryState.totalCategory);
+    const brands = useSelector((state) => state.brandState.brands);
+    const totalCategoy = useSelector((state) => state.brandState.totalBrand);
     let pageCount;
 
     if (searchResult) {
@@ -83,20 +83,18 @@ function Category() {
 
     const handleDelete = (id) => {
         setTimeout(async () => {
-            if (window.confirm('Bạn có muốn xóa danh mục này ?')) {
-                const res = await dispatch(deleteCategory(id, page));
+            if (window.confirm('Bạn có muốn xóa thương hiệu này ?')) {
+                const res = await dispatch(deleteBrand(id, page));
                 notify(res.type, res.message);
-                if (searchResult) {
-                    navigation('/admin/category');
-                }
             }
         }, 500);
     };
+
     const handleSearch = async () => {
         if (!searchText) {
             return;
         }
-        navigate('/admin/category', { name: searchText, page: 1 });
+        navigate('/admin/brand', { name: searchText, page: 1 });
     };
 
     const handleValueSearch = (e) => {
@@ -110,9 +108,9 @@ function Category() {
     const handlePageClick = async (e) => {
         const currentPage = e.selected + 1; // +1 vì e.selected lấy từ 0
         if (searchResult) {
-            navigate('/admin/category', { name: searchText, page: currentPage || 1 });
+            navigate('/admin/brand', { name: searchText, page: currentPage || 1 });
         } else {
-            navigate('/admin/category', { page: currentPage });
+            navigate('/admin/brand', { page: currentPage });
         }
     };
 
@@ -130,15 +128,15 @@ function Category() {
     if (searchResult) {
         dataRender = searchResult;
     } else {
-        dataRender = categories;
+        dataRender = brands;
     }
 
     return (
         <div>
-            <Title name="Danh sách danh mục" />
+            <Title name="Danh sách thương hiệu" />
             <div className="action">
                 <MDBInput
-                    placeholder="Nhập tên danh mục ..."
+                    placeholder="Nhập tên thương hiệu ..."
                     label="Tìm kiếm"
                     type="text"
                     value={searchText}
@@ -166,7 +164,7 @@ function Category() {
                         toggleShow('Add');
                     }}
                 >
-                    Thêm danh mục
+                    Thêm thương hiệu
                 </MDBBtn>
             </div>
             <div className="content">
@@ -174,8 +172,8 @@ function Category() {
                     <MDBTableHead>
                         <tr>
                             <th scope="col">ID</th>
-                            <th scope="col">Tên danh mục</th>
-                            <th scope="col">Ảnh danh mục</th>
+                            <th scope="col">Tên thương hiệu</th>
+                            <th scope="col">Ảnh thương hiệu</th>
                             <th scope="col">Trạng thái</th>
                             <th scope="col">Ngày tạo</th>
                             <th scope="col">Ngày cập nhật</th>
@@ -194,18 +192,18 @@ function Category() {
                                 </td>
                             </tr>
                         ) : (
-                            dataRender.map((category) => {
+                            dataRender.map((brand) => {
                                 return (
-                                    <tr key={category.id}>
-                                        <td>{category.id}</td>
+                                    <tr key={brand.id}>
+                                        <td>{brand.id}</td>
                                         <td>
                                             <div className="d-flex align-items-center">
-                                                <p className="fw-bold mb-1">{category.name}</p>
+                                                <p className="fw-bold mb-1">{brand.name}</p>
                                             </div>
                                         </td>
                                         <td>
                                             <img
-                                                src={category.image}
+                                                src={brand.image}
                                                 alt=""
                                                 style={{ width: '45px', height: '45px' }}
                                                 className="rounded-circle"
@@ -216,8 +214,8 @@ function Category() {
                                                 Active
                                             </MDBBadge>
                                         </td>
-                                        <td>{formatDate(category.createdAt)}</td>
-                                        <td>{formatDate(category.updatedAt)}</td>
+                                        <td>{formatDate(brand.createdAt)}</td>
+                                        <td>{formatDate(brand.updatedAt)}</td>
                                         <td style={{ textAlign: 'center' }}>
                                             <div className="d-flex justify-content-center">
                                                 <Tippy content="Chi tiết" placement="top">
@@ -228,7 +226,7 @@ function Category() {
                                                             size="sm"
                                                             onClick={() => {
                                                                 toggleShow('Update');
-                                                                setCategoryID(category.id);
+                                                                setBrandID(brand.id);
                                                             }}
                                                         >
                                                             <AiFillEye size={20} color="rgb(110 108 108)" />
@@ -242,7 +240,7 @@ function Category() {
                                                             rounded
                                                             size="sm"
                                                             onClick={() => {
-                                                                handleDelete(category.id);
+                                                                handleDelete(brand.id);
                                                             }}
                                                         >
                                                             <AiFillDelete size={20} color="rgb(110 108 108)" />
@@ -280,8 +278,8 @@ function Category() {
                 activeClassName="active"
                 renderOnZeroPageCount={null}
             />
-            <ModalCategory
-                idCategory={categoryID}
+            <ModalBrand
+                idBrand={brandID}
                 modalType={modalUpdate ? 'Update' : 'Add'}
                 modalAdd={modalAdd}
                 setModalAdd={setModalAdd}
@@ -294,4 +292,4 @@ function Category() {
     );
 }
 
-export default Category;
+export default Brand;
