@@ -110,7 +110,7 @@ function Category() {
     const handlePageClick = async (e) => {
         const currentPage = e.selected + 1; // +1 vì e.selected lấy từ 0
         if (searchResult) {
-            navigate('/admin/category', { name: searchText, page: currentPage || 1 });
+            navigate('/admin/category', { name: name, page: currentPage || 1 });
         } else {
             navigate('/admin/category', { page: currentPage });
         }
@@ -188,9 +188,7 @@ function Category() {
                         {dataRender.length < 1 ? (
                             <tr className="text-center">
                                 <td colSpan="7">
-                                    <div style={{ padding: '12px 0', marginRight: '16px' }}>
-                                        Không tìm thấy dữ liệu tương ứng
-                                    </div>
+                                    <div style={{ padding: '12px 0' }}>Không tìm thấy dữ liệu tương ứng</div>
                                 </td>
                             </tr>
                         ) : (

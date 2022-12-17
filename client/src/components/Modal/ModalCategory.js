@@ -172,8 +172,10 @@ function ModalCategory({ modalAdd, setModalAdd, modalUpdate, setModalUpdate, tog
                                 ) : (
                                     <img src={URLImageLocal.current} alt="default" />
                                 )
-                            ) : (
+                            ) : typeof image === 'string' ? (
                                 <img src={image} alt="default" />
+                            ) : (
+                                <img src={URLImageLocal.current} alt="default" />
                             )}
                         </div>
 

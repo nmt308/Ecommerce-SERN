@@ -130,7 +130,7 @@ function ModalBrand({ modalAdd, setModalAdd, modalUpdate, setModalUpdate, toggle
         getProduct();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [modalType]);
-
+    console.log(image);
     return (
         <MDBModal
             show={modalAdd || modalUpdate}
@@ -173,8 +173,10 @@ function ModalBrand({ modalAdd, setModalAdd, modalUpdate, setModalUpdate, toggle
                                 ) : (
                                     <img src={URLImageLocal.current} alt="default" />
                                 )
-                            ) : (
+                            ) : typeof image === 'string' ? (
                                 <img src={image} alt="default" />
+                            ) : (
+                                <img src={URLImageLocal.current} alt="default" />
                             )}
                         </div>
 

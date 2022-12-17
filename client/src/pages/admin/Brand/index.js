@@ -108,7 +108,7 @@ function Brand() {
     const handlePageClick = async (e) => {
         const currentPage = e.selected + 1; // +1 vì e.selected lấy từ 0
         if (searchResult) {
-            navigate('/admin/brand', { name: searchText, page: currentPage || 1 });
+            navigate('/admin/brand', { name: name, page: currentPage || 1 });
         } else {
             navigate('/admin/brand', { page: currentPage });
         }
@@ -186,9 +186,7 @@ function Brand() {
                         {dataRender.length < 1 ? (
                             <tr className="text-center">
                                 <td colSpan="7">
-                                    <div style={{ padding: '12px 0', marginRight: '16px' }}>
-                                        Không tìm thấy dữ liệu tương ứng
-                                    </div>
+                                    <div style={{ padding: '12px 0' }}>Không tìm thấy dữ liệu tương ứng</div>
                                 </td>
                             </tr>
                         ) : (
@@ -201,13 +199,8 @@ function Brand() {
                                                 <p className="fw-bold mb-1">{brand.name}</p>
                                             </div>
                                         </td>
-                                        <td>
-                                            <img
-                                                src={brand.image}
-                                                alt=""
-                                                style={{ width: '45px', height: '45px' }}
-                                                className="rounded-circle"
-                                            />
+                                        <td style={{ height: '75px' }}>
+                                            <img src={brand.image} alt="product" style={{ width: '45px' }} />
                                         </td>
                                         <td>
                                             <MDBBadge color="success" pill>

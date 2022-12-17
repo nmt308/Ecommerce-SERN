@@ -6,7 +6,6 @@
     --navbar-height: 63px;
     --body-color: #e4e9f7;
     --sidebar-color: #fff;
-    --primary-color: #695cfe;
     --primary-color-light: #f6f5ff;
     --toggle-color: #ddd;
     --text-color: #707070;
@@ -23,7 +22,7 @@
     margin: 0;
 }
 body {
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Montserrat', sans-serif !important;
     text-rendering: optimizeSpeed;
     min-height: 100vh;
     background-color: var(--body-color);
@@ -80,7 +79,8 @@ html *::-webkit-scrollbar-track {
     margin: 0;
     display: flex;
     flex-direction: column;
-    background-color: rgb(191 198 208 / 27%);
+    background-color: #fff;
+    // background-color: rgb(191 198 208 / 27%);
 }
 footer {
     margin-top: auto;
