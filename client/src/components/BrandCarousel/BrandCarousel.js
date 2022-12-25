@@ -3,10 +3,10 @@ import 'react-multi-carousel/lib/styles.css';
 import CustomButton from './CustomButton';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import Style from './MultipleCarousel.module.scss';
+import Style from './BrandCarousel.module.scss';
 import classNames from 'classnames/bind';
 const cx = classNames.bind(Style);
-function MultipleCarousel() {
+function BrandCarousel() {
     const [brands, setBrands] = useState([]);
     useEffect(() => {
         const getBrand = async () => {
@@ -103,4 +103,4 @@ function MultipleCarousel() {
     );
 }
 
-export default MultipleCarousel;
+export default BrandCarousel;

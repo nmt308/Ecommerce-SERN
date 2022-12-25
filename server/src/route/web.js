@@ -2,6 +2,7 @@ import express from 'express';
 import * as BrandController from '../controllers/BrandController.js';
 import * as ProductController from '../controllers/ProductController.js';
 import * as CategoryController from '../controllers/CategoryController.js';
+import * as UserController from '../controllers/UserController.js';
 const router = express.Router();
 export const initAPIRoutes = (app) => {
     //Product
@@ -27,6 +28,9 @@ export const initAPIRoutes = (app) => {
     router.get('/brand/detail/:id', BrandController.detailBrand);
     router.delete('/brand/delete/:id', BrandController.deleteBrand);
     router.get('/brand/search', BrandController.searchBrand);
+
+    //User
+    router.post('/user/add', UserController.addUser);
 
     //Middleware check nếu url có tiền tố /api mới gọi router
     return app.use('/api/', router);

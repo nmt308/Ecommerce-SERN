@@ -1,0 +1,48 @@
+.divider:after,
+.divider:before {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: #eee;
+}
+.h-custom {
+    height: calc(100% - 73px);
+}
+@media (max-width: 450px) {
+    .h-custom {
+        height: 100%;
+    }
+}
+.container-fluid {
+    position: relative;
+}
+.form-login {
+    .btn {
+        background-color: var(--primary-color) !important;
+        box-shadow: unset;
+    }
+}
+
+.form-check-input[type='checkbox']:checked {
+    background-image: none;
+    background-color: var(--primary-color) !important;
+}
+.form-check-input:checked {
+    border-color: var(--primary-color) !important;
+}
+.form-outline .form-control:focus ~ .form-label {
+    color: var(--primary-color) !important;
+}
+.form-outline .form-control:focus ~ .form-notch .form-notch-leading {
+    border-color: var(--primary-color) !important;
+    box-shadow: -1px 0 0 0 var(--primary-color), 0 1px 0 0 var(--primary-color), 0 -1px 0 0 var(--primary-color) !important;
+}
+.form-outline .form-control:focus ~ .form-notch .form-notch-middle {
+    border-color: var(--primary-color) !important;
+    box-shadow: 0 1px 0 0 var(--primary-color) !important;
+    border-top: 1px solid transparent !important;
+}
+.form-outline .form-control:focus ~ .form-notch .form-notch-trailing {
+    border-color: var(--primary-color) !important;
+    box-shadow: 1px 0 0 0 var(--primary-color), 0 -1px 0 0 var(--primary-color), 0 1px 0 0 var(--primary-color) !important;
+}

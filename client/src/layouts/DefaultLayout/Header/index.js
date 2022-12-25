@@ -9,12 +9,16 @@ import { MDBBtn } from 'mdb-react-ui-kit';
 // React
 import { useContext, useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-
+// Firebase
+import { auth } from '../../../config/Firebase';
 // Other
 import classNames from 'classnames/bind';
 import 'tippy.js/dist/tippy.css';
 import HeadlessTippy from '@tippyjs/react/headless';
 import lottie from 'lottie-web';
+//Redux
+import { useDispatch, useSelector } from 'react-redux';
+import { userLogin } from '../../../redux/actions/headerAction';
 
 const cx = classNames.bind(Style);
 function Header() {
@@ -33,12 +37,21 @@ function Header() {
 
     const navigate = useNavigateSearch();
     const viewPort = useViewport();
+    const dispatch = useDispatch();
 
     const isMobile = viewPort.width <= 739;
     const isTablet = viewPort.width > 739 && viewPort.width <= 992;
     const isPc = viewPort.width > 992;
 
-    const user = true;
+    const user = false;
+    const SignOut = () => {
+        setTimeout(() => {
+            auth.signOut().then(() => {
+                navigate('/');
+            });
+        }, 500);
+    };
+
     useEffect(() => {
         lottie.loadAnimation({
             name: 'user1',
@@ -120,6 +133,13 @@ function Header() {
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [openMenu]);
+
+    useEffect(() => {
+        auth.onAuthStateChanged(async (res) => {
+            // dispatch(userLogin(user.email));
+            console.log(res.email);
+        });
+    }, []);
 
     return (
         <nav className={cx('navbar navbar-expand-lg navbar-light bg-light', 'navbar')}>
@@ -231,7 +251,7 @@ function Header() {
 
                             <MenuItem content="Đăng xuất" placement="bottom" isPc={isPc}>
                                 <div className={cx('action-item')}>
-                                    <button className={cx('btn', 'custom-btn')}>
+                                    <button className={cx('btn', 'custom-btn')} onClick={SignOut}>
                                         <div ref={logoutIcon1} className={cx('logoutIcon1')} />
                                         <div ref={logoutIcon2} className={cx('logoutIcon2')} />
                                     </button>
@@ -241,11 +261,11 @@ function Header() {
                         </div>
                     ) : (
                         <div className={cx('authentication')}>
-                            <MDBBtn className={cx('btn btn-link', 'btn-login')} to="/login">
-                                Đăng nhập
+                            <MDBBtn rounded className={cx('btn-login')} color="link" rippleColor="light">
+                                <Link to="/login">Đăng nhập</Link>
                             </MDBBtn>
-                            <MDBBtn className={cx('btn btn-outline-primary', 'btn-register')} to="/register">
-                                Đăng kí
+                            <MDBBtn rounded className={cx('btn-register')}>
+                                <Link to="/register">Đăng kí</Link>
                             </MDBBtn>
                         </div>
                     )}

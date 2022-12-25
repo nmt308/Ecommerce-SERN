@@ -1,5 +1,5 @@
 import classNames from 'classnames/bind';
-import Style from './MultipleCarousel.module.scss';
+import Style from './BrandCarousel.module.scss';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 
 const cx = classNames.bind(Style);

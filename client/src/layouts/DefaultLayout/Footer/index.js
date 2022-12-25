@@ -3,7 +3,7 @@ import LogoIcon from '../../../assets/icon/logoIcon.png';
 
 function Footer() {
     return (
-        <MDBFooter bgColor="light" className="text-center text-lg-start text-muted">
+        <MDBFooter className="text-center text-lg-start text-muted" style={{ backgroundColor: '#fff' }}>
             <MDBContainer className="text-center text-md-start mt-2">
                 <section className="d-flex justify-content-center justify-content-lg-between py-3 border-bottom">
                     <div className="me-5 d-none d-lg-block">

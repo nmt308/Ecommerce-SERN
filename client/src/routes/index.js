@@ -1,4 +1,4 @@
-import { Product, Category, Brand, Home } from '../pages';
+import { Product, Category, Brand, Home, Login, Register } from '../pages';
 import { DefaultLayout, AdminLayout } from '../layouts';
 
 export const AllRoute = [
@@ -6,6 +6,16 @@ export const AllRoute = [
         path: '/',
         component: Home,
         layout: DefaultLayout,
+    },
+    {
+        path: '/login',
+        component: Login,
+        layout: false,
+    },
+    {
+        path: '/register',
+        component: Register,
+        layout: false,
     },
     {
         path: '/Admin/Product',

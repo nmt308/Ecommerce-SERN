@@ -48,20 +48,21 @@
     }
 }
 .btn-login {
-    color: rgba(0, 0, 0, 0.733) !important;
-    &:hover {
-        background-color: unset !important;
-    }
-    &:active {
-        background-color: unset !important;
+    font-size: 13px !important;
+    color: #000 !important;
+    a {
+        color: #000 !important;
     }
 }
-.btn-register,
-.btn-register:hover {
-    border-color: var(--primary-color) !important;
-    color: white !important;
+.btn-register {
     background-color: var(--primary-color) !important;
+    font-size: 13px !important;
+    width: 125px !important;
+    a {
+        color: #fff !important;
+    }
 }
+
 .custom-btn {
     position: relative;
     background-color: #f0f0f0;

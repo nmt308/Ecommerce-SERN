@@ -1,27 +1,20 @@
 //Local
 import Carousel from '../../../components/Carousel';
-import MultipleCarousel from '../../../components/MultipleCarousel/MultipleCarousel';
+import BrandCarousel from '../../../components/BrandCarousel/BrandCarousel';
 import { useViewport } from '../../../CustomHook';
 import banner from '../../../assets/img/banner4.webp';
 import './Home.scss';
+import ProductCarousel from '../../../components/ProductCarousel/ProductCarousel';
 
 //Other
 import { useEffect, useState } from 'react';
 import classNames from 'classnames';
-import ReactPaginate from 'react-paginate';
 
 const cx = classNames;
 function Home() {
     const [product, setProduct] = useState([]);
     const [category, setCategory] = useState([]);
     const [active, setActive] = useState('all');
-    const [open, setOpen] = useState(false);
-
-    // Paginate items
-    const [currentItems, setCurrentItems] = useState([]);
-    const [pageCount, setPageCount] = useState(0);
-    const [itemOffset, setItemOffset] = useState(0);
-    const [currentPage, setCurrentPage] = useState({ current: '' });
 
     // Categories list
 
@@ -29,9 +22,6 @@ function Home() {
         window.scrollTo(0, 0);
     }, []);
     //Open category
-    const handleMenu = (event) => {
-        setOpen(!open);
-    };
 
     const viewPort = useViewport();
     const isMobile = viewPort.width <= 739;
@@ -61,7 +51,9 @@ function Home() {
             </div>
             <img src={banner} alt="banner" className="banner" />
             <h5 style={{ fontWeight: '700', marginBottom: '16px', marginTop: '8px' }}>Thương hiệu nổi bật</h5>
-            <MultipleCarousel />
+            <BrandCarousel />
+            <ProductCarousel title="Laptop" />
+            <ProductCarousel title="Điện thoại" />
         </div>
     );
 }
