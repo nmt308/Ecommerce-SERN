@@ -26,7 +26,7 @@ function Form({ type }) {
                             </div>
                             <div className="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
                                 <div className="d-flex flex-row align-items-center justify-content-center justify-content-lg-start">
-                                    <p className="lead fw-normal mb-0 me-3">Đăng nhập với</p>
+                                    <p className="lead fw-500 mb-0 me-3">Đăng nhập với</p>
                                     <MDBBtn floating className="mx-1">
                                         <i className="fab fa-facebook-f"></i>
                                     </MDBBtn>
@@ -39,7 +39,7 @@ function Form({ type }) {
                                 </div>
 
                                 <div className="divider d-flex align-items-center my-4">
-                                    <p className="text-center fw-bold mx-3 mb-0">Hoặc</p>
+                                    <p className="text-center fw-500 mx-3 mb-0">Hoặc</p>
                                 </div>
 
                                 {type === 'register' && (
@@ -101,7 +101,7 @@ function Form({ type }) {
                                             >
                                                 Đăng kí
                                             </MDBBtn>
-                                            <div className="small fw-bold mt-2 pt-1 mb-0">
+                                            <div className="small fw-500 mt-2 pt-1 mb-0">
                                                 Đã có tài khoản ?{' '}
                                                 <Link to="/login" className="link-danger">
                                                     Đăng nhập ngay
@@ -118,7 +118,7 @@ function Form({ type }) {
                                             >
                                                 Đăng nhập
                                             </MDBBtn>
-                                            <div className="small fw-bold mt-2 pt-1 mb-0">
+                                            <div className="small fw-500 mt-2 pt-1 mb-0">
                                                 Chưa có tài khoản ?{' '}
                                                 <Link to="/register" className="link-danger">
                                                     Đăng kí ngay

@@ -6,30 +6,29 @@ import { useEffect, useState } from 'react';
 import Style from './ProductCarousel.module.scss';
 import classNames from 'classnames/bind';
 import { HiChevronDoubleRight } from 'react-icons/hi';
+import ProductItem from '../ProductItem';
+import Skeleton from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
 const cx = classNames.bind(Style);
 function ProductCarousel({ title }) {
-    const [brands, setBrands] = useState([]);
+    const [products, setProducts] = useState([]);
+
     useEffect(() => {
-        const getBrand = async () => {
+        const getProduct = async () => {
             axios
-                .get('http://localhost:8080/api/brands', {
+                .get('http://localhost:8080/api/products', {
                     params: {
-                        getAll: 'true',
+                        limit: 8,
                     },
                 })
                 .then((data) => {
-                    setBrands(data.data.brands);
+                    setProducts(data.data.products);
                 });
         };
-        getBrand();
+        getProduct();
     }, []);
     return (
-        <div
-            style={{
-                position: 'relative',
-                marginTop: '16px',
-            }}
-        >
+        <div>
             <div className={cx('title')}>
                 <h5>{title}</h5>
                 <div>
@@ -37,124 +36,74 @@ function ProductCarousel({ title }) {
                     <HiChevronDoubleRight />
                 </div>
             </div>
-            <Carousel
-                additionalTransfrom={0}
-                arrows
-                autoPlaySpeed={3000}
-                centerMode={false}
-                className=""
-                containerClass="container"
-                customLeftArrow={<CustomButton type="left" />}
-                customRightArrow={<CustomButton type="right" />}
-                dotListClass=""
-                draggable
-                focusOnSelect={false}
-                itemClass=""
-                keyBoardControl
-                minimumTouchDrag={80}
-                pauseOnHover
-                renderArrowsWhenDisabled={false}
-                renderButtonGroupOutside={false}
-                renderDotsOutside={false}
-                responsive={{
-                    desktop: {
-                        breakpoint: {
-                            max: 3000,
-                            min: 1024,
-                        },
-                        items: 5,
-                        partialVisibilityGutter: 40,
-                    },
-                    mobile: {
-                        breakpoint: {
-                            max: 464,
-                            min: 0,
-                        },
-                        items: 1,
-                        partialVisibilityGutter: 30,
-                    },
-                    tablet: {
-                        breakpoint: {
-                            max: 1024,
-                            min: 464,
-                        },
-                        items: 2,
-                        partialVisibilityGutter: 30,
-                    },
+            <div
+                style={{
+                    position: 'relative',
+                    marginTop: '16px',
                 }}
-                rewind={false}
-                rewindWithAnimation={false}
-                rtl={false}
-                shouldResetAutoplay
-                showDots={false}
-                sliderClass=""
-                slidesToSlide={1}
-                swipeable
             >
-                <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">
-                        Some quick example text to build on the card title and make up the bulk of the card's content.
-                    </p>
-                    <a href="s" class="btn btn-primary">
-                        Go somewhere
-                    </a>
-                </div>
-                <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">
-                        Some quick example text to build on the card title and make up the bulk of the card's content.
-                    </p>
-                    <a href="s" class="btn btn-primary">
-                        Go somewhere
-                    </a>
-                </div>
-                <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">
-                        Some quick example text to build on the card title and make up the bulk of the card's content.
-                    </p>
-                    <a href="s" class="btn btn-primary">
-                        Go somewhere
-                    </a>
-                </div>
-                <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">
-                        Some quick example text to build on the card title and make up the bulk of the card's content.
-                    </p>
-                    <a href="s" class="btn btn-primary">
-                        Go somewhere
-                    </a>
-                </div>
-                <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">
-                        Some quick example text to build on the card title and make up the bulk of the card's content.
-                    </p>
-                    <a href="s" class="btn btn-primary">
-                        Go somewhere
-                    </a>
-                </div>
-                <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">
-                        Some quick example text to build on the card title and make up the bulk of the card's content.
-                    </p>
-                    <a href="s" class="btn btn-primary">
-                        Go somewhere
-                    </a>
-                </div>
-                <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">
-                        Some quick example text to build on the card title and make up the bulk of the card's content.
-                    </p>
-                    <a href="s" class="btn btn-primary">
-                        Go somewhere
-                    </a>
-                </div>
-            </Carousel>
+                <Carousel
+                    additionalTransfrom={0}
+                    arrows
+                    autoPlaySpeed={3000}
+                    centerMode={false}
+                    className={cx('carousel')}
+                    containerClass="container"
+                    customLeftArrow={<CustomButton type="left" />}
+                    customRightArrow={<CustomButton type="right" />}
+                    dotListClass=""
+                    draggable
+                    focusOnSelect={false}
+                    itemClass=""
+                    keyBoardControl
+                    minimumTouchDrag={80}
+                    pauseOnHover
+                    renderArrowsWhenDisabled={false}
+                    renderButtonGroupOutside={false}
+                    renderDotsOutside={false}
+                    partialVisible={true}
+                    responsive={{
+                        desktop: {
+                            breakpoint: {
+                                max: 3000,
+                                min: 1024,
+                            },
+                            items: 5,
+                            partialVisibilityGutter: 15,
+                        },
+                        mobile: {
+                            breakpoint: {
+                                max: 464,
+                                min: 0,
+                            },
+                            items: 1,
+                            partialVisibilityGutter: 30,
+                        },
+                        tablet: {
+                            breakpoint: {
+                                max: 1024,
+                                min: 464,
+                            },
+                            items: 2,
+                            partialVisibilityGutter: 30,
+                        },
+                    }}
+                    rewind={false}
+                    rewindWithAnimation={false}
+                    rtl={false}
+                    shouldResetAutoplay
+                    showDots={false}
+                    sliderClass=""
+                    slidesToSlide={1}
+                    swipeable
+                >
+                    {products.map((product) => (
+                        <>
+                            <ProductItem key={product.id} data={product} />
+                        </>
+                    ))}
+                </Carousel>
+            </div>
         </div>
     );
 }

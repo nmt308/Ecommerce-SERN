@@ -169,7 +169,7 @@ function Product() {
                         <tr>
                             <th scope="col">ID</th>
                             <th scope="col">Tên sản phẩm</th>
-                            <th scope="col">Ảnh sản phẩm</th>
+                            <th scope="col">Hình ảnh</th>
                             <th scope="col">Giá sản phẩm</th>
                             <th scope="col">Trạng thái</th>
                             <th scope="col">Số lượng</th>
@@ -191,9 +191,9 @@ function Product() {
                                 return (
                                     <tr key={product.id}>
                                         <td>{product.id}</td>
-                                        <td>
+                                        <td style={{ maxWidth: ' 285px' }}>
                                             <div className="d-flex align-items-center">
-                                                <p className="fw-bold mb-1">{product.name}</p>
+                                                <p className="fw-500 mb-1 table-name">{product.name}</p>
                                             </div>
                                         </td>
                                         <td>
@@ -201,11 +201,10 @@ function Product() {
                                                 src={product.image.split(',')[0]}
                                                 alt=""
                                                 style={{ width: '45px', height: '45px' }}
-                                                className="rounded-circle"
                                             />
                                         </td>
-                                        <td>
-                                            <p className="fw-normal mb-1">{formatCurrency(product.price)}</p>
+                                        <td style={{ fontSize: '14px' }}>
+                                            <p className="fw-500 mb-1">{formatCurrency(product.price)}</p>
                                             <p className="text-muted mb-0">
                                                 <del>{formatCurrency(product.oldprice)}</del>
                                             </p>

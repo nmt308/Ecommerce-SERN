@@ -21,6 +21,9 @@
     padding: 0;
     margin: 0;
 }
+html body {
+    overflow-y: overlay;
+}
 body {
     font-family: 'Montserrat', sans-serif !important;
     text-rendering: optimizeSpeed;
@@ -112,6 +115,13 @@ footer {
     &-body {
         max-height: 70vh;
         overflow-y: overlay;
+        &.custom {
+            padding: 32px 20%;
+            max-height: 80vh;
+            img {
+                width: 100%;
+            }
+        }
     }
     .form-outline {
         margin-bottom: 20px;
@@ -121,7 +131,13 @@ footer {
         p {
             margin-bottom: 4px;
         }
+        &.custom {
+            max-width: 75vw !important;
+        }
     }
+}
+.fw-500 {
+    font-weight: 500 !important;
 }
 
 //CKeditor

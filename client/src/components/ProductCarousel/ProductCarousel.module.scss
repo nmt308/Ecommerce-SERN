@@ -13,12 +13,14 @@
         color: black;
     }
 }
-
+.carousel {
+    position: unset !important;
+}
 .customLeft {
-    left: 0;
+    left: -20px;
 }
 .customRight {
-    right: 0;
+    right: -20px;
 }
 
 .title {
@@ -27,12 +29,14 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    cursor: pointer;
+    margin-top: 16px;
+
     h5 {
         font-weight: 700;
         margin-bottom: 0;
     }
     div {
+        cursor: pointer;
         display: flex;
         align-items: center;
         font-size: 14px;

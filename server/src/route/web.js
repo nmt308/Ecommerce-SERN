@@ -10,7 +10,7 @@ export const initAPIRoutes = (app) => {
     router.post('/product/add', ProductController.addProduct);
     router.put('/product/edit/:id', ProductController.editProduct);
     router.delete('/product/delete/:id', ProductController.deleteProduct);
-    router.get('/product/detail/:id', ProductController.detailProduct);
+    router.get('/product/detail', ProductController.detailProduct);
     router.get('/product/search', ProductController.searchProduct);
 
     //Category

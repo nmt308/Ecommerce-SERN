@@ -51,7 +51,7 @@ function Footer() {
                 <MDBContainer className="text-center text-md-start mt-5">
                     <MDBRow className="mt-3">
                         <MDBCol md="5" lg="5" className="mb-4">
-                            <div className="text-uppercase fw-bold mb-4">
+                            <div className="text-uppercase fw-500 mb-4">
                                 <img src={LogoIcon} alt="Logo" width={28} height={28} />
                                 <span className="ms-2">NowShop Corporation</span>
                             </div>
@@ -63,7 +63,7 @@ function Footer() {
                         </MDBCol>
                         <MDBCol className="col-md-1 col-lg-1 d-none d-sm-none d-md-none d-lg-block mb-4"></MDBCol>
                         <MDBCol md="3" lg="3" className="mx-auto  mb-4">
-                            <h6 className="text-uppercase fw-bold mb-4">TRANG KHÁC</h6>
+                            <h6 className="text-uppercase fw-500 mb-4">TRANG KHÁC</h6>
                             <p>
                                 <a href="#!" className="text-reset">
                                     Chính sách
@@ -87,7 +87,7 @@ function Footer() {
                         </MDBCol>
 
                         <MDBCol md="4" lg="3" className="mx-auto mb-md-0 mb-4">
-                            <h6 className="text-uppercase fw-bold mb-4">LIÊN HỆ</h6>
+                            <h6 className="text-uppercase fw-500 mb-4">LIÊN HỆ</h6>
                             <p>
                                 <MDBIcon icon="home" className="me-4" />
                                 Q.Tân Bình, TP.Hồ Chí Minh

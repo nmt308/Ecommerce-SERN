@@ -198,7 +198,7 @@ function Category() {
                                         <td>{category.id}</td>
                                         <td>
                                             <div className="d-flex align-items-center">
-                                                <p className="fw-bold mb-1">{category.name}</p>
+                                                <p className="fw-500 mb-1">{category.name}</p>
                                             </div>
                                         </td>
                                         <td>

@@ -5,9 +5,12 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import Style from './BrandCarousel.module.scss';
 import classNames from 'classnames/bind';
+import Skeleton from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
 const cx = classNames.bind(Style);
 function BrandCarousel() {
     const [brands, setBrands] = useState([]);
+    const [loading, setLoading] = useState(true);
     useEffect(() => {
         const getBrand = async () => {
             axios
@@ -85,14 +88,29 @@ function BrandCarousel() {
                 >
                     {brands.map((brand) => {
                         return (
-                            <div className={cx('card-item')}>
+                            <div className={cx('card-item')} key={brand.id}>
+                                {loading && <Skeleton width={120} height={80}></Skeleton>}
                                 {brand.name === 'Apple' ||
                                 brand.name === 'Xiaomi' ||
                                 brand.name === 'Dell' ||
                                 brand.name === 'LG' ? (
-                                    <img src={brand.image} alt="brand" style={{ width: '75%', padding: '0 20px' }} />
+                                    <img
+                                        src={brand.image}
+                                        alt="brand"
+                                        style={{ width: '75%', padding: '0 20px' }}
+                                        onLoad={() => {
+                                            setLoading(false);
+                                        }}
+                                    />
                                 ) : (
-                                    <img src={brand.image} alt="brand" style={{ width: '100%', padding: '0 15px' }} />
+                                    <img
+                                        src={brand.image}
+                                        alt="brand"
+                                        style={{ width: '100%', padding: '0 15px' }}
+                                        onLoad={() => {
+                                            setLoading(false);
+                                        }}
+                                    />
                                 )}
                             </div>
                         );

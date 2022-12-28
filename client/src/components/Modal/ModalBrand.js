@@ -205,8 +205,10 @@ function ModalBrand({ modalAdd, setModalAdd, modalUpdate, setModalUpdate, toggle
                                 </div>
                             </MDBBtn>
                         ) : (
-                            <MDBBtn onClick={handleUpdate} color="success">
-                                Cập nhật
+                            <MDBBtn onClick={handleUpdate} color="success" disabled={loading}>
+                                <div style={{ minWidth: '60px' }}>
+                                    {loading ? <AiOutlineLoading3Quarters className="loading" /> : 'Cập nhật'}
+                                </div>
                             </MDBBtn>
                         )}
                     </MDBModalFooter>

@@ -196,7 +196,7 @@ function Brand() {
                                         <td>{brand.id}</td>
                                         <td>
                                             <div className="d-flex align-items-center">
-                                                <p className="fw-bold mb-1">{brand.name}</p>
+                                                <p className="fw-500 mb-1">{brand.name}</p>
                                             </div>
                                         </td>
                                         <td style={{ height: '75px' }}>

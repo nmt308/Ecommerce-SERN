@@ -1,0 +1,128 @@
+.image {
+    display: flex;
+    &-slide {
+        width: 20%;
+        &-item {
+            border: 2px solid rgba(116, 115, 115, 0.1098039216);
+            width: 80px;
+            height: 80px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.2s ease;
+            background-color: #fff;
+            padding: 12px;
+            + .image-slide-item {
+                margin-top: 12px;
+            }
+            &.active {
+                border-color: var(--primary-color);
+            }
+        }
+        img {
+            width: 100%;
+        }
+    }
+    &-display {
+        width: 450px;
+        height: 450px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        img {
+            width: 90%;
+        }
+    }
+}
+
+.info {
+    padding: 18px;
+    background: #fff;
+    border-radius: 12px;
+}
+
+.description {
+    background: #fff;
+    margin-top: 24px;
+    padding: 18px;
+    border-radius: 12px;
+    h5 {
+        margin-bottom: 16px;
+        padding-bottom: 8px;
+        border-bottom: 3px solid var(--primary-color);
+    }
+    img {
+        width: 100%;
+    }
+    &-left {
+        position: relative;
+        height: 600px;
+        overflow: hidden;
+    }
+    &-right {
+        margin: 0 48px;
+        p:nth-child(even) {
+            background: #ebebec;
+        }
+        p {
+            padding: 12px;
+            font-size: 15px;
+            margin-bottom: 0;
+            font-weight: 500;
+        }
+    }
+    .bg {
+        display: flex;
+        justify-content: center;
+        background: linear-gradient(to bottom, rgba(255 255 255/0), rgba(255 255 255/62.5), rgba(255 255 255/1));
+        bottom: 0;
+        height: 105px;
+        left: 0;
+        position: absolute;
+        width: 100%;
+    }
+    button {
+        bottom: 16px;
+        position: absolute;
+        margin-left: 0;
+        transition: 0.3s ease;
+        &:hover {
+            transform: translateY(-5px);
+        }
+    }
+}
+
+.product-text {
+    display: flex;
+    align-items: center;
+}
+
+.action-btns {
+    button {
+        outline: none;
+        border: none;
+        padding: 4px 12px;
+    }
+}
+
+.qty {
+    width: 38px;
+    text-align: center;
+}
+
+.btn {
+    background-color: var(--primary-color) !important;
+    margin-left: 16px;
+    box-shadow: unset !important;
+    transition: 0.3s ease;
+}
+
+.title {
+    font-weight: 600;
+}
+
+.section-content {
+    margin-bottom: 36px;
+}

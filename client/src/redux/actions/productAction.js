@@ -20,7 +20,11 @@ export const getProducts = (currentPage) => {
 export const getDetailProduct = (id) => {
     // Thunk action creator return 1 thunk action (1 action trả về 1 function)
     return async (dispatch) => {
-        const res = await axios.get(`http://localhost:8080/api/product/detail/${id}`);
+        const res = await axios.get(`http://localhost:8080/api/product/detail`, {
+            params: {
+                id,
+            },
+        });
         const product = res.data.product;
         dispatch({
             type: 'GET_DETAIL_PRODUCT',

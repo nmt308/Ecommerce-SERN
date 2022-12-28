@@ -110,17 +110,17 @@ function ModalProduct({ modalAdd, setModalAdd, modalUpdate, setModalUpdate, togg
 
         const handleUploadImage = () => {
             let listUrls = [];
-            return new Promise((resolve) => {
-                //Vì function này bất đồng bộ nên dùng promise
-                image.forEach(async (item, index) => {
-                    const storageRef = ref(storage, `product-img/${item.name}`);
-                    await uploadBytes(storageRef, item);
+            return new Promise(async (resolve) => {
+                //Bất đồng bộ nên dùng promise mới dùng await được
+                for (const [index, file] of image.entries()) {
+                    const storageRef = ref(storage, `product-img/${file.name}`);
+                    await uploadBytes(storageRef, file);
                     const url = await getDownloadURL(ref(storage, storageRef));
                     listUrls.push(url);
                     if (index === image.length - 1) {
                         resolve(listUrls);
                     }
-                });
+                }
             });
         };
 
@@ -165,17 +165,16 @@ function ModalProduct({ modalAdd, setModalAdd, modalUpdate, setModalUpdate, togg
             // image là object khi up hình mới
             const handleUploadImage = () => {
                 let listUrls = [];
-                return new Promise((resolve) => {
-                    //Vì function này bất đồng bộ nên dùng promise
-                    image.forEach(async (item, index) => {
-                        const storageRef = ref(storage, `product-img/${item.name}`);
-                        await uploadBytes(storageRef, item);
+                return new Promise(async (resolve) => {
+                    for (const [index, file] of image.entries()) {
+                        const storageRef = ref(storage, `product-img/${file.name}`);
+                        await uploadBytes(storageRef, file);
                         const url = await getDownloadURL(ref(storage, storageRef));
                         listUrls.push(url);
                         if (index === image.length - 1) {
                             resolve(listUrls);
                         }
-                    });
+                    }
                 });
             };
 
@@ -228,6 +227,7 @@ function ModalProduct({ modalAdd, setModalAdd, modalUpdate, setModalUpdate, togg
 
     useEffect(() => {
         inputField.current.value = null; //Mỗi lần change modal reset input file
+        setLoading(false);
         const getProduct = async () => {
             if (modalType === 'Update') {
                 const product = await dispatch(getDetailProduct(idProduct));
@@ -426,8 +426,10 @@ function ModalProduct({ modalAdd, setModalAdd, modalUpdate, setModalUpdate, togg
                                 </div>
                             </MDBBtn>
                         ) : (
-                            <MDBBtn onClick={handleUpdate} color="success">
-                                Cập nhật
+                            <MDBBtn onClick={handleUpdate} color="success" disabled={loading}>
+                                <div style={{ minWidth: '60px' }}>
+                                    {loading ? <AiOutlineLoading3Quarters className="loading" /> : 'Cập nhật'}
+                                </div>
                             </MDBBtn>
                         )}
                     </MDBModalFooter>

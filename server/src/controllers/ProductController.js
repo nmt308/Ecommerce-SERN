@@ -4,13 +4,13 @@ const Op = Sequelize.Op;
 
 export const getProduct = async (req, res) => {
     const pageCurrent = parseInt(req.query.page) || 1;
-    const pageSize = 4;
+    const pageSize = req.query.limit ? parseInt(req.query.limit) : 4;
     const offset = (pageCurrent - 1) * pageSize;
 
     const data = await db.Product.findAll({ include: db.Category, offset: offset, limit: pageSize });
     const dataCount = await db.Product.count();
 
-    return res.status(200).json({ products: data, countAllProduct: dataCount }); // Count ll products without limit to set pageCount
+    return res.status(200).json({ products: data, countAllProduct: dataCount }); // Count all products without limit to set pageCount
 };
 
 export const addProduct = async (req, res) => {
@@ -47,8 +47,14 @@ export const deleteProduct = async (req, res) => {
 };
 
 export const detailProduct = async (req, res) => {
-    const idProduct = req.params.id;
-    const data = await db.Product.findOne({ where: { id: idProduct }, include: db.Category, raw: true });
+    const nameProduct = req.query.name;
+    const idProduct = req.query.id;
+
+    const data = await db.Product.findOne({
+        where: idProduct ? { id: idProduct } : { name: nameProduct },
+        include: [{ model: db.Category }, { model: db.Brand }],
+    });
+
     return res.status(200).json({ product: data });
 };
 

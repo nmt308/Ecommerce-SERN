@@ -43,10 +43,12 @@ function Header() {
     const isTablet = viewPort.width > 739 && viewPort.width <= 992;
     const isPc = viewPort.width > 992;
 
-    const user = false;
+    const user = localStorage.getItem('user');
+
     const SignOut = () => {
         setTimeout(() => {
             auth.signOut().then(() => {
+                localStorage.removeItem('user');
                 navigate('/');
             });
         }, 500);
@@ -136,8 +138,7 @@ function Header() {
 
     useEffect(() => {
         auth.onAuthStateChanged(async (res) => {
-            // dispatch(userLogin(user.email));
-            console.log(res.email);
+            localStorage.setItem('user', res.email);
         });
     }, []);
 
