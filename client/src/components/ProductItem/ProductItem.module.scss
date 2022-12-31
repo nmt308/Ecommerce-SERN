@@ -1,7 +1,6 @@
 .product {
     &-item {
         background-color: #fff;
-        width: 95%;
         padding: 12px;
         padding-top: 24px;
         position: relative;
@@ -76,6 +75,10 @@
         font-weight: 600;
         text-decoration: line-through;
     }
+}
+.default {
+    background: url('../../assets/icon/logoIcon.png') no-repeat fixed center;
+    background-size: 100px 100px;
 }
 .discount {
     width: 80px;

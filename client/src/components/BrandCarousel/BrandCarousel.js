@@ -7,10 +7,16 @@ import Style from './BrandCarousel.module.scss';
 import classNames from 'classnames/bind';
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
+import useNavigateSearch from '../../CustomHook/useNavigateSearch';
 const cx = classNames.bind(Style);
 function BrandCarousel() {
     const [brands, setBrands] = useState([]);
     const [loading, setLoading] = useState(true);
+    const navigateSearch = useNavigateSearch();
+
+    const handleNavigate = (nameBrand) => {
+        navigateSearch('/search', { brand: nameBrand });
+    };
     useEffect(() => {
         const getBrand = async () => {
             axios
@@ -26,97 +32,97 @@ function BrandCarousel() {
         getBrand();
     }, []);
     return (
-        <div
-            style={{
-                position: 'relative',
-            }}
-        >
-            <div style={{ maxWidth: 'calc(100% - 120px)' }}>
-                <Carousel
-                    additionalTransfrom={0}
-                    arrows={false}
-                    autoPlaySpeed={3000}
-                    centerMode={false}
-                    className=""
-                    containerClass="container-padding-bottom"
-                    customButtonGroup={<CustomButton />}
-                    dotListClass=""
-                    draggable
-                    focusOnSelect={false}
-                    infinite={false}
-                    itemClass=""
-                    keyBoardControl
-                    minimumTouchDrag={80}
-                    pauseOnHover
-                    renderArrowsWhenDisabled={false}
-                    renderButtonGroupOutside
-                    renderDotsOutside={false}
-                    responsive={{
-                        desktop: {
-                            breakpoint: {
-                                max: 3000,
-                                min: 1024,
-                            },
-                            items: 9,
-                            partialVisibilityGutter: 1,
+        <div style={{ position: 'relative' }}>
+            <Carousel
+                additionalTransfrom={0}
+                arrows={false}
+                autoPlaySpeed={3000}
+                centerMode={false}
+                className={cx('custom')}
+                containerClass="container-padding-bottom"
+                customButtonGroup={<CustomButton />}
+                dotListClass=""
+                draggable
+                focusOnSelect={false}
+                infinite={false}
+                itemClass=""
+                keyBoardControl
+                minimumTouchDrag={80}
+                pauseOnHover
+                renderArrowsWhenDisabled={false}
+                renderButtonGroupOutside
+                renderDotsOutside={false}
+                responsive={{
+                    desktop: {
+                        breakpoint: {
+                            max: 3000,
+                            min: 1024,
                         },
-                        mobile: {
-                            breakpoint: {
-                                max: 464,
-                                min: 0,
-                            },
-                            items: 1,
-                            partialVisibilityGutter: 30,
+                        items: 8,
+                        partialVisibilityGutter: 40,
+                    },
+                    mobile: {
+                        breakpoint: {
+                            max: 464,
+                            min: 0,
                         },
-                        tablet: {
-                            breakpoint: {
-                                max: 1024,
-                                min: 464,
-                            },
-                            items: 2,
-                            partialVisibilityGutter: 30,
+                        items: 1,
+                        partialVisibilityGutter: 30,
+                    },
+                    tablet: {
+                        breakpoint: {
+                            max: 1024,
+                            min: 464,
                         },
-                    }}
-                    rewind={false}
-                    rewindWithAnimation={false}
-                    rtl={false}
-                    shouldResetAutoplay
-                    showDots={false}
-                    sliderClass=""
-                    slidesToSlide={2}
-                    swipeable
-                >
-                    {brands.map((brand) => {
-                        return (
-                            <div className={cx('card-item')} key={brand.id}>
-                                {loading && <Skeleton width={120} height={80}></Skeleton>}
-                                {brand.name === 'Apple' ||
-                                brand.name === 'Xiaomi' ||
-                                brand.name === 'Dell' ||
-                                brand.name === 'LG' ? (
-                                    <img
-                                        src={brand.image}
-                                        alt="brand"
-                                        style={{ width: '75%', padding: '0 20px' }}
-                                        onLoad={() => {
-                                            setLoading(false);
-                                        }}
-                                    />
-                                ) : (
-                                    <img
-                                        src={brand.image}
-                                        alt="brand"
-                                        style={{ width: '100%', padding: '0 15px' }}
-                                        onLoad={() => {
-                                            setLoading(false);
-                                        }}
-                                    />
-                                )}
-                            </div>
-                        );
-                    })}
-                </Carousel>
-            </div>
+                        items: 2,
+                        partialVisibilityGutter: 30,
+                    },
+                }}
+                rewind={false}
+                rewindWithAnimation={false}
+                rtl={false}
+                shouldResetAutoplay
+                showDots={false}
+                sliderClass=""
+                slidesToSlide={3}
+                swipeable
+            >
+                {brands.map((brand) => {
+                    return (
+                        <div
+                            className={cx('card-item')}
+                            key={brand.id}
+                            onClick={() => {
+                                handleNavigate(brand.name);
+                            }}
+                        >
+                            {loading && <Skeleton width={120} height={80}></Skeleton>}
+                            {brand.name === 'Apple' ||
+                            brand.name === 'Xiaomi' ||
+                            brand.name === 'Dell' ||
+                            brand.name === 'LG' ? (
+                                <img
+                                    src={brand.image}
+                                    alt="brand"
+                                    style={{ width: '75%', padding: '0 20px' }}
+                                    onLoad={() => {
+                                        setLoading(false);
+                                    }}
+                                />
+                            ) : (
+                                <img
+                                    src={brand.image}
+                                    alt="brand"
+                                    style={{ width: '100%', padding: '0 15px' }}
+                                    onLoad={() => {
+                                        setLoading(false);
+                                    }}
+                                />
+                            )}
+                        </div>
+                    );
+                })}
+            </Carousel>
         </div>
     );
 }

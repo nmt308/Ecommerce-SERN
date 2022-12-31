@@ -3,18 +3,16 @@ import classNames from 'classnames/bind';
 import FreeShipIcon from '../../assets/icon/freeship';
 import { NumericFormat } from 'react-number-format';
 import { Link } from 'react-router-dom';
-import Skeleton from 'react-loading-skeleton';
-import 'react-loading-skeleton/dist/skeleton.css';
 import { useState } from 'react';
 const cx = classNames.bind(Style);
-export default function ProductItem({ data }) {
+export default function ProductItem({ data, width }) {
     const discount = 100 - Math.ceil((data.price / data.oldprice) * 100);
     const [loading, setLoading] = useState(true);
     return (
-        <div className={cx('product-item')}>
+        <div className={cx('product-item')} style={{ width: width }}>
             <Link to={`/detail?name=${encodeURIComponent(data.name)}`}>
+                {loading && <div className={cx('default')} style={{ width: '100%', height: '175px' }}></div>}
                 <div className={cx('product-img')}>
-                    {loading && <Skeleton height={175}></Skeleton>}
                     <img
                         src={data.image.split(',')[0]}
                         alt="Product"

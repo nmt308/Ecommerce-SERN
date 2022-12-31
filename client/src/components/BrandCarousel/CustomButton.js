@@ -19,7 +19,7 @@ const CustomButton = ({ next, previous, goToSlide, ...rest }) => {
             </button>
             <button
                 className={cx('btn', 'custom-btn', {
-                    disable: currentSlide === 2,
+                    disable: currentSlide === 3,
                 })}
                 onClick={() => next()}
             >

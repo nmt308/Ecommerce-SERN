@@ -5,4 +5,9 @@
 .carousel-inner,
 .carousel-item {
     height: 100% !important;
+    cursor: pointer;
+    border-radius: 14px;
+    img {
+        border-radius: 12px;
+    }
 }

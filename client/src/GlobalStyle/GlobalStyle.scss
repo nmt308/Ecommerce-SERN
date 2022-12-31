@@ -77,7 +77,16 @@ html *::-webkit-scrollbar-track {
         margin-left: auto;
     }
 }
-
+@media (min-width: 1400px) {
+    .container-xxl,
+    .container-xl,
+    .container-lg,
+    .container-md,
+    .container-sm,
+    .container {
+        max-width: 1250px !important;
+    }
+}
 .wrapper {
     margin: 0;
     display: flex;
@@ -144,4 +153,11 @@ footer {
 .ck.ck-reset.ck-editor.ck-rounded-corners {
     margin-top: 8px;
     margin-bottom: 20px;
+}
+
+//Skeleton
+.react-loading-skeleton {
+    position: absolute;
+    top: 0;
+    left: 0;
 }

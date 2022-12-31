@@ -81,14 +81,17 @@ export const editProduct = async (req, res) => {
 };
 
 export const searchProduct = async (req, res) => {
-    const searchQuery = req.query.name;
+    const nameQuery = req.query.name;
+
     const pageCurrent = parseInt(req.query.page) || 1;
     const pageSize = 4;
     const offset = (pageCurrent - 1) * pageSize;
 
-    const data = await db.Product.findAll({
+    let data;
+
+    data = await db.Product.findAll({
         where: {
-            name: { [Op.substring]: searchQuery },
+            name: { [Op.substring]: nameQuery },
         },
         include: db.Category,
         offset: offset,
@@ -97,7 +100,7 @@ export const searchProduct = async (req, res) => {
 
     const dataCount = await db.Product.count({
         where: {
-            name: { [Op.substring]: searchQuery },
+            name: { [Op.substring]: nameQuery },
         },
     });
 

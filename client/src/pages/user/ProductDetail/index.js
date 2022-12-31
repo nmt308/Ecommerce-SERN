@@ -108,7 +108,7 @@ function ProductDetail() {
                         </aside>
                         <main className="col-md-6">
                             <article className="product-info-aside">
-                                <h2 className={cx('title', 'mt-3')}>{product.name}</h2>
+                                <h2 className={cx('title')}>{product.name}</h2>
                                 <div className="mb-3">
                                     <h4>
                                         <NumericFormat

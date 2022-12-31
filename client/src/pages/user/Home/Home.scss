@@ -53,6 +53,7 @@
 .policy-item {
     padding: 12px 14px;
     background-color: #eaeff3;
+    border-radius: 12px;
 
     p {
         margin-bottom: 8px;
@@ -73,6 +74,14 @@
     width: 100%;
     margin-bottom: 18px;
     min-height: 42px;
+    border-radius: 12px;
+    transform: scale(1);
+    cursor: pointer;
+    transition: 0.2s ease-in-out;
+    &:hover {
+        transform: scale(1.03);
+        transition: 0.2s ease-in-out;
+    }
 }
 //loading
 @keyframes ldio-66p5as058f5 {

@@ -36,7 +36,7 @@ function Home() {
                     <div className="policy-list">
                         <div className="policy-item">
                             <p>Bảo hành tận tâm</p>
-                            <span>Bất kể giấy tờ thế nào, NowShop luôn cam kết sẽ hỗ trợ khách hàng tới cùng.</span>
+                            <span>NowShop luôn cam kết sẽ hỗ trợ khách hàng mọi vấn đề.</span>
                         </div>
                         <div className="policy-item">
                             <p>Miễn phí vận chuyển</p>
@@ -44,7 +44,7 @@ function Home() {
                         </div>
                         <div className="policy-item">
                             <p>Đổi trả 1-1 hoặc hoàn tiền</p>
-                            <span>Nếu phát sinh lỗi hoặc bạn cảm thấy sản phẩm chưa đáp ứng được nhu cầu.</span>
+                            <span>Nếu phát sinh lỗi hoặc sản phẩm chưa đáp ứng được nhu cầu.</span>
                         </div>
                     </div>
                 </div>

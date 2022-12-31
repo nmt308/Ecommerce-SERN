@@ -1,0 +1,40 @@
+.filter-action {
+    display: flex;
+    button {
+        font-weight: 500;
+        cursor: pointer;
+        height: 34px;
+        color: #444;
+        border: 1px solid #e5e7eb;
+        border-radius: 10px;
+        background: #fff;
+        padding: 5px 10px;
+        margin: 0 10px 10px 0;
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+        white-space: nowrap;
+        svg {
+            margin-right: 6px;
+        }
+        &.active {
+            color: rgba(226, 4, 30, 0.9019607843);
+            border-color: rgba(226, 4, 30, 0.9019607843);
+        }
+    }
+}
+.filter-title {
+    font-weight: 700;
+    font-size: 18px;
+    margin-bottom: 5px;
+}
+.btn {
+    background-color: var(--primary-color) !important;
+    box-shadow: unset !important;
+    margin: auto;
+    margin-top: 24px;
+    svg {
+        margin-left: 6px;
+        margin-bottom: 3px;
+    }
+}

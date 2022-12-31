@@ -3,8 +3,12 @@ import * as BrandController from '../controllers/BrandController.js';
 import * as ProductController from '../controllers/ProductController.js';
 import * as CategoryController from '../controllers/CategoryController.js';
 import * as UserController from '../controllers/UserController.js';
+import HomeController from '../controllers/HomeController.js';
 const router = express.Router();
 export const initAPIRoutes = (app) => {
+    //Homepage
+    router.get('/search', HomeController);
+
     //Product
     router.get('/products', ProductController.getProduct);
     router.post('/product/add', ProductController.addProduct);

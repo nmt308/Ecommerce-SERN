@@ -61,7 +61,7 @@ function ProductCarousel({ title }) {
                     renderArrowsWhenDisabled={false}
                     renderButtonGroupOutside={false}
                     renderDotsOutside={false}
-                    partialVisible={true}
+                    partialVisible={false}
                     responsive={{
                         desktop: {
                             breakpoint: {
@@ -97,10 +97,8 @@ function ProductCarousel({ title }) {
                     slidesToSlide={1}
                     swipeable
                 >
-                    {products.map((product) => (
-                        <>
-                            <ProductItem key={product.id} data={product} />
-                        </>
+                    {products.map((product, index) => (
+                        <ProductItem key={index} data={product} width="95%" />
                     ))}
                 </Carousel>
             </div>
