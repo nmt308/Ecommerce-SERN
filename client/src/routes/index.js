@@ -23,7 +23,7 @@ export const AllRoute = [
         layout: DefaultLayout,
     },
     {
-        path: '/search',
+        path: '/search/:page',
         component: Search,
         layout: DefaultLayout,
     },

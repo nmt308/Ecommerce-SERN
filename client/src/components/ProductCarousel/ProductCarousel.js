@@ -7,11 +7,22 @@ import Style from './ProductCarousel.module.scss';
 import classNames from 'classnames/bind';
 import { HiChevronDoubleRight } from 'react-icons/hi';
 import ProductItem from '../ProductItem';
-import Skeleton from 'react-loading-skeleton';
-import 'react-loading-skeleton/dist/skeleton.css';
+import { useNavigateSearch } from '../../CustomHook';
 const cx = classNames.bind(Style);
 function ProductCarousel({ title }) {
     const [products, setProducts] = useState([]);
+    const navigateSearch = useNavigateSearch();
+
+    let type;
+    if (title === 'Laptop') {
+        type = 'laptop';
+    } else {
+        type = 'phone';
+    }
+
+    const handleSeeAll = () => {
+        navigateSearch(`/search/category`, { type: type });
+    };
 
     useEffect(() => {
         const getProduct = async () => {
@@ -27,11 +38,12 @@ function ProductCarousel({ title }) {
         };
         getProduct();
     }, []);
+
     return (
         <div>
             <div className={cx('title')}>
                 <h5>{title}</h5>
-                <div>
+                <div onClick={handleSeeAll}>
                     Xem thêm
                     <HiChevronDoubleRight />
                 </div>

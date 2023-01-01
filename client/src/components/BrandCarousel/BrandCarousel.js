@@ -15,7 +15,7 @@ function BrandCarousel() {
     const navigateSearch = useNavigateSearch();
 
     const handleNavigate = (nameBrand) => {
-        navigateSearch('/search', { brand: nameBrand });
+        navigateSearch('/search/brand', { brand: nameBrand });
     };
     useEffect(() => {
         const getBrand = async () => {

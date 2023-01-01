@@ -4,11 +4,13 @@ const Op = Sequelize.Op;
 const HomeController = async (req, res) => {
     const brandQuery = req.query.brand;
     const sortQuery = req.query.sort;
+    const nameQuery = req.query.name;
+    let priceQuery = req.query.price;
     let typeQuery = req.query.type;
     const offset = req.query.offset ? parseInt(req.query.offset) : 0;
 
     let orderQuery;
-    let whereQuery = [{ '$Brand.name$': { [Op.like]: `%${brandQuery}%` } }];
+    let whereQuery = [];
 
     switch (sortQuery) {
         case 'desc':
@@ -26,16 +28,37 @@ const HomeController = async (req, res) => {
     }
 
     switch (typeQuery) {
-        case 'tablet':
+        case 'Tablet':
             typeQuery = 'Máy tính bảng';
             break;
-        case 'phone':
+        case 'Phone':
             typeQuery = 'Điện thoại';
             break;
     }
-    if (typeQuery) {
-        whereQuery.push({ '$Category.name$': { [Op.like]: `%${typeQuery}%` } });
+
+    switch (priceQuery) {
+        case '0_5m':
+            priceQuery = [0, 5000000];
+            break;
+        case '5m_10m':
+            priceQuery = [5000000, 10000000];
+            break;
+        case '10m_20m':
+            priceQuery = [10000000, 20000000];
+            break;
+        case '20m_over':
+            priceQuery = [20000000, 50000000];
+            break;
     }
+
+    typeQuery && whereQuery.push({ '$Category.name$': { [Op.like]: `%${typeQuery}%` } });
+
+    brandQuery && whereQuery.push({ '$Brand.name$': { [Op.like]: `%${brandQuery}%` } });
+
+    nameQuery && whereQuery.push({ name: { [Op.like]: `%${nameQuery}%` } });
+
+    priceQuery && whereQuery.push({ price: { [Op.between]: priceQuery } });
+
     const data = await db.Product.findAll({
         where: {
             [Op.and]: [whereQuery],

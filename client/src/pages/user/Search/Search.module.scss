@@ -1,5 +1,41 @@
-.filter-action {
+.show-filter {
+    text-decoration-style: unset;
+    font-weight: 500;
+    position: relative;
+    cursor: pointer;
+    height: 34px;
+    color: #444;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    background: #fff;
+    padding: 5px 10px;
+    margin: 10px 0;
+    font-size: 14px;
     display: flex;
+    align-items: center;
+    white-space: nowrap;
+    svg {
+        margin-right: 6px;
+    }
+}
+.quantity {
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--primary-color);
+    width: 20px;
+    height: 20px;
+    border-radius: 50px;
+    position: absolute;
+    top: -5px;
+    right: -8px;
+    color: #f3f3f3;
+}
+
+.action {
+    display: flex;
+    flex-wrap: wrap;
     button {
         font-weight: 500;
         cursor: pointer;
@@ -23,8 +59,8 @@
         }
     }
 }
-.filter-title {
-    font-weight: 700;
+.title {
+    font-weight: 600;
     font-size: 18px;
     margin-bottom: 5px;
 }

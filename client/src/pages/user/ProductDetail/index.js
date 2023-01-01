@@ -15,8 +15,7 @@ import axios from 'axios';
 import parse from 'html-react-parser';
 import ModalSeeDetail from '../../../components/Modal/ModalSeeDetail';
 import { HiChevronDoubleRight } from 'react-icons/hi';
-import Skeleton from 'react-loading-skeleton';
-import 'react-loading-skeleton/dist/skeleton.css';
+
 const cx = classNames.bind(Style);
 function ProductDetail() {
     const [product, setProduct] = useState('');

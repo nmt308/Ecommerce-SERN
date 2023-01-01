@@ -6,6 +6,8 @@
     width: 30%;
     overflow: hidden;
     transition: all 0.2s linear;
+    align-items: center;
+
     input {
         width: 100%;
         padding: 0 20px;
@@ -25,6 +27,7 @@
     padding: 8px 20px;
     background-color: #dadadc73;
     color: #6f6c6c;
+    margin-left: 12px;
     &:hover {
         color: #6f6c6c;
         cursor: pointer;
@@ -35,9 +38,20 @@
         background-color: #dedede;
     }
 }
+.more {
+    font-weight: 500;
+    text-align: center;
+    font-size: 14px;
+    margin-top: 4px;
+    cursor: pointer;
+    transition: 0.1s ease-in-out;
+    &:hover {
+        color: var(--primary-color);
+    }
+}
 .wrapper {
     width: 100%;
-    max-height: 50vh;
+    border-radius: 10px;
     padding-top: 8px;
     padding-bottom: 12px;
     background: rgb(255, 255, 255);

@@ -4,23 +4,25 @@ import SearchItem from '../SearchItem';
 import { useDebounce } from '../../CustomHook';
 //React
 import { useEffect, useRef, useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
-//Firebase
-import { collection, getDocs } from 'firebase/firestore';
+import { AiOutlineLoading3Quarters } from 'react-icons/ai';
+import { useNavigateSearch } from '../../CustomHook';
 //Other
 import HeadlessTippy from '@tippyjs/react/headless';
 import classNames from 'classnames/bind';
 import { ImSearch } from 'react-icons/im';
+import axios from 'axios';
+import { HiChevronDoubleRight } from 'react-icons/hi';
 const cx = classNames.bind(Style);
 function Search() {
     const [searchResult, setSearchResult] = useState([]);
+    const [count, setCount] = useState(0);
+    const navigateSearch = useNavigateSearch();
     const [value, setValue] = useState('');
     const [hideToolTip, setToolTip] = useState(true);
     const [loading, setLoading] = useState(false);
 
     const inputRef = useRef();
-    const debounce = useDebounce(value, 500);
-    const navigate = useNavigate();
+    const debounce = useDebounce(value, 200);
 
     const handleTooltip = () => {
         setToolTip(false);
@@ -39,8 +41,11 @@ function Search() {
             return;
         } else {
             setValue('');
-            localStorage.setItem('search', value);
-            window.location.href = '/search';
+            setTimeout(() => {
+                navigateSearch('/search/product', {
+                    name: debounce,
+                });
+            }, 500);
         }
     };
 
@@ -50,7 +55,20 @@ function Search() {
             setLoading(false);
             return;
         }
-
+        setLoading(true);
+        const searchProducts = async () => {
+            const res = await axios.get('http://localhost:8080/api/product/search', {
+                params: {
+                    name: debounce,
+                },
+            });
+            setTimeout(() => {
+                setLoading(false);
+                setSearchResult(res.data.result);
+                setCount(res.data.availableProduct);
+            }, 500);
+        };
+        searchProducts();
         return () => {
             setLoading(true);
             setSearchResult([]);
@@ -61,33 +79,27 @@ function Search() {
     return (
         <HeadlessTippy
             interactive
-            visible={(hideToolTip && searchResult.length > 0) || (loading && searchResult.length === 0)}
+            visible={hideToolTip && searchResult.length > 0}
             render={(attrs) => (
                 <div className={cx('result')} tabIndex="-1" {...attrs}>
                     <div className={cx('wrapper')}>
-                        <span className={cx('title')}>Sản phẩm</span>
+                        <span className={cx('title')}>Sản phẩm ({count})</span>
                         {searchResult.map((item, index) => {
                             return (
                                 <SearchItem
                                     data={item}
                                     key={index}
                                     onClick={() => {
-                                        localStorage.setItem('productDetail', JSON.stringify(item));
                                         setValue('');
                                         setSearchResult([]);
+                                        navigateSearch('/detail', { name: item.name });
                                     }}
                                 />
                             );
                         })}
-                        {loading && searchResult.length === 0 && (
-                            <div className={cx('loading')}>
-                                <div className={cx('loading-avt')}></div>
-                                <div className={cx('loading-info')}>
-                                    <div className={cx('loading-name')}></div>
-                                    <div className={cx('loading-price')}></div>
-                                </div>
-                            </div>
-                        )}
+                        <div className={cx('more')} onClick={handleSearch}>
+                            Xem tất cả <HiChevronDoubleRight />
+                        </div>
                     </div>
                 </div>
             )}
@@ -108,6 +120,7 @@ function Search() {
                         }
                     }}
                 />
+                {loading && <AiOutlineLoading3Quarters className="loading" />}
                 <div
                     className={cx('searchBtn')}
                     onClick={(e) => {
