@@ -15,6 +15,8 @@ import axios from 'axios';
 import parse from 'html-react-parser';
 import ModalSeeDetail from '../../../components/Modal/ModalSeeDetail';
 import { HiChevronDoubleRight } from 'react-icons/hi';
+import { useDispatch } from 'react-redux';
+import { cartChange } from '../../../redux/actions/headerAction';
 
 const cx = classNames.bind(Style);
 function ProductDetail() {
@@ -25,6 +27,8 @@ function ProductDetail() {
     const [searchParams, setSearchParams] = useSearchParams();
     const name = searchParams.get('name');
     const [basicModal, setBasicModal] = useState(false);
+    let cart = localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : [];
+    const dispatch = useDispatch();
 
     const toggleShow = () => setBasicModal(!basicModal);
     const navigate = useNavigate();
@@ -40,7 +44,6 @@ function ProductDetail() {
         };
         getProductDetail();
     }, []);
-    console.log(product);
 
     const [qty, setQty] = useState(1);
 
@@ -60,14 +63,20 @@ function ProductDetail() {
         setQty((qty) => qty - 1);
     };
 
-    const addToCart = async () => {
+    const addToCart = async (idProduct) => {
         if (!localStorage.getItem('user')) {
             alert('Vui lòng đăng nhập');
             navigate('/login');
             return;
         }
-
-        notify('success', 'Thêm thành công');
+        if (cart.includes(idProduct)) {
+            notify('error', 'Đã có trong giỏ hàng !');
+        } else {
+            cart.push(idProduct);
+            localStorage.setItem('cart', JSON.stringify(cart));
+            dispatch(cartChange());
+            notify('success', 'Thêm thành công !');
+        }
     };
 
     return (
@@ -152,7 +161,12 @@ function ProductDetail() {
                                         </div>
                                     </div>
 
-                                    <MDBBtn className={cx('btn')} onClick={addToCart}>
+                                    <MDBBtn
+                                        className={cx('btn')}
+                                        onClick={() => {
+                                            addToCart(product.id);
+                                        }}
+                                    >
                                         <i className="fas fa-shopping-cart"></i>{' '}
                                         <span className="text">Thêm giỏ hàng</span>
                                     </MDBBtn>

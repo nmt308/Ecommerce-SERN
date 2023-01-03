@@ -18,7 +18,7 @@ import HeadlessTippy from '@tippyjs/react/headless';
 import lottie from 'lottie-web';
 //Redux
 import { useDispatch, useSelector } from 'react-redux';
-import { userLogin } from '../../../redux/actions/headerAction';
+import { cartChange, userLogin } from '../../../redux/actions/headerAction';
 
 const cx = classNames.bind(Style);
 function Header() {
@@ -44,6 +44,7 @@ function Header() {
     const isPc = viewPort.width > 992;
 
     const user = localStorage.getItem('user');
+    const cartQuantity = useSelector((state) => state.headerState.cartQuantity);
 
     const SignOut = () => {
         setTimeout(() => {
@@ -140,6 +141,7 @@ function Header() {
         auth.onAuthStateChanged(async (res) => {
             localStorage.setItem('user', res.email);
         });
+        dispatch(cartChange());
     }, []);
 
     return (
@@ -244,7 +246,7 @@ function Header() {
                                     <button className={cx('btn', 'custom-btn')} ref={btnRef}>
                                         <div ref={cartIcon1} className={cx('cartIcon1')} />
                                         <div ref={cartIcon2} className={cx('cartIcon2')} />
-                                        <span className={cx('quantity')}>0</span>
+                                        <span className={cx('quantity')}>{cartQuantity}</span>
                                     </button>
                                     <span>Giỏ hàng</span>
                                 </div>

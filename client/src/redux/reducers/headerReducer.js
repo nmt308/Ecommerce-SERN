@@ -1,16 +1,20 @@
 const initialState = {
-    user: '',
-    cartNumber: '',
+    cartQuantity: 0,
+    cartProducts: [],
 };
 
 const headerReducer = (state = initialState, action) => {
     switch (action.type) {
-        case 'LOGIN_USER':
+        case 'CART_CHANGE':
             return {
                 ...state,
-                user: action.payload.email,
+                cartQuantity: action.payload,
             };
-
+        case 'GET_CART_PRODUCT':
+            return {
+                ...state,
+                cartProducts: action.payload,
+            };
         default:
             return state;
     }

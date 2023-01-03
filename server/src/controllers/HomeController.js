@@ -5,6 +5,8 @@ const HomeController = async (req, res) => {
     const brandQuery = req.query.brand;
     const sortQuery = req.query.sort;
     const nameQuery = req.query.name;
+    const cartProductQuery = req.query.cartProduct;
+
     let priceQuery = req.query.price;
     let typeQuery = req.query.type;
     const offset = req.query.offset ? parseInt(req.query.offset) : 0;
@@ -58,6 +60,8 @@ const HomeController = async (req, res) => {
     nameQuery && whereQuery.push({ name: { [Op.like]: `%${nameQuery}%` } });
 
     priceQuery && whereQuery.push({ price: { [Op.between]: priceQuery } });
+
+    cartProductQuery && whereQuery.push({ id: cartProductQuery });
 
     const data = await db.Product.findAll({
         where: {
