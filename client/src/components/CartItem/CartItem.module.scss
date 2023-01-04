@@ -11,10 +11,14 @@
     }
     .image {
         width: 70px;
+        height: 70px;
+        display: flex;
+        align-items: center;
     }
     img {
         width: 100%;
     }
+    cursor: default;
 }
 .quantity {
     display: flex;
@@ -36,6 +40,11 @@
         overflow: hidden;
         height: 24px;
         overflow: hidden;
+        cursor: pointer;
+        &:hover {
+            transition: 0.2s ease;
+            color: var(--primary-color);
+        }
     }
     .price {
         font-size: 14px;

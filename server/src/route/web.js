@@ -3,6 +3,8 @@ import * as BrandController from '../controllers/BrandController.js';
 import * as ProductController from '../controllers/ProductController.js';
 import * as CategoryController from '../controllers/CategoryController.js';
 import * as UserController from '../controllers/UserController.js';
+import * as OrderController from '../controllers/OrderController.js';
+import * as OrderDetailController from '../controllers/OrderDetailController.js';
 import HomeController from '../controllers/HomeController.js';
 const router = express.Router();
 export const initAPIRoutes = (app) => {
@@ -35,7 +37,13 @@ export const initAPIRoutes = (app) => {
 
     //User
     router.post('/user/add', UserController.addUser);
+    router.get('/user/detail', UserController.detailUser);
 
+    //Order
+    router.post('/order/add', OrderController.addOrder);
+
+    //OrderDetail
+    router.post('/orderDetail/add', OrderDetailController.addOrderDetail);
     //Middleware check nếu url có tiền tố /api mới gọi router
     return app.use('/api/', router);
 };

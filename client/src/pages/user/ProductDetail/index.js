@@ -69,10 +69,11 @@ function ProductDetail() {
             navigate('/login');
             return;
         }
-        if (cart.includes(idProduct)) {
+
+        if (cart.filter((product) => product.id === idProduct).length > 0) {
             notify('error', 'Đã có trong giỏ hàng !');
         } else {
-            cart.push(idProduct);
+            cart.push({ id: idProduct, quantity: qty });
             localStorage.setItem('cart', JSON.stringify(cart));
             dispatch(cartChange());
             notify('success', 'Thêm thành công !');

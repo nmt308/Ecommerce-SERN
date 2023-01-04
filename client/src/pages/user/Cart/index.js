@@ -20,16 +20,17 @@ import { useDispatch, useSelector } from 'react-redux';
 import { cartChange, getCartProduct } from '../../../redux/actions/headerAction';
 import { HiOutlineTicket, HiOutlineShoppingCart } from 'react-icons/hi';
 import { FaChevronRight } from 'react-icons/fa';
+import axios from 'axios';
 
 const cx = classNames.bind(Style);
 function Cart() {
-    const [carts, setCarts] = useState([]);
-    const [qtyChange, setQtyChange] = useState(true);
-    console.log('render');
+    const [render, setRender] = useState(true);
+
     const listCartProduct = JSON.parse(localStorage.getItem('cart'));
+
     let products = useSelector((state) => state.headerState.cartProducts);
     const cartQuantity = useSelector((state) => state.headerState.cartQuantity);
-    console.log(products);
+
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -38,37 +39,109 @@ function Cart() {
     }, []);
 
     const deleteProduct = (id) => {
-        const _listCartProduct = listCartProduct.filter((idProduct) => {
-            return idProduct !== id;
+        const _listCartProduct = listCartProduct.filter((product) => {
+            return product.id !== id;
         });
-        console.log(id, _listCartProduct);
         localStorage.setItem('cart', JSON.stringify(_listCartProduct));
         dispatch(cartChange());
     };
 
-    const increaseQty = async (cart, id) => {};
+    const increaseQty = (id) => {
+        let quantity = listCartProduct.filter((item) => {
+            return item.id === id;
+        })[0].quantity;
+        quantity++;
 
-    const decreaseQty = async (cart, id) => {};
+        let product = listCartProduct.filter((product) => {
+            return product.id === id;
+        });
 
-    const handlePayment = (id) => {
-        notify('success', 'Thanh toán thành công');
+        let [_product] = product;
+        _product.quantity = quantity;
+
+        const index = listCartProduct.indexOf(...product);
+        if (index !== -1) {
+            listCartProduct[index] = _product;
+        }
+        localStorage.setItem('cart', JSON.stringify(listCartProduct));
+        setRender(!render);
+    };
+
+    const decreaseQty = (id) => {
+        let quantity = listCartProduct.filter((item) => {
+            return item.id === id;
+        })[0].quantity;
+        quantity--;
+        if (quantity === 0) {
+            deleteProduct(id);
+            return;
+        }
+
+        let product = listCartProduct.filter((product) => {
+            return product.id === id;
+        });
+
+        let [_product] = product;
+        _product.quantity = quantity;
+
+        const index = listCartProduct.indexOf(...product);
+        if (index !== -1) {
+            listCartProduct[index] = _product;
+        }
+        localStorage.setItem('cart', JSON.stringify(listCartProduct));
+        setRender(!render);
+    };
+
+    useEffect(() => {
+        //Kiểm tra vì lần cuối localStorage mảng [] nên dispatch sai
+        dispatch(getCartProduct(listCartProduct.map((product) => product.id)));
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [cartQuantity]);
+
+    const TotalPrice =
+        listCartProduct.length > 0
+            ? products.reduce((total, product) => {
+                  let quantity = listCartProduct.filter((item) => {
+                      return item.id === product.id;
+                  })[0].quantity;
+
+                  return total + product.price * quantity;
+              }, 0)
+            : 0;
+
+    const handlePayment = async () => {
+        const getUserID = await axios.get('http://localhost:8080/api/user/detail', {
+            params: {
+                email: localStorage.getItem('user'),
+            },
+        });
+        const userID = getUserID.data.user.id;
+
+        const order = {
+            user_id: userID,
+            status: 0,
+            total: TotalPrice,
+        };
+
+        axios.post('http://localhost:8080/api/order/add', order).then((res) => {
+            listCartProduct.forEach((detail) => {
+                const orderDetail = {
+                    order_id: res.data.result.id,
+                    product_id: detail.id,
+                    price: products.filter((item) => item.id === detail.id)[0].price * detail.quantity,
+                    quantity: detail.quantity,
+                };
+                axios.post('http://localhost:8080/api/orderDetail/add', orderDetail);
+            });
+        });
+
+        localStorage.setItem('cart', JSON.stringify([]));
+        dispatch(cartChange());
+        notify('success', 'Đặt hàng thành công');
         setTimeout(() => {
             navigate('/');
         }, 3000);
     };
-
-    const TotalProduct = carts.reduce((total, cart) => {
-        return total + cart.qty;
-    }, 0);
-    const TotalPrice = carts.reduce((total, cart) => {
-        return total + cart.TotalPrice;
-    }, 0);
-
-    useEffect(() => {
-        //Kiểm tra vì lần cuối localStorage mảng [] nên dispatch sai
-        dispatch(getCartProduct(listCartProduct));
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [cartQuantity]);
     return (
         <div className="container page-content">
             <section className={cx('section-content padding-y')}>
@@ -84,6 +157,12 @@ function Cart() {
                                             <CartItem
                                                 data={product}
                                                 key={index}
+                                                quantity={
+                                                    listCartProduct.length > 0 &&
+                                                    listCartProduct.filter((item) => {
+                                                        return item.id === product.id;
+                                                    })[0].quantity
+                                                }
                                                 deleteProduct={() => {
                                                     deleteProduct(product.id);
                                                 }}
@@ -153,7 +232,7 @@ function Cart() {
                                     </div>
                                     <div className={cx('dlist-align')}>
                                         <p>Khuyến mãi:</p>
-                                        <div className={cx('text-right')}>{TotalProduct}</div>
+                                        <div className={cx('text-right')}>{0}</div>
                                     </div>
                                     <div className={cx('dlist-align')}>
                                         <p>Tổng cộng:</p>
@@ -170,7 +249,7 @@ function Cart() {
                                     </div>{' '}
                                     <hr></hr>
                                     <MDBBtn className={cx('w-100 cart-btn')} onClick={handlePayment}>
-                                        <span style={{ marginRight: '12px' }}>Thanh toán</span>
+                                        <span style={{ marginRight: '12px' }}>Đặt hàng</span>
                                         <FaChevronRight />
                                     </MDBBtn>
                                 </div>

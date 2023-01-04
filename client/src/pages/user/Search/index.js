@@ -169,7 +169,7 @@ export default function Search() {
     }, []);
 
     return (
-        <div className="container" style={{ marginBottom: '32px' }}>
+        <div className="container">
             <button className={cx('show-filter')} onClick={toggleShow}>
                 <BiFilterAlt />
                 Bộ lọc <span className={cx('quantity')}>{totalFilter - 1}</span>
