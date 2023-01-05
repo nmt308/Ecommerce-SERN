@@ -69,25 +69,53 @@ export const detailUser = async (req, res) => {
 //     }
 // };
 
-// export const searchBrand = async (req, res) => {
-//     const searchQuery = req.query.name;
-//     const pageCurrent = parseInt(req.query.page) || 1;
-//     const pageSize = 4;
-//     const offset = (pageCurrent - 1) * pageSize;
+export const searchOrder = async (req, res) => {
+    const searchQuery = req.query.name;
+    const user_id = req.query.user_id;
 
-//     const data = await db.Brand.findAll({
-//         where: {
-//             name: { [Op.substring]: searchQuery },
-//         },
-//         offset: offset,
-//         limit: pageSize,
-//     });
+    const pageCurrent = parseInt(req.query.page) || 1;
+    const pageSize = 4;
+    const offset = (pageCurrent - 1) * pageSize;
 
-//     const dataCount = await db.Brand.count({
-//         where: {
-//             name: { [Op.substring]: searchQuery },
-//         },
-//     });
+    const data = await db.Order.findAll({
+        where: {
+            user_id: user_id,
+        },
+        order: [['createdAt', 'DESC']],
+        raw: true,
+    });
 
-//     return res.status(200).json({ result: data, availableBrand: dataCount });
-// };
+    const listOrderID = data.map((order) => order.id);
+
+    const getFirstDetail = await Promise.all(
+        listOrderID.map((id) => {
+            return new Promise(async (resolve) => {
+                const firstDetail = await db.Order_detail.findOne({
+                    include: [
+                        {
+                            model: db.Order,
+                            where: {
+                                id: id,
+                            },
+                        },
+                        { model: db.Product },
+                    ],
+                });
+                resolve(firstDetail);
+            });
+        }),
+    );
+
+    const orders = data.map((order) => {
+        const [orderDisplay] = getFirstDetail.filter((detail) => detail.order_id === order.id);
+        return { ...order, order_display: orderDisplay };
+    });
+
+    // const dataCount = await db.Brand.count({
+    //     where: {
+    //         name: { [Op.substring]: searchQuery },
+    //     },
+    // });
+
+    return res.status(200).json({ result: orders });
+};

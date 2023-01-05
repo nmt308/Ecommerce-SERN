@@ -41,9 +41,11 @@ export const initAPIRoutes = (app) => {
 
     //Order
     router.post('/order/add', OrderController.addOrder);
+    router.get('/order/search', OrderController.searchOrder);
 
     //OrderDetail
     router.post('/orderDetail/add', OrderDetailController.addOrderDetail);
+    router.get('/orderDetail/search', OrderDetailController.searchOrderDetail);
     //Middleware check nếu url có tiền tố /api mới gọi router
     return app.use('/api/', router);
 };

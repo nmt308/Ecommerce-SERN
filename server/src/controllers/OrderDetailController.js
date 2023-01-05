@@ -69,25 +69,20 @@ export const detailUser = async (req, res) => {
 //     }
 // };
 
-// export const searchBrand = async (req, res) => {
-//     const searchQuery = req.query.name;
-//     const pageCurrent = parseInt(req.query.page) || 1;
-//     const pageSize = 4;
-//     const offset = (pageCurrent - 1) * pageSize;
+export const searchOrderDetail = async (req, res) => {
+    const order_id = req.query.order_id;
 
-//     const data = await db.Brand.findAll({
-//         where: {
-//             name: { [Op.substring]: searchQuery },
-//         },
-//         offset: offset,
-//         limit: pageSize,
-//     });
+    const data = await db.Order_detail.findAll({
+        include: [
+            {
+                model: db.Order,
+                where: {
+                    id: order_id,
+                },
+            },
+            { model: db.Product },
+        ],
+    });
 
-//     const dataCount = await db.Brand.count({
-//         where: {
-//             name: { [Op.substring]: searchQuery },
-//         },
-//     });
-
-//     return res.status(200).json({ result: data, availableBrand: dataCount });
-// };
+    return res.status(200).json({ result: data });
+};
