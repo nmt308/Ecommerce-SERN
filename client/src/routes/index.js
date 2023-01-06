@@ -1,4 +1,17 @@
-import { Product, Category, Brand, Home, Login, Register, ProductDetail, Search, Cart, Order, Banner } from '../pages';
+import {
+    Product,
+    Category,
+    Brand,
+    Home,
+    Login,
+    Register,
+    ProductDetail,
+    Search,
+    Cart,
+    Order,
+    Banner,
+    MyOrder,
+} from '../pages';
 import { DefaultLayout, AdminLayout } from '../layouts';
 
 export const AllRoute = [
@@ -29,7 +42,7 @@ export const AllRoute = [
     },
     {
         path: '/order',
-        component: Order,
+        component: MyOrder,
         layout: DefaultLayout,
     },
     {
@@ -50,6 +63,11 @@ export const AllRoute = [
     {
         path: '/Admin/Brand',
         component: Brand,
+        layout: AdminLayout,
+    },
+    {
+        path: '/Admin/Order',
+        component: Order,
         layout: AdminLayout,
     },
     {

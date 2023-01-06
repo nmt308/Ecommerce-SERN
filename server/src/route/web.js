@@ -49,7 +49,9 @@ export const initAPIRoutes = (app) => {
     router.get('/user/detail', UserController.detailUser);
 
     //Order
+    router.get('/orders', OrderController.getOrder);
     router.post('/order/add', OrderController.addOrder);
+    router.put('/order/edit/:id', OrderController.editOrder);
     router.get('/order/search', OrderController.searchOrder);
 
     //OrderDetail

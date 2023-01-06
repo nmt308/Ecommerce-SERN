@@ -2,23 +2,24 @@ import db from '../models/index.js';
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 
-// export const getUser = async (req, res) => {
-//     const pageCurrent = parseInt(req.query.page) || 1;
-//     const getAll = req.query.getAll;
-//     const pageSize = 4;
-//     const offset = (pageCurrent - 1) * pageSize;
-//     let data;
-//     if (getAll) {
-//         data = await db.Brand.findAll();
-//     } else {
-//         data = await db.Brand.findAll({
-//             offset: offset,
-//             limit: pageSize,
-//         });
-//     }
-//     const dataCount = await db.Brand.count();
-//     return res.status(200).json({ brands: data, countAllBrand: dataCount }); // Count all Brand without limit to set pageCount
-// };
+export const getOrder = async (req, res) => {
+    const pageCurrent = parseInt(req.query.page) || 1;
+    const getAll = req.query.getAll;
+    const pageSize = 4;
+    const offset = (pageCurrent - 1) * pageSize;
+    let data;
+    if (getAll) {
+        data = await db.Order.findAll();
+    } else {
+        data = await db.Order.findAll({
+            offset: offset,
+            limit: pageSize,
+            include: db.User,
+        });
+    }
+    const dataCount = await db.Order.count();
+    return res.status(200).json({ orders: data, countAllOrder: dataCount }); // Count all Brand without limit to set pageCount
+};
 
 export const addOrder = async (req, res) => {
     try {
@@ -34,20 +35,6 @@ export const addOrder = async (req, res) => {
     }
 };
 
-// export const deleteBrand = async (req, res) => {
-//     const idBrand = req.params.id;
-//     try {
-//         await db.Brand.destroy({
-//             where: {
-//                 id: idBrand,
-//             },
-//         });
-//         return res.status(200).json({ message: 'Xóa thương hiệu thành công' });
-//     } catch (e) {
-//         return res.status(201).json({ message: 'Thương hiệu này không thể xóa' });
-//     }
-// };
-
 export const detailUser = async (req, res) => {
     // const idBrand = req.params.id;
     const email = req.params.email;
@@ -56,33 +43,37 @@ export const detailUser = async (req, res) => {
     return res.status(200).json({ user: data });
 };
 
-// export const editBrand = async (req, res) => {
-//     try {
-//         const idBrand = req.params.id;
-//         const brand = await db.Brand.findOne({ where: { id: idBrand } });
-//         brand.name = req.body.name;
-//         brand.image = req.body.image;
-//         await brand.save();
-//         return res.status(200).json({ message: 'Cập nhật thành công' });
-//     } catch {
-//         return res.status(201).json({ message: 'Cập nhật thất bại' });
-//     }
-// };
+export const editOrder = async (req, res) => {
+    try {
+        const idOrder = req.params.id;
+        const status = req.body.status;
+        const order = await db.Order.findOne({ where: { id: idOrder } });
+        console.log(status);
+        order.status = status;
+        await order.save();
+        return res.status(200).json({ message: 'Cập nhật thành công' });
+    } catch {
+        return res.status(201).json({ message: 'Cập nhật thất bại' });
+    }
+};
 
 export const searchOrder = async (req, res) => {
-    const searchQuery = req.query.name;
+    const order_id = req.query.order_id;
     const user_id = req.query.user_id;
 
-    const pageCurrent = parseInt(req.query.page) || 1;
-    const pageSize = 4;
-    const offset = (pageCurrent - 1) * pageSize;
+    let whereQuery;
+
+    if (order_id) {
+        whereQuery = { id: order_id };
+    } else {
+        whereQuery = { user_id: user_id };
+    }
 
     const data = await db.Order.findAll({
-        where: {
-            user_id: user_id,
-        },
+        where: whereQuery,
+        include: db.User,
+        raw: user_id ? true : false,
         order: [['createdAt', 'DESC']],
-        raw: true,
     });
 
     const listOrderID = data.map((order) => order.id);
@@ -111,11 +102,5 @@ export const searchOrder = async (req, res) => {
         return { ...order, order_display: orderDisplay };
     });
 
-    // const dataCount = await db.Brand.count({
-    //     where: {
-    //         name: { [Op.substring]: searchQuery },
-    //     },
-    // });
-
-    return res.status(200).json({ result: orders });
+    return res.status(200).json({ result: user_id ? orders : data });
 };

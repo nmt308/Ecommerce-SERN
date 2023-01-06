@@ -4,3 +4,4 @@ export { default as brandReducer } from './brandReducer';
 export { default as headerReducer } from './headerReducer';
 export { default as searchReducer } from './searchReducer';
 export { default as discountReducer } from './discountReducer';
+export { default as orderReducer } from './orderReducer';

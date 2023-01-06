@@ -4,9 +4,10 @@ export { default as Register } from './user/Register';
 export { default as ProductDetail } from './user/ProductDetail';
 export { default as Search } from './user/Search';
 export { default as Cart } from './user/Cart';
-export { default as Order } from './user/Order';
+export { default as MyOrder } from './user/Order';
 
 export { default as Product } from './admin/Product';
 export { default as Category } from './admin/Category';
 export { default as Brand } from './admin/Brand';
 export { default as Banner } from './admin/Banner';
+export { default as Order } from './admin/Order';
