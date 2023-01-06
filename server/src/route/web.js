@@ -1,5 +1,6 @@
 import express from 'express';
 import * as BrandController from '../controllers/BrandController.js';
+import * as DiscountController from '../controllers/DiscountController.js';
 import * as ProductController from '../controllers/ProductController.js';
 import * as CategoryController from '../controllers/CategoryController.js';
 import * as UserController from '../controllers/UserController.js';
@@ -34,6 +35,14 @@ export const initAPIRoutes = (app) => {
     router.get('/brand/detail/:id', BrandController.detailBrand);
     router.delete('/brand/delete/:id', BrandController.deleteBrand);
     router.get('/brand/search', BrandController.searchBrand);
+
+    //Discount
+    router.get('/discounts', DiscountController.getDiscount);
+    router.post('/discount/add', DiscountController.addDiscount);
+    router.put('/discount/edit/:id', DiscountController.editDiscount);
+    router.get('/discount/detail/:id', DiscountController.detailDiscount);
+    router.delete('/discount/delete/:id', DiscountController.deleteDiscount);
+    router.get('/discount/search', DiscountController.searchDiscount);
 
     //User
     router.post('/user/add', UserController.addUser);

@@ -9,3 +9,4 @@ export { default as Order } from './user/Order';
 export { default as Product } from './admin/Product';
 export { default as Category } from './admin/Category';
 export { default as Brand } from './admin/Brand';
+export { default as Banner } from './admin/Banner';

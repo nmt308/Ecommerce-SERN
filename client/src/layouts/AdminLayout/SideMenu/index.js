@@ -93,7 +93,7 @@ function SideMenu() {
                         </li>
 
                         <li className={cx('nav-link')}>
-                            <NavLink to="/admin/discount">
+                            <NavLink to="/admin/banner">
                                 <TbDiscount2 className={cx('icon')} />
                                 <span className={cx('text nav-text')}>Khuyến mãi</span>
                             </NavLink>
