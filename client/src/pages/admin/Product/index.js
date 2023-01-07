@@ -31,6 +31,7 @@ function Product() {
     const [searchCount, setSearchCount] = useState('');
     const [currentPage, setCurrentPage] = useState(''); // Reset paginate
     const [searchParams, setSearchParams] = useSearchParams();
+    const [render, setRender] = useState(false);
 
     let dispatch = useDispatch();
     let navigate = useNavigateSearch();
@@ -57,7 +58,7 @@ function Product() {
             setCurrentPage(parseInt(page) - 1 > 0 ? parseInt(page) - 1 : 0); //Vì lần đầu page = null, null - 1 = -1
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [name, page, dispatch]);
+    }, [name, page, render]);
 
     const products = useSelector((state) => state.productState.products);
     const totalProduct = useSelector((state) => state.productState.totalProduct);
@@ -86,6 +87,7 @@ function Product() {
         setTimeout(async () => {
             if (window.confirm('Bạn có muốn xóa sản phẩm này ?')) {
                 const res = await dispatch(deleteProduct(id, page));
+                setRender(!render);
                 notify(res.type, res.message);
             }
         }, 500);

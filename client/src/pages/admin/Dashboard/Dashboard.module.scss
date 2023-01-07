@@ -1,0 +1,59 @@
+.content {
+    background-color: #fff;
+    margin-top: 28px;
+    padding: 16px;
+}
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.chart {
+    height: 50vh;
+    width: 100%;
+    margin-top: 64px;
+}
+.icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 8px;
+    background-color: #ccc;
+    width: 50px;
+    height: 50px;
+}
+.info {
+    padding-right: 24px;
+}
+.item {
+    display: flex;
+    font-size: 15px;
+    font-weight: 500;
+    p {
+        margin-bottom: 0;
+    }
+    &.order {
+        .icon {
+            color: var(--primary-color);
+            background: #fa842c40;
+        }
+    }
+    &.revenue {
+        .icon {
+            color: #0ca922;
+            background: #2ce2463b;
+        }
+    }
+    &.product {
+        .icon {
+            color: #0087fff5;
+            background: #0087ff40;
+        }
+    }
+    &.user {
+        .icon {
+            color: #fb3800e3;
+            background: #f3fb003b;
+        }
+    }
+}

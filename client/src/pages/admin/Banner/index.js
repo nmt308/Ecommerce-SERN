@@ -30,6 +30,7 @@ function Banner() {
     const [currentPage, setCurrentPage] = useState(''); // Reset paginate
     const [searchCount, setSearchCount] = useState('');
     const [searchParams, setSearchParams] = useSearchParams();
+    const [render, setRender] = useState(false);
 
     let dispatch = useDispatch();
     let navigate = useNavigateSearch();
@@ -41,8 +42,10 @@ function Banner() {
         if (name) {
             const getSearchResult = async () => {
                 const res = await dispatch(searchDiscount(name, page));
+                console.log(res.result);
                 setSearchCount(res.availableDiscount);
                 setSearchResult(res.result);
+
                 setCurrentPage(parseInt(page) - 1);
             };
             getSearchResult();
@@ -53,7 +56,7 @@ function Banner() {
             setCurrentPage(parseInt(page) - 1 > 0 ? parseInt(page) - 1 : 0); //Vì lần đầu page = null, null - 1 = -1
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [name, page, dispatch]);
+    }, [name, page, render]);
 
     let dataRender;
     let pageSize = 4;
@@ -83,8 +86,9 @@ function Banner() {
 
     const handleDelete = (id) => {
         setTimeout(async () => {
-            if (window.confirm('Bạn có muốn xóa thương hiệu này ?')) {
+            if (window.confirm('Bạn có muốn xóa khuyến mãi này ?')) {
                 const res = await dispatch(deleteDiscount(id, page));
+                setRender(!render);
                 notify(res.type, res.message);
             }
         }, 500);
@@ -94,7 +98,7 @@ function Banner() {
         if (!searchText) {
             return;
         }
-        navigate('/admin/discount', { name: searchText, page: 1 });
+        navigate('/admin/banner', { name: searchText, page: 1 });
     };
 
     const handleValueSearch = (e) => {
@@ -108,9 +112,9 @@ function Banner() {
     const handlePageClick = async (e) => {
         const currentPage = e.selected + 1; // +1 vì e.selected lấy từ 0
         if (searchResult) {
-            navigate('/admin/discount', { name: name, page: currentPage || 1 });
+            navigate('/admin/banner', { name: name, page: currentPage || 1 });
         } else {
-            navigate('/admin/discount', { page: currentPage });
+            navigate('/admin/banner', { page: currentPage });
         }
     };
 

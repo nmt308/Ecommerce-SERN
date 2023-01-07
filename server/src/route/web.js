@@ -7,6 +7,7 @@ import * as UserController from '../controllers/UserController.js';
 import * as OrderController from '../controllers/OrderController.js';
 import * as OrderDetailController from '../controllers/OrderDetailController.js';
 import HomeController from '../controllers/HomeController.js';
+import DashboardController from '../controllers/DashboardController.js';
 const router = express.Router();
 export const initAPIRoutes = (app) => {
     //Homepage
@@ -57,6 +58,10 @@ export const initAPIRoutes = (app) => {
     //OrderDetail
     router.post('/orderDetail/add', OrderDetailController.addOrderDetail);
     router.get('/orderDetail/search', OrderDetailController.searchOrderDetail);
+
+    //Dashboard
+    router.get('/dashboard', DashboardController);
+
     //Middleware check nếu url có tiền tố /api mới gọi router
     return app.use('/api/', router);
 };

@@ -30,7 +30,7 @@ function Category() {
     const [currentPage, setCurrentPage] = useState(''); // Reset paginate
     const [searchCount, setSearchCount] = useState('');
     const [searchParams, setSearchParams] = useSearchParams();
-
+    const [render, setRender] = useState(false);
     let dispatch = useDispatch();
     let navigate = useNavigateSearch();
     let navigation = useNavigate();
@@ -53,7 +53,7 @@ function Category() {
             setCurrentPage(parseInt(page) - 1 > 0 ? parseInt(page) - 1 : 0); //Vì lần đầu page = null, null - 1 = -1
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [name, page, dispatch]);
+    }, [name, page, render]);
 
     let dataRender;
     let pageSize = 4;
@@ -85,10 +85,8 @@ function Category() {
         setTimeout(async () => {
             if (window.confirm('Bạn có muốn xóa danh mục này ?')) {
                 const res = await dispatch(deleteCategory(id, page));
+                setRender(!render);
                 notify(res.type, res.message);
-                if (searchResult) {
-                    navigation('/admin/category');
-                }
             }
         }, 500);
     };

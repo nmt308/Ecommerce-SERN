@@ -11,6 +11,7 @@ import {
     Order,
     Banner,
     MyOrder,
+    Dashboard,
 } from '../pages';
 import { DefaultLayout, AdminLayout } from '../layouts';
 
@@ -68,6 +69,11 @@ export const AllRoute = [
     {
         path: '/Admin/Order',
         component: Order,
+        layout: AdminLayout,
+    },
+    {
+        path: '/Admin/Dashboard',
+        component: Dashboard,
         layout: AdminLayout,
     },
     {

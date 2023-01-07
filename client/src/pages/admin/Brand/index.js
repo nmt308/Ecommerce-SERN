@@ -30,6 +30,7 @@ function Brand() {
     const [currentPage, setCurrentPage] = useState(''); // Reset paginate
     const [searchCount, setSearchCount] = useState('');
     const [searchParams, setSearchParams] = useSearchParams();
+    const [render, setRender] = useState(false);
 
     let dispatch = useDispatch();
     let navigate = useNavigateSearch();
@@ -53,7 +54,7 @@ function Brand() {
             setCurrentPage(parseInt(page) - 1 > 0 ? parseInt(page) - 1 : 0); //Vì lần đầu page = null, null - 1 = -1
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [name, page, dispatch]);
+    }, [name, page, render]);
 
     let dataRender;
     let pageSize = 4;
@@ -85,6 +86,7 @@ function Brand() {
         setTimeout(async () => {
             if (window.confirm('Bạn có muốn xóa thương hiệu này ?')) {
                 const res = await dispatch(deleteBrand(id, page));
+                setRender(!render);
                 notify(res.type, res.message);
             }
         }, 500);

@@ -11,3 +11,4 @@ export { default as Category } from './admin/Category';
 export { default as Brand } from './admin/Brand';
 export { default as Banner } from './admin/Banner';
 export { default as Order } from './admin/Order';
+export { default as Dashboard } from './admin/Dashboard';
