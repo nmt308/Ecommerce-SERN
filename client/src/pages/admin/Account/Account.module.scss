@@ -1,3 +1,19 @@
+.role-action {
+    display: flex;
+}
+.role-btn {
+    background-color: #ebebec;
+    font-size: 13px;
+    padding: 6px 12px;
+    cursor: pointer;
+    + .role-btn {
+        margin-left: 6px;
+    }
+    &.active {
+        background-color: var(--primary-color);
+        color: #fff;
+    }
+}
 .item {
     font-size: 15px;
     margin-top: 14px;

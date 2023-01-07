@@ -1,9 +1,8 @@
 //Local
 import Title from '../../../components/Title';
 import notify from '../../../components/Toast';
-
 import { useNavigateSearch } from '../../../CustomHook';
-import Style from './Order.module.scss';
+import Style from './Account.module.scss';
 import classNames from 'classnames/bind';
 //React
 import React, { useEffect, useState } from 'react';
@@ -15,14 +14,19 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 //Redux
 import { useDispatch, useSelector } from 'react-redux';
-import { getOrders, searchOrder, updateOrder } from '../../../redux/actions/orderAction';
+import { getAccounts, searchAccount, updateAccount } from '../../../redux/actions/accountAction';
 //Icon
 import { ImSearch } from 'react-icons/im';
 import { AiFillCloseCircle, AiFillEye, AiFillDelete } from 'react-icons/ai';
+import { HiChevronDoubleRight, HiOutlineTruck } from 'react-icons/hi';
+import { BiTimeFive } from 'react-icons/bi';
+import { BsTruck } from 'react-icons/bs';
+import { BsCheck2All } from 'react-icons/bs';
 //Tippy
 import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
 import axios from 'axios';
+
 import {
     MDBModal,
     MDBModalDialog,
@@ -32,7 +36,7 @@ import {
     MDBModalBody,
 } from 'mdb-react-ui-kit';
 const cx = classNames.bind(Style);
-function Order() {
+function Account() {
     const [searchText, setSearchText] = useState('');
     const [searchResult, setSearchResult] = useState('');
     const [currentPage, setCurrentPage] = useState(''); // Reset paginate
@@ -47,14 +51,14 @@ function Order() {
     let dispatch = useDispatch();
     let navigate = useNavigateSearch();
 
-    const id = searchParams.get('id');
+    const email = searchParams.get('email');
     const page = searchParams.get('page');
 
     useEffect(() => {
-        if (id) {
+        if (email) {
             const getSearchResult = async () => {
-                const res = await dispatch(searchOrder(id, page));
-                setSearchCount(res.availableOrder);
+                const res = await dispatch(searchAccount(email, page));
+                setSearchCount(res.availableAccount);
                 setSearchResult(res.result);
                 setCurrentPage(parseInt(page) - 1);
             };
@@ -62,17 +66,17 @@ function Order() {
         } else {
             setSearchResult('');
             setSearchText('');
-            dispatch(getOrders(page));
+            dispatch(getAccounts(page));
             setCurrentPage(parseInt(page) - 1 > 0 ? parseInt(page) - 1 : 0); //Vì lần đầu page = null, null - 1 = -1
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [id, page, render]);
+    }, [email, page, render]);
 
     let dataRender = [];
     let pageSize = 4;
 
-    const orders = useSelector((state) => state.orderState.orders);
-    const totalCategoy = useSelector((state) => state.orderState.totalOrder);
+    const accounts = useSelector((state) => state.accountState.accounts);
+    const totalCategoy = useSelector((state) => state.accountState.totalAccount);
     let pageCount;
 
     if (searchResult) {
@@ -81,29 +85,28 @@ function Order() {
         pageCount = Math.ceil(totalCategoy / pageSize);
     }
 
-    const handleStatus = (orderID, status) => {
-        let statusText;
-        switch (status) {
+    const handleRole = (accountID, role) => {
+        let roleText;
+
+        switch (role) {
             case 0:
-                statusText = 'Đang xử lí';
+                roleText = 'Người dùng';
                 break;
             case 1:
-                statusText = 'Đã xử lí';
+                roleText = 'Quản trị viên';
                 break;
-            case 2:
-                statusText = 'Đang giao hàng';
-                break;
+
             default:
                 break;
         }
-        if (window.confirm(`Cập nhật trạng thái đơn hàng ${orderID} thành ${statusText} ?`)) {
-            const updateStatus = async () => {
+        if (window.confirm(`Cập nhật phân quyền tài khoản #${accountID} thành ${roleText} ?`)) {
+            const updateRole = async () => {
                 //dispatch bất đồng bộ
-                await dispatch(updateOrder(orderID, status, page));
-                notify('success', 'Cập nhật đơn hàng thành công');
+                await dispatch(updateAccount(accountID, role, page));
+                notify('success', 'Cập nhật phân quyền thành công');
                 setRender(!render);
             };
-            updateStatus();
+            updateRole();
         }
     };
 
@@ -111,7 +114,7 @@ function Order() {
         if (!searchText) {
             return;
         }
-        navigate('/admin/order', { id: searchText, page: 1 });
+        navigate('/admin/account', { email: searchText, page: 1 });
     };
 
     const handleValueSearch = (e) => {
@@ -125,23 +128,25 @@ function Order() {
     const handlePageClick = async (e) => {
         const currentPage = e.selected + 1; // +1 vì e.selected lấy từ 0
         if (searchResult) {
-            navigate('/admin/order', { id: id, page: currentPage || 1 });
+            navigate('/admin/account', { email: email, page: currentPage || 1 });
         } else {
-            navigate('/admin/order', { page: currentPage });
+            navigate('/admin/account', { page: currentPage });
         }
     };
 
-    const handleSeeDetail = async (orderID) => {
-        const getOrderDetail = await axios.get('http://localhost:8080/api/orderDetail/search', {
+    const handleSeeDetail = async (accountID) => {
+        const getAccountDetail = await axios.get('http://localhost:8080/api/order/search', {
             params: {
-                order_id: orderID,
+                user_id: accountID,
             },
         });
-
-        setDetails(getOrderDetail.data.result);
+        setDetails(getAccountDetail.data.result);
         toggleShow();
     };
 
+    const handleDetailOrder = (id) => {
+        navigate('/admin/order', { id: id, page: 1 });
+    };
     const formatDate = (date) => {
         var d = new Date(date),
             hour = d.getHours(),
@@ -152,23 +157,21 @@ function Order() {
             year = d.getFullYear();
         return `${day}-${month}-${year} ${hour}:${minute}:${second}`;
     };
-
     const formatCurrency = (value) => {
         return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(value);
     };
-
     if (searchResult) {
         dataRender = searchResult;
     } else {
-        dataRender = orders;
+        dataRender = accounts;
     }
-    console.log(orders);
+
     return (
         <div>
-            <Title name="Danh sách đơn hàng" />
+            <Title name="Danh sách tài khoản" />
             <div className="action">
                 <MDBInput
-                    placeholder="Nhập mã đơn hàng ..."
+                    placeholder="Nhập tên email ..."
                     label="Tìm kiếm"
                     type="text"
                     value={searchText}
@@ -196,10 +199,9 @@ function Order() {
                         <tr>
                             <th scope="col">ID</th>
                             <th scope="col">Tên khách hàng</th>
-                            <th scope="col">Trạng thái đơn hàng</th>
-                            <th scope="col">Ngày đặt hàng</th>
-
-                            <th scope="col">Tổng tiền hàng</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Phân quyền</th>
+                            <th scope="col">Ngày tạo tài khoản</th>
                             <th scope="col" style={{ textAlign: 'center' }}>
                                 Hành động
                             </th>
@@ -213,63 +215,58 @@ function Order() {
                                 </td>
                             </tr>
                         ) : (
-                            dataRender.map((Order) => {
+                            dataRender.map((Account) => {
                                 return (
-                                    <tr key={Order.id}>
-                                        <td>{Order.id}</td>
+                                    <tr key={Account.id}>
+                                        <td>{Account.id}</td>
                                         <td>
                                             <div className="d-flex align-items-center">
-                                                <p className="fw-500 mb-1">{Order.User.name}</p>
+                                                <p className="fw-500 mb-1">{Account.name}</p>
                                             </div>
                                         </td>
-
+                                        <td>{Account.email}</td>
                                         <td>
-                                            <div className={cx('status-action')}>
+                                            <div className={cx('role-action')}>
                                                 <div
                                                     onClick={() => {
-                                                        handleStatus(Order.id, 0);
+                                                        if (Account.role === 1) {
+                                                            alert('Bạn không thể thay đổi cho quản trị viên !');
+                                                            return;
+                                                        }
                                                     }}
-                                                    className={cx('status-btn', {
-                                                        active: Order.status === 0,
+                                                    className={cx('role-btn', {
+                                                        active: Account.role === 0,
                                                     })}
                                                 >
-                                                    Đang xử lí
+                                                    Người dùng
                                                 </div>
                                                 <div
                                                     onClick={() => {
-                                                        handleStatus(Order.id, 1);
+                                                        if (Account.role === 1) {
+                                                            return;
+                                                        }
+                                                        handleRole(Account.id, 1);
                                                     }}
-                                                    className={cx('status-btn', {
-                                                        active: Order.status === 1,
+                                                    className={cx('role-btn', {
+                                                        active: Account.role === 1,
                                                     })}
                                                 >
-                                                    Đã xác nhận
-                                                </div>
-                                                <div
-                                                    onClick={() => {
-                                                        handleStatus(Order.id, 2);
-                                                    }}
-                                                    className={cx('status-btn', {
-                                                        active: Order.status === 2,
-                                                    })}
-                                                >
-                                                    Đang giao
+                                                    Quản trị viên
                                                 </div>
                                             </div>
                                         </td>
-                                        <td>{formatDate(Order.createdAt)}</td>
+                                        <td>{formatDate(Account.createdAt)}</td>
 
-                                        <td>{formatCurrency(Order.total)}</td>
                                         <td style={{ textAlign: 'center' }}>
                                             <div className="d-flex justify-content-center">
-                                                <Tippy content="Chi tiết đơn hàng" placement="top">
+                                                <Tippy content="Lịch sử đặt hàng" placement="top">
                                                     <div>
                                                         <MDBBtn
                                                             color="link"
                                                             rounded
                                                             size="sm"
                                                             onClick={() => {
-                                                                handleSeeDetail(Order.id);
+                                                                handleSeeDetail(Account.id);
                                                             }}
                                                         >
                                                             <AiFillEye size={20} color="rgb(110 108 108)" />
@@ -289,39 +286,80 @@ function Order() {
                 <MDBModalDialog>
                     <MDBModalContent>
                         <MDBModalHeader>
-                            <MDBModalTitle>Chi tiết đơn hàng #{details[0] && details[0].Order.id}</MDBModalTitle>
+                            <MDBModalTitle>Lịch sử đặt hàng </MDBModalTitle>
                         </MDBModalHeader>
                         <MDBModalBody className={cx('body')}>
-                            {details.map((detail) => (
-                                <div style={{ cursor: 'pointer' }} className={cx('container')}>
-                                    <div className={cx('image')}>
-                                        <img src={detail.Product.image} alt="productt" />
-                                    </div>
-                                    <div className={cx('product')}>
-                                        <div>
-                                            <p className={cx('product-name')}>{detail.Product.name}</p>
-                                            <p className={cx('product-quantity')}>
-                                                Số lượng: {detail.quantity} x {formatCurrency(detail.Product.price)}
-                                            </p>
+                            {details.length > 0 ? (
+                                details.map((detail) => (
+                                    <div className={cx('item')} key={detail.id}>
+                                        <div className={cx('header')}>
+                                            <div>
+                                                <div className={cx('name')}>Đơn hàng #{detail.id}</div>
+                                                <div className={cx('date')}>
+                                                    Ngày đặt: {formatDate(detail.createdAt)}
+                                                </div>
+                                            </div>
+                                            <div
+                                                className={cx('status', {
+                                                    handling: detail.status === 0,
+                                                    handled: detail.status === 1,
+                                                    shipping: detail.status === 2,
+                                                })}
+                                            >
+                                                <span>
+                                                    {detail.status === 0 && (
+                                                        <>
+                                                            <BiTimeFive size={18} />
+                                                            Đang xử lí
+                                                        </>
+                                                    )}
+                                                    {detail.status === 1 && (
+                                                        <>
+                                                            <BsCheck2All size={18} />
+                                                            Đã xác nhận
+                                                        </>
+                                                    )}
+                                                    {detail.status === 2 && (
+                                                        <>
+                                                            <BsTruck size={18} />
+                                                            Đang giao hàng
+                                                        </>
+                                                    )}
+                                                </span>
+                                            </div>
                                         </div>
+                                        <div className={cx('container')}>
+                                            <div className={cx('image')}>
+                                                <img src={detail.order_display.Product.image} alt="productt" />
+                                            </div>
+                                            <div className={cx('product')}>
+                                                <div>
+                                                    <p className={cx('product-name')}>
+                                                        {detail.order_display.Product.name}
+                                                    </p>
+                                                    <p className={cx('product-quantity')}>
+                                                        Số lượng: {detail.order_display.quantity} x{' '}
+                                                        {formatCurrency(detail.order_display.Product.price)}
+                                                    </p>
+                                                </div>
+                                                <div>
+                                                    <p
+                                                        className={cx('detail')}
+                                                        onClick={() => {
+                                                            handleDetailOrder(detail.id);
+                                                        }}
+                                                    >
+                                                        Xem chi tiết <HiChevronDoubleRight />
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className={cx('price')}>Tổng tiền: {formatCurrency(detail.total)}</div>
                                     </div>
-                                </div>
-                            ))}
-                            <div className={cx('info')}>
-                                <div>
-                                    Email đặt hàng:<span>{localStorage.getItem('user')}</span>
-                                </div>
-                                <div>
-                                    Ngày đặt hàng: <span>{details[0] && formatDate(details[0].Order.createdAt)}</span>
-                                </div>
-
-                                <div>
-                                    Phương thức vận chuyển:<span>Ship COD</span>
-                                </div>
-                                <div>
-                                    Tổng tiền:<span>{details[0] && formatCurrency(details[0].Order.total)} </span>
-                                </div>
-                            </div>
+                                ))
+                            ) : (
+                                <p className="text-center mt-3">Người dùng này chưa có đơn hàng</p>
+                            )}
                         </MDBModalBody>
                     </MDBModalContent>
                 </MDBModalDialog>
@@ -354,4 +392,4 @@ function Order() {
     );
 }
 
-export default Order;
+export default Account;

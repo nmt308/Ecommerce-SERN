@@ -12,6 +12,7 @@ import {
     Banner,
     MyOrder,
     Dashboard,
+    Account,
 } from '../pages';
 import { DefaultLayout, AdminLayout } from '../layouts';
 
@@ -79,6 +80,11 @@ export const AllRoute = [
     {
         path: '/Admin/Banner',
         component: Banner,
+        layout: AdminLayout,
+    },
+    {
+        path: '/Admin/Account',
+        component: Account,
         layout: AdminLayout,
     },
 ];

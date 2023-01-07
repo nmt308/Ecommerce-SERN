@@ -17,20 +17,18 @@ export const getOrders = (currentPage) => {
         });
     };
 };
-
-// export const getDetailOrder = (id) => {
-//     // Thunk action creator return 1 thunk action (1 action trả về 1 function)
-//     return async (dispatch) => {
-//         const res = await axios.get(`http://localhost:8080/api/Order/detail/${id}`);
-//         const Order = res.data.Order;
-//         dispatch({
-//             type: 'GET_DETAIL_ORDER',
-//             payload: Order,
-//         });
-//         return Order;
-//     };
-// };
-
+export const getDetailOrder = (id) => {
+    // Thunk action creator return 1 thunk action (1 action trả về 1 function)
+    return async (dispatch) => {
+        const res = await axios.get(`http://localhost:8080/api/Order/detail/${id}`);
+        const Order = res.data.Order;
+        dispatch({
+            type: 'GET_DETAIL_ORDER',
+            payload: Order,
+        });
+        return Order;
+    };
+};
 export const updateOrder = (id, status, page) => {
     return async (dispatch) => {
         const res = await axios.put(`http://localhost:8080/api/Order/edit/${id}`, {

@@ -6,6 +6,7 @@ import * as CategoryController from '../controllers/CategoryController.js';
 import * as UserController from '../controllers/UserController.js';
 import * as OrderController from '../controllers/OrderController.js';
 import * as OrderDetailController from '../controllers/OrderDetailController.js';
+import * as AccountController from '../controllers/AccountController.js';
 import HomeController from '../controllers/HomeController.js';
 import DashboardController from '../controllers/DashboardController.js';
 const router = express.Router();
@@ -48,6 +49,12 @@ export const initAPIRoutes = (app) => {
     //User
     router.post('/user/add', UserController.addUser);
     router.get('/user/detail', UserController.detailUser);
+
+    //Account
+    router.get('/accounts', AccountController.getAccount);
+    router.get('/account/detail/:id', AccountController.detailUser);
+    router.put('/account/edit/:id', AccountController.editAccount);
+    router.get('/account/search', AccountController.searchAccount);
 
     //Order
     router.get('/orders', OrderController.getOrder);

@@ -1,7 +1,10 @@
 import classNames from 'classnames/bind';
 import Style from './Order.module.scss';
-import { HiChevronDoubleRight } from 'react-icons/hi';
+import { HiChevronDoubleRight, HiOutlineTruck } from 'react-icons/hi';
 import { BiTimeFive } from 'react-icons/bi';
+import { BsTruck } from 'react-icons/bs';
+import { BsCheck2All } from 'react-icons/bs';
+
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigateSearch } from '../../../CustomHook';
@@ -48,6 +51,7 @@ const Order = () => {
                     user_id: userID,
                 },
             });
+
             setOrders(getOrders.data.result);
         };
         getOrders();
@@ -76,10 +80,32 @@ const Order = () => {
                                     <div className={cx('name')}>Đơn hàng #{order.id}</div>
                                     <div className={cx('date')}>Ngày đặt: {formatDate(order.createdAt)}</div>
                                 </div>
-                                <div className={cx('status')}>
+                                <div
+                                    className={cx('status', {
+                                        handling: order.status === 0,
+                                        handled: order.status === 1,
+                                        shipping: order.status === 2,
+                                    })}
+                                >
                                     <span>
-                                        <BiTimeFive size={18} />
-                                        Đang xử lí
+                                        {order.status === 0 && (
+                                            <>
+                                                <BiTimeFive size={18} />
+                                                Đang xử lí
+                                            </>
+                                        )}
+                                        {order.status === 1 && (
+                                            <>
+                                                <BsCheck2All size={18} />
+                                                Đã xác nhận
+                                            </>
+                                        )}
+                                        {order.status === 2 && (
+                                            <>
+                                                <BsTruck size={18} />
+                                                Đang giao hàng
+                                            </>
+                                        )}
                                     </span>
                                 </div>
                             </div>
@@ -107,7 +133,7 @@ const Order = () => {
                                     </div>
                                 </div>
                             </div>
-                            <div className={cx('price')}>Tổng tiền: 26.000.000Đ</div>
+                            <div className={cx('price')}>Tổng tiền: {formatCurrency(order.total)}</div>
                         </div>
                     );
                 })}
