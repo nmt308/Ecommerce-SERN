@@ -16,12 +16,13 @@ import {
     MDBModalTitle,
     MDBModalBody,
 } from 'mdb-react-ui-kit';
+import { useSelector } from 'react-redux';
 const cx = classNames.bind(Style);
 
 const Order = () => {
     const [orders, setOrders] = useState([]);
     const navigateSearch = useNavigateSearch();
-
+    const user = useSelector((state) => state.headerState.user);
     const formatDate = (date) => {
         var d = new Date(date),
             hour = d.getHours(),
@@ -42,7 +43,7 @@ const Order = () => {
         const getOrders = async () => {
             const getUserID = await axios.get('http://localhost:8080/api/user/detail', {
                 params: {
-                    email: localStorage.getItem('user'),
+                    email: user.email,
                 },
             });
             const userID = getUserID.data.user.id;
@@ -171,7 +172,7 @@ const Order = () => {
                                 ))}
                                 <div className={cx('info')}>
                                     <div>
-                                        Email đặt hàng:<span>{localStorage.getItem('user')}</span>
+                                        Email đặt hàng:<span>{user.email}</span>
                                     </div>
                                     <div>
                                         Ngày đặt hàng:{' '}

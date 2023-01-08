@@ -18,7 +18,8 @@ import HeadlessTippy from '@tippyjs/react/headless';
 import lottie from 'lottie-web';
 //Redux
 import { useDispatch, useSelector } from 'react-redux';
-import { cartChange, userLogin } from '../../../redux/actions/headerAction';
+import { cartChange, getUser, userLogin } from '../../../redux/actions/headerAction';
+import axios from 'axios';
 
 const cx = classNames.bind(Style);
 function Header() {
@@ -43,13 +44,13 @@ function Header() {
     const isTablet = viewPort.width > 739 && viewPort.width <= 992;
     const isPc = viewPort.width > 992;
 
-    const user = localStorage.getItem('user');
+    const user = useSelector((state) => state.headerState.user.name);
+
     const cartQuantity = useSelector((state) => state.headerState.cartQuantity);
 
     const SignOut = () => {
         setTimeout(() => {
             auth.signOut().then(() => {
-                localStorage.removeItem('user');
                 navigate('/');
             });
         }, 500);
@@ -123,7 +124,7 @@ function Header() {
         return () => {
             lottie.destroy();
         };
-    }, [isMobile, isPc, isTablet]);
+    }, [isMobile, isPc, isTablet, user]);
 
     useEffect(() => {
         //Check mobile hoặc tablet mới set height cho menu
@@ -139,7 +140,11 @@ function Header() {
 
     useEffect(() => {
         auth.onAuthStateChanged(async (res) => {
-            localStorage.setItem('user', res.email);
+            if (!res) {
+                dispatch(getUser());
+            } else {
+                dispatch(getUser(res.email));
+            }
         });
         dispatch(cartChange());
     }, []);
@@ -213,7 +218,7 @@ function Header() {
                                 active: openMenu,
                             })}
                         >
-                            <MenuItem content={'user'} placement="bottom" isPc={isPc}>
+                            <MenuItem content={`${user}`} placement="bottom" isPc={isPc}>
                                 <div className={cx('action-item')}>
                                     <button className={cx('btn', 'custom-btn')}>
                                         <div ref={userIcon1} className={cx('userIcon1')} />

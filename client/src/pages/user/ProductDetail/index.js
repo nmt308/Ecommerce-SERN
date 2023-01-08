@@ -15,21 +15,19 @@ import axios from 'axios';
 import parse from 'html-react-parser';
 import ModalSeeDetail from '../../../components/Modal/ModalSeeDetail';
 import { HiChevronDoubleRight } from 'react-icons/hi';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { cartChange } from '../../../redux/actions/headerAction';
 
 const cx = classNames.bind(Style);
 function ProductDetail() {
     const [product, setProduct] = useState('');
     const [imageCurrent, setImageCurrent] = useState(0);
-    const [active, setActive] = useState(false);
-    const [loading, setLoading] = useState(true);
     const [searchParams, setSearchParams] = useSearchParams();
     const name = searchParams.get('name');
     const [basicModal, setBasicModal] = useState(false);
     let cart = localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : [];
     const dispatch = useDispatch();
-
+    const user = useSelector((state) => state.headerState.user);
     const toggleShow = () => setBasicModal(!basicModal);
     const navigate = useNavigate();
 
@@ -64,12 +62,19 @@ function ProductDetail() {
     };
 
     const addToCart = async (idProduct) => {
-        if (!localStorage.getItem('user')) {
+        if (!user.email) {
             alert('Vui lòng đăng nhập');
             navigate('/login');
             return;
         }
-
+        if (product.quantity === 0) {
+            notify('warning', 'Sản phẩm tạm hết hàng !');
+            return;
+        }
+        if (qty > product.quantity) {
+            notify('warning', `Tối đa ${product.quantity} sản phẩm !`);
+            return;
+        }
         if (cart.filter((product) => product.id === idProduct).length > 0) {
             notify('error', 'Đã có trong giỏ hàng !');
         } else {
@@ -148,7 +153,11 @@ function ProductDetail() {
                                     <dd className="col-sm-9">2-4 ngày</dd>
 
                                     <dt className="col-sm-3">Tình trạng</dt>
-                                    <dd className="col-sm-9">Còn hàng</dd>
+                                    {product.quantity > 0 ? (
+                                        <dd className="col-sm-9">Còn hàng ( {product.quantity} còn lại )</dd>
+                                    ) : (
+                                        <dd className="col-sm-9">Hết hàng</dd>
+                                    )}
                                 </dl>
 
                                 <div className="d-flex mt-4">

@@ -14,6 +14,17 @@ const cx = classNames.bind(Style);
 function SideMenu() {
     const [dark, setDark] = useState(false);
     const [close, setClose] = useState(false);
+    const [search, setSearch] = useState(null);
+
+    const text = 'Thống kê';
+    console.log(text);
+    const handleSearch = (value) => {
+        if (!value) {
+            setSearch(null);
+        } else {
+            setSearch(value);
+        }
+    };
     return (
         <nav
             className={cx('sidebar', {
@@ -46,67 +57,109 @@ function SideMenu() {
                 <div className={cx('menu')}>
                     <li className={cx('search-box')}>
                         <FiSearch className={cx('icon')} />
-                        <input type="text" placeholder="Tìm kiếm..." />
+                        <input
+                            type="text"
+                            placeholder="Tìm kiếm..."
+                            onChange={(e) => {
+                                handleSearch(e.target.value);
+                            }}
+                        />
                     </li>
 
                     <ul className={cx('menu-links')}>
-                        <li className={cx('nav-link')}>
+                        <li
+                            className={cx('nav-link', {
+                                'd-none': search && !'Thống kê'.toLowerCase().includes(search.toLowerCase()),
+                            })}
+                        >
                             <NavLink to="/admin/dashboard">
                                 <MdOutlineSpaceDashboard className={cx('icon')} />
                                 <span className={cx('text nav-text')}>Thống kê</span>
                             </NavLink>
                         </li>
 
-                        <li className={cx('nav-link')}>
+                        <li
+                            className={cx('nav-link', {
+                                'd-none': search && !'Sản phẩm'.toLowerCase().includes(search.toLowerCase()),
+                            })}
+                        >
                             <NavLink to="/admin/product">
                                 <SlSocialDropbox className={cx('icon')} />
                                 <span className={cx('text nav-text')}>Sản phẩm</span>
                             </NavLink>
                         </li>
 
-                        <li className={cx('nav-link')}>
+                        <li
+                            className={cx('nav-link', {
+                                'd-none': search && !'Danh mục'.toLowerCase().includes(search.toLowerCase()),
+                            })}
+                        >
                             <NavLink to="/admin/category">
                                 <BiCategory className={cx('icon')} />
                                 <span className={cx('text nav-text')}>Danh mục</span>
                             </NavLink>
                         </li>
 
-                        <li className={cx('nav-link')}>
+                        <li
+                            className={cx('nav-link', {
+                                'd-none': search && !'Thương hiệu'.toLowerCase().includes(search.toLowerCase()),
+                            })}
+                        >
                             <NavLink to="/admin/brand">
                                 <BiCheckShield className={cx('icon')} />
                                 <span className={cx('text nav-text')}>Thương hiệu</span>
                             </NavLink>
                         </li>
 
-                        <li className={cx('nav-link')}>
+                        <li
+                            className={cx('nav-link', {
+                                'd-none': search && !'Đơn hàng'.toLowerCase().includes(search.toLowerCase()),
+                            })}
+                        >
                             <NavLink to="/admin/order">
                                 <TbReportMoney className={cx('icon')} />
                                 <span className={cx('text nav-text')}>Đơn hàng</span>
                             </NavLink>
                         </li>
 
-                        <li className={cx('nav-link')}>
+                        <li
+                            className={cx('nav-link', {
+                                'd-none': search && !'Tin tức'.toLowerCase().includes(search.toLowerCase()),
+                            })}
+                        >
                             <NavLink to="/admin/news">
                                 <BiNews className={cx('icon')} />
                                 <span className={cx('text nav-text')}>Tin tức</span>
                             </NavLink>
                         </li>
 
-                        <li className={cx('nav-link')}>
+                        <li
+                            className={cx('nav-link', {
+                                'd-none': search && !'Khuyến mãi'.toLowerCase().includes(search.toLowerCase()),
+                            })}
+                        >
                             <NavLink to="/admin/banner">
                                 <TbDiscount2 className={cx('icon')} />
                                 <span className={cx('text nav-text')}>Khuyến mãi</span>
                             </NavLink>
                         </li>
 
-                        <li className={cx('nav-link')}>
+                        <li
+                            className={cx('nav-link', {
+                                'd-none': search && !'Đánh giá'.toLowerCase().includes(search.toLowerCase()),
+                            })}
+                        >
                             <NavLink to="/admin/feedback">
                                 <BiCommentCheck className={cx('icon')} />
                                 <span className={cx('text nav-text')}>Đánh giá</span>
                             </NavLink>
                         </li>
 
-                        <li className={cx('nav-link')}>
+                        <li
+                            className={cx('nav-link', {
+                                'd-none': search && !'Tài khoản'.toLowerCase().includes(search.toLowerCase()),
+                            })}
+                        >
                             <NavLink to="/admin/account">
                                 <BiUser className={cx('icon')} />
                                 <span className={cx('text nav-text')}>Tài khoản</span>

@@ -1,4 +1,10 @@
 const initialState = {
+    user: {
+        email: '',
+        name: '',
+        isLoading: true,
+    },
+
     cartQuantity: 0,
     cartProducts: [],
 };
@@ -14,6 +20,11 @@ const headerReducer = (state = initialState, action) => {
             return {
                 ...state,
                 cartProducts: action.payload,
+            };
+        case 'GET_USER':
+            return {
+                ...state,
+                user: action.payload,
             };
         default:
             return state;

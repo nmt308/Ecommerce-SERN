@@ -22,16 +22,22 @@ export const getOrder = async (req, res) => {
 };
 
 export const addOrder = async (req, res) => {
+    const user_id = req.body.user_id;
+    const status = req.body.status;
+    const total = req.body.total;
     try {
-        const order = await db.Order.create({
-            user_id: req.body.user_id,
-            status: req.body.status,
-            total: req.body.total,
-        });
-
-        return res.status(200).json({ result: order, message: 'Thanh toán thành công' });
+        if (!user_id || total === 0) {
+            return res.status(201).json({ type: 'error', message: 'Đặt hàng thất bại' });
+        } else {
+            const order = await db.Order.create({
+                user_id: req.body.user_id,
+                status: req.body.status,
+                total: req.body.total,
+            });
+            return res.status(200).json({ result: order, type: 'success', message: 'Đặt hàng thành công' });
+        }
     } catch (error) {
-        return res.status(201).json({ message: error });
+        return res.status(201).json({ type: 'error', message: 'Đặt hàng thất bại' });
     }
 };
 

@@ -30,7 +30,7 @@ function Cart() {
 
     let products = useSelector((state) => state.headerState.cartProducts);
     const cartQuantity = useSelector((state) => state.headerState.cartQuantity);
-
+    const user = useSelector((state) => state.headerState.user);
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -38,10 +38,11 @@ function Cart() {
         window.scrollTo(0, 0);
     }, []);
 
-    const deleteProduct = (id) => {
+    const deleteProduct = async (id) => {
         const _listCartProduct = listCartProduct.filter((product) => {
             return product.id !== id;
         });
+        await dispatch(getCartProduct(_listCartProduct.map((product) => product.id)));
         localStorage.setItem('cart', JSON.stringify(_listCartProduct));
         dispatch(cartChange());
     };
@@ -101,18 +102,22 @@ function Cart() {
     const TotalPrice =
         listCartProduct.length > 0
             ? products.reduce((total, product) => {
-                  let quantity = listCartProduct.filter((item) => {
+                  let _quantity = listCartProduct.filter((item) => {
                       return item.id === product.id;
                   })[0].quantity;
 
-                  return total + product.price * quantity;
+                  return total + product.price * _quantity;
               }, 0)
             : 0;
 
     const handlePayment = async () => {
+        if (products.length === 0) {
+            notify('warning', 'Đơn hàng đang trống !');
+            return;
+        }
         const getUserID = await axios.get('http://localhost:8080/api/user/detail', {
             params: {
-                email: localStorage.getItem('user'),
+                email: user.email,
             },
         });
         const userID = getUserID.data.user.id;
@@ -123,7 +128,7 @@ function Cart() {
             total: TotalPrice,
         };
 
-        axios.post('http://localhost:8080/api/order/add', order).then((res) => {
+        await axios.post('http://localhost:8080/api/order/add', order).then((res) => {
             listCartProduct.forEach((detail) => {
                 const orderDetail = {
                     order_id: res.data.result.id,
@@ -133,13 +138,14 @@ function Cart() {
                 };
                 axios.post('http://localhost:8080/api/orderDetail/add', orderDetail);
             });
+            notify(res.data.type, res.data.message);
         });
 
         localStorage.setItem('cart', JSON.stringify([]));
         dispatch(cartChange());
-        notify('success', 'Đặt hàng thành công');
+
         setTimeout(() => {
-            navigate('/');
+            navigate('/order');
         }, 3000);
     };
     return (

@@ -13,3 +13,5 @@ export { default as Banner } from './admin/Banner';
 export { default as Order } from './admin/Order';
 export { default as Account } from './admin/Account';
 export { default as Dashboard } from './admin/Dashboard';
+export { default as Feedback } from './admin/Feedback';
+export { default as News } from './admin/News';

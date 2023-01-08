@@ -43,6 +43,7 @@ function Order() {
     const [basicModal, setBasicModal] = useState(false);
     const [details, setDetails] = useState([]);
     const toggleShow = () => setBasicModal(!basicModal);
+    const user = useSelector((state) => state.headerState.user);
 
     let dispatch = useDispatch();
     let navigate = useNavigateSearch();
@@ -309,7 +310,7 @@ function Order() {
                             ))}
                             <div className={cx('info')}>
                                 <div>
-                                    Email đặt hàng:<span>{localStorage.getItem('user')}</span>
+                                    Email đặt hàng:<span>{user.email}</span>
                                 </div>
                                 <div>
                                     Ngày đặt hàng: <span>{details[0] && formatDate(details[0].Order.createdAt)}</span>
