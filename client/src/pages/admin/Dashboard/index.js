@@ -19,7 +19,6 @@ function Dashboard() {
             setDashboard(res.data.result);
         });
     }, []);
-
     return (
         <div className="dashboard">
             <Title name="Thống kê cửa hàng" />

@@ -13,15 +13,8 @@ function ProductCarousel({ title }) {
     const [products, setProducts] = useState([]);
     const navigateSearch = useNavigateSearch();
 
-    let type;
-    if (title === 'Laptop') {
-        type = 'laptop';
-    } else {
-        type = 'phone';
-    }
-
     const handleSeeAll = () => {
-        navigateSearch(`/search/category`, { type: type });
+        navigateSearch(`/search/category`, { type: title });
     };
 
     useEffect(() => {

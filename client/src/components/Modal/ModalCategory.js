@@ -36,7 +36,7 @@ function ModalCategory({ modalAdd, setModalAdd, modalUpdate, setModalUpdate, tog
     const inputField = useRef(); //Reset input file
     const URLImageLocal = useRef(); //Lặp qua URLImageLocal để hiển thị hình khi Add
 
-    const type = ['image/png', 'image/jpeg', 'image/PNG', 'image/JPG', 'image/jpg'];
+    const type = ['image/png', 'image/jpeg', 'image/PNG', 'image/JPG', 'image/jpg', 'image/webp'];
     const nameParam = searchParams.get('name');
     const pageParam = searchParams.get('page');
 

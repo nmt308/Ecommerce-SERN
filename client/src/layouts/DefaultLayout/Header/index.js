@@ -48,7 +48,7 @@ function Header() {
     const isPc = viewPort.width > 992;
 
     const user = useSelector((state) => state.headerState.user.name);
-
+    const role = useSelector((state) => state.headerState.user.role);
     const cartQuantity = useSelector((state) => state.headerState.cartQuantity);
 
     const SignOut = () => {
@@ -237,29 +237,31 @@ function Header() {
                                 active: openMenu,
                             })}
                         >
-                            <MenuItem content="Trang quản trị" placement="bottom" isPc={isPc}>
-                                <div
-                                    className={cx('action-item')}
-                                    onClick={() => {
-                                        navigate('/admin/dashboard');
-                                    }}
-                                >
-                                    <button className={cx('btn', 'custom-btn')} ref={btnRef}>
-                                        <div ref={adminIcon1} className={cx('adminIcon1')} />
-                                        <div ref={adminIcon2} className={cx('adminIcon2')} />
-                                    </button>
-                                    <span>Trang quản trị</span>
-                                </div>
-                            </MenuItem>
                             <MenuItem content={`Hi,${user}`} placement="bottom" isPc={isPc}>
                                 <div className={cx('action-item')}>
                                     <button className={cx('btn', 'custom-btn')}>
                                         <div ref={userIcon1} className={cx('userIcon1')} />
                                         <div ref={userIcon2} className={cx('userIcon2')} />
                                     </button>
-                                    <span>User</span>
+                                    <span>Xin chào, {user}</span>
                                 </div>
                             </MenuItem>
+                            {role === 1 && (
+                                <MenuItem content="Trang quản trị" placement="bottom" isPc={isPc}>
+                                    <div
+                                        className={cx('action-item')}
+                                        onClick={() => {
+                                            navigate('/admin/dashboard');
+                                        }}
+                                    >
+                                        <button className={cx('btn', 'custom-btn')} ref={btnRef}>
+                                            <div ref={adminIcon1} className={cx('adminIcon1')} />
+                                            <div ref={adminIcon2} className={cx('adminIcon2')} />
+                                        </button>
+                                        <span>Trang quản trị</span>
+                                    </div>
+                                </MenuItem>
+                            )}
                             <MenuItem content="Đơn hàng" placement="bottom" isPc={isPc}>
                                 <div
                                     className={cx('action-item')}

@@ -6,7 +6,7 @@
     background: var(--sidebar-color);
     transition: var(--tran-05);
     z-index: 100;
-
+    box-shadow: 0 1px 2px 0 rgb(60 64 67 / 0%), 0 2px 6px 2px rgb(60 64 67 / 7%);
     &.dark {
         --body-color: #18191a;
         --sidebar-color: #242526;

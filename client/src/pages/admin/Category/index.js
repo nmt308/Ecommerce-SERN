@@ -204,7 +204,6 @@ function Category() {
                                                 src={category.image}
                                                 alt=""
                                                 style={{ width: '45px', height: '45px' }}
-                                                className="rounded-circle"
                                             />
                                         </td>
                                         <td>

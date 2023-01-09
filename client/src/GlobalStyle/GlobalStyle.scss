@@ -96,7 +96,7 @@ html *::-webkit-scrollbar-track {
 }
 footer {
     // margin-top: auto;
-    margin-top: 48px;
+    margin-top: 32px;
 }
 
 .loading {
@@ -149,7 +149,18 @@ footer {
 .fw-500 {
     font-weight: 500 !important;
 }
-
+.btn-primary {
+    color: #fff;
+    background-color: var(--primary-color) !important;
+    box-shadow: unset !important;
+    &:hover {
+        background-color: #f26c08e8 !important;
+    }
+}
+.page-item.active .page-link {
+    background-color: var(--primary-color) !important;
+    box-shadow: unset !important;
+}
 //CKeditor
 .ck.ck-reset.ck-editor.ck-rounded-corners {
     margin-top: 8px;

@@ -13,11 +13,9 @@ const cx = classNames.bind(Style);
 
 function SideMenu() {
     const [dark, setDark] = useState(false);
-    const [close, setClose] = useState(false);
+
     const [search, setSearch] = useState(null);
 
-    const text = 'Thống kê';
-    console.log(text);
     const handleSearch = (value) => {
         if (!value) {
             setSearch(null);
@@ -29,7 +27,6 @@ function SideMenu() {
         <nav
             className={cx('sidebar', {
                 dark: dark,
-                close: close,
             })}
         >
             <header>
@@ -43,14 +40,6 @@ function SideMenu() {
                         <span className={cx('profession')}>Management</span>
                     </div>
                 </div>
-
-                <MdOutlineKeyboardArrowRight
-                    size={12}
-                    className={cx('toggle')}
-                    onClick={() => {
-                        setClose(!close);
-                    }}
-                />
             </header>
 
             <div className={cx('menu-bar')}>

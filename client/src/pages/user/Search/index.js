@@ -265,26 +265,11 @@ export default function Search() {
                                     <div className={cx('title')}>Loại sản phẩm</div>
                                     <div className={cx('action')}>
                                         {categories.map((category) => {
-                                            let typeCategory;
-                                            switch (category.name) {
-                                                case 'Điện thoại':
-                                                    typeCategory = 'Phone';
-                                                    break;
-                                                case 'Laptop':
-                                                    typeCategory = 'Laptop';
-                                                    break;
-                                                case 'Máy tính bảng':
-                                                    typeCategory = 'Tablet';
-                                                    break;
-
-                                                default:
-                                                    break;
-                                            }
                                             return (
                                                 <button
-                                                    className={cx({ active: type === typeCategory })}
+                                                    className={cx({ active: type === category.name })}
                                                     onClick={() => {
-                                                        handleFilter('type', typeCategory);
+                                                        handleFilter('type', category.name);
                                                     }}
                                                 >
                                                     {category.name}

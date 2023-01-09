@@ -29,15 +29,6 @@ const HomeController = async (req, res) => {
             break;
     }
 
-    switch (typeQuery) {
-        case 'Tablet':
-            typeQuery = 'Máy tính bảng';
-            break;
-        case 'Phone':
-            typeQuery = 'Điện thoại';
-            break;
-    }
-
     switch (priceQuery) {
         case '0_5m':
             priceQuery = [0, 5000000];

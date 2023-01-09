@@ -15,6 +15,7 @@ import {
     Account,
     Feedback,
     News,
+    Notification,
 } from '../pages';
 import { DefaultLayout, AdminLayout } from '../layouts';
 
@@ -47,6 +48,11 @@ export const UserRoute = [
     {
         path: '/order',
         component: MyOrder,
+        layout: DefaultLayout,
+    },
+    {
+        path: '/notification',
+        component: Notification,
         layout: DefaultLayout,
     },
     {
