@@ -6,10 +6,21 @@ import { useDispatch } from 'react-redux';
 import { getUser } from '../../../redux/actions/headerAction';
 import { auth } from '../../../config/Firebase';
 
+import HeadlessTippy from '@tippyjs/react/headless';
+import { Link, useNavigate } from 'react-router-dom';
+
 const cx = classNames.bind(Style);
 function Header() {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
+    const SignOut = () => {
+        setTimeout(() => {
+            auth.signOut().then(() => {
+                navigate('/');
+            });
+        }, 500);
+    };
     useEffect(() => {
         auth.onAuthStateChanged(async (res) => {
             if (!res) {
@@ -21,7 +32,20 @@ function Header() {
     }, []);
     return (
         <div className={cx('header')}>
-            <img src={avatar} alt="" />
+            <HeadlessTippy
+                interactive
+                placement="bottom-end"
+                render={(attrs) => (
+                    <div className={cx('tippy')}>
+                        <Link to="/">Về trang chủ</Link>
+                        <Link onClick={SignOut}>Đăng xuất</Link>
+                    </div>
+                )}
+            >
+                <div className="d-block" style={{ marginLeft: 'auto' }}>
+                    <img src={avatar} alt="" />{' '}
+                </div>
+            </HeadlessTippy>
         </div>
     );
 }

@@ -5,6 +5,23 @@
     display: flex;
     img {
         width: 35px;
-        margin-left: auto;
+    }
+}
+.tippy {
+    font-size: 15px;
+    border-radius: 6px;
+    box-shadow: 0 1px 2px 0 rgb(60 64 67 / 9%), 0 2px 6px 2px rgb(60 64 67 / 5%);
+    text-align: center;
+    margin-top: 4px;
+    background: #fff;
+    padding: 12px 24px;
+    a {
+        display: block;
+        padding: 4px;
+        color: #000;
+        font-weight: 500;
+        + a {
+            margin-top: 12px;
+        }
     }
 }

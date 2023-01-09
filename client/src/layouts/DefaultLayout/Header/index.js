@@ -20,6 +20,7 @@ import lottie from 'lottie-web';
 import { useDispatch, useSelector } from 'react-redux';
 import { cartChange, getUser, userLogin } from '../../../redux/actions/headerAction';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const cx = classNames.bind(Style);
 function Header() {
@@ -27,6 +28,8 @@ function Header() {
 
     const userIcon1 = useRef();
     const userIcon2 = useRef();
+    const adminIcon1 = useRef();
+    const adminIcon2 = useRef();
     const cartIcon1 = useRef();
     const cartIcon2 = useRef();
     const logoutIcon1 = useRef();
@@ -57,6 +60,22 @@ function Header() {
     };
 
     useEffect(() => {
+        lottie.loadAnimation({
+            name: 'admin1',
+            container: adminIcon1.current,
+            renderer: 'svg',
+            loop: false,
+            autoplay: false,
+            animationData: require('../../../assets/icon/admin.json'),
+        });
+        lottie.loadAnimation({
+            name: 'admin2',
+            container: adminIcon2.current,
+            renderer: 'svg',
+            loop: true,
+            autoplay: true,
+            animationData: require('../../../assets/icon/admin.json'),
+        });
         lottie.loadAnimation({
             name: 'user1',
             container: userIcon1.current,
@@ -218,7 +237,21 @@ function Header() {
                                 active: openMenu,
                             })}
                         >
-                            <MenuItem content={`${user}`} placement="bottom" isPc={isPc}>
+                            <MenuItem content="Trang quản trị" placement="bottom" isPc={isPc}>
+                                <div
+                                    className={cx('action-item')}
+                                    onClick={() => {
+                                        navigate('/admin/dashboard');
+                                    }}
+                                >
+                                    <button className={cx('btn', 'custom-btn')} ref={btnRef}>
+                                        <div ref={adminIcon1} className={cx('adminIcon1')} />
+                                        <div ref={adminIcon2} className={cx('adminIcon2')} />
+                                    </button>
+                                    <span>Trang quản trị</span>
+                                </div>
+                            </MenuItem>
+                            <MenuItem content={`Hi,${user}`} placement="bottom" isPc={isPc}>
                                 <div className={cx('action-item')}>
                                     <button className={cx('btn', 'custom-btn')}>
                                         <div ref={userIcon1} className={cx('userIcon1')} />

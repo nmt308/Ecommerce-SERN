@@ -2,6 +2,7 @@ const initialState = {
     user: {
         email: '',
         name: '',
+        role: '',
         isLoading: true,
     },
 

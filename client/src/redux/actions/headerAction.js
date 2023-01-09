@@ -42,11 +42,14 @@ export const getUser = (email) => {
                 },
             });
             const name = res.data.user.name;
+            const role = res.data.user.role;
+
             dispatch({
                 type: 'GET_USER',
                 payload: {
                     email,
                     name,
+                    role: role,
                     isLoading: false,
                 },
             });
@@ -56,6 +59,7 @@ export const getUser = (email) => {
                 payload: {
                     email: '',
                     name: '',
+                    role: '',
                     isLoading: false,
                 },
             });

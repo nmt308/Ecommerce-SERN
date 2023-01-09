@@ -18,7 +18,7 @@ import {
 } from '../pages';
 import { DefaultLayout, AdminLayout } from '../layouts';
 
-export const AllRoute = [
+export const UserRoute = [
     {
         path: '/',
         component: Home,
@@ -54,6 +54,8 @@ export const AllRoute = [
         component: Search,
         layout: DefaultLayout,
     },
+];
+export const AdminRoute = [
     {
         path: '/Admin/Product',
         component: Product,

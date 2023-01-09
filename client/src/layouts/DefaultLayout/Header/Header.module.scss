@@ -32,6 +32,7 @@
 
     &:hover {
         .cartIcon1,
+        .adminIcon1,
         .userIcon1,
         .logoutIcon1,
         .orderIcon1 {
@@ -39,6 +40,7 @@
         }
     }
     &:hover {
+        .adminIcon2,
         .cartIcon2,
         .userIcon2,
         .logoutIcon2,
@@ -89,6 +91,7 @@
 }
 
 .cartIcon1,
+.adminIcon1,
 .userIcon1,
 .logoutIcon1,
 .orderIcon1 {
@@ -101,6 +104,7 @@
 }
 
 .cartIcon2,
+.adminIcon2,
 .userIcon2,
 .logoutIcon2,
 .orderIcon2 {
@@ -118,6 +122,10 @@
 
 .orderIcon1 svg,
 .orderIcon2 svg {
+    width: 90% !important;
+}
+.adminIcon1 svg,
+.adminIcon2 svg {
     width: 90% !important;
 }
 .action.logged {
