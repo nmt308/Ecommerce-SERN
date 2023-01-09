@@ -1,32 +1,12 @@
 //Local
 import Title from '../../../components/Title';
 import notify from '../../../components/Toast';
-import { useNavigateSearch } from '../../../CustomHook';
 import Style from './Account.module.scss';
-import classNames from 'classnames/bind';
 //React
 import React, { useEffect, useState } from 'react';
 import ReactPaginate from 'react-paginate';
 import { useSearchParams } from 'react-router-dom';
-import { MDBBadge, MDBInput, MDBBtn, MDBTable, MDBTableHead, MDBTableBody } from 'mdb-react-ui-kit';
-//Toastify
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-//Redux
-import { useDispatch, useSelector } from 'react-redux';
-import { getAccounts, searchAccount, updateAccount } from '../../../redux/actions/accountAction';
-//Icon
-import { ImSearch } from 'react-icons/im';
-import { AiFillCloseCircle, AiFillEye, AiFillDelete } from 'react-icons/ai';
-import { HiChevronDoubleRight, HiOutlineTruck } from 'react-icons/hi';
-import { BiTimeFive } from 'react-icons/bi';
-import { BsTruck } from 'react-icons/bs';
-import { BsCheck2All } from 'react-icons/bs';
-//Tippy
-import Tippy from '@tippyjs/react';
-import 'tippy.js/dist/tippy.css';
-import axios from 'axios';
-
+import { MDBInput, MDBBtn, MDBTable, MDBTableHead, MDBTableBody } from 'mdb-react-ui-kit';
 import {
     MDBModal,
     MDBModalDialog,
@@ -35,17 +15,37 @@ import {
     MDBModalTitle,
     MDBModalBody,
 } from 'mdb-react-ui-kit';
+import { useNavigateSearch } from '../../../CustomHook';
+//Toastify
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+//Redux
+import { useDispatch, useSelector } from 'react-redux';
+import { getAccounts, searchAccount, updateAccount } from '../../../redux/actions/accountAction';
+//Icon
+import { ImSearch } from 'react-icons/im';
+import { AiFillCloseCircle, AiFillEye } from 'react-icons/ai';
+import { HiChevronDoubleRight } from 'react-icons/hi';
+import { BiTimeFive } from 'react-icons/bi';
+import { BsTruck } from 'react-icons/bs';
+import { BsCheck2All } from 'react-icons/bs';
+//Other
+import Tippy from '@tippyjs/react';
+import 'tippy.js/dist/tippy.css';
+import axios from 'axios';
+import classNames from 'classnames/bind';
+
 const cx = classNames.bind(Style);
 function Account() {
     const [searchText, setSearchText] = useState('');
     const [searchResult, setSearchResult] = useState('');
     const [currentPage, setCurrentPage] = useState(''); // Reset paginate
     const [searchCount, setSearchCount] = useState('');
-    const [searchParams, setSearchParams] = useSearchParams();
     const [render, setRender] = useState(false);
-
     const [basicModal, setBasicModal] = useState(false);
     const [details, setDetails] = useState([]);
+    const [searchParams, setSearchParams] = useSearchParams();
+
     const toggleShow = () => setBasicModal(!basicModal);
 
     let dispatch = useDispatch();

@@ -1,38 +1,34 @@
 //Local
 import CartItem from '../../../components/CartItem';
-
-import payment from '../../../assets/img/payments.png';
 import empty from '../../../assets/icon/emptyorder.png';
 import Style from './Cart.scss';
-
 //React
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { NumericFormat } from 'react-number-format';
+import { MDBBtn, MDBInput } from 'mdb-react-ui-kit';
+import { HiOutlineTicket, HiOutlineShoppingCart } from 'react-icons/hi';
+import { FaChevronRight } from 'react-icons/fa';
 //Toastify
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import notify from '../../../components/Toast';
-//Other
-import classNames from 'classnames/bind';
-import { NumericFormat } from 'react-number-format';
-import { MDBBtn, MDBInput } from 'mdb-react-ui-kit';
+//Redux
 import { useDispatch, useSelector } from 'react-redux';
 import { cartChange, getCartProduct } from '../../../redux/actions/headerAction';
-import { HiOutlineTicket, HiOutlineShoppingCart } from 'react-icons/hi';
-import { FaChevronRight } from 'react-icons/fa';
+//Other
+import classNames from 'classnames/bind';
 import axios from 'axios';
 
 const cx = classNames.bind(Style);
 function Cart() {
     const [render, setRender] = useState(true);
-
-    const listCartProduct = JSON.parse(localStorage.getItem('cart'));
-
     let products = useSelector((state) => state.headerState.cartProducts);
     const cartQuantity = useSelector((state) => state.headerState.cartQuantity);
     const user = useSelector((state) => state.headerState.user);
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const listCartProduct = JSON.parse(localStorage.getItem('cart'));
 
     useEffect(() => {
         window.scrollTo(0, 0);

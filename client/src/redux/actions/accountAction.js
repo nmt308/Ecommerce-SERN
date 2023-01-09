@@ -38,11 +38,11 @@ export const updateAccount = (id, status, page) => {
     };
 };
 
-export const searchAccount = (searchID, currentPage) => {
+export const searchAccount = (email, currentPage) => {
     return async (dispatch) => {
         const res = await axios.get(`http://localhost:8080/api/Account/search`, {
             params: {
-                account_id: searchID,
+                email: email,
                 page: currentPage,
             },
         });

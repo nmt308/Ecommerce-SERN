@@ -2,17 +2,17 @@
 import { useEffect, useState } from 'react';
 import { useParams, useSearchParams } from 'react-router-dom';
 import useNaviagteSearch from '../../../CustomHook/useNavigateSearch';
-import NotFound from '../../../assets/icon/notfound.png';
+import { MDBBtn, MDBModal, MDBModalDialog, MDBModalContent, MDBModalBody } from 'mdb-react-ui-kit';
 //Local
 import ProductItem from '../../../components/ProductItem';
 import classNames from 'classnames/bind';
 import Style from './Search.module.scss';
+import NotFound from '../../../assets/icon/notfound.png';
 //Icon
 import { BiSortDown, BiSortUp, BiFilterAlt } from 'react-icons/bi';
 import { AiOutlinePercentage, AiOutlineLoading3Quarters } from 'react-icons/ai';
 import { HiChevronDoubleDown } from 'react-icons/hi';
 import { MdAttachMoney } from 'react-icons/md';
-
 import { FiTruck } from 'react-icons/fi';
 
 //Redux
@@ -20,36 +20,22 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getProducts } from '../../../redux/actions/searchAction';
 import axios from 'axios';
 
-import {
-    MDBBtn,
-    MDBModal,
-    MDBModalDialog,
-    MDBModalContent,
-    MDBModalHeader,
-    MDBModalTitle,
-    MDBModalBody,
-    MDBModalFooter,
-} from 'mdb-react-ui-kit';
-
 const cx = classNames.bind(Style);
 let params = {};
-
 export default function Search() {
-    const [searchParams, setSearchParams] = useSearchParams();
     const [offset, setOffset] = useState(0);
     const [loading, setLoading] = useState(false);
     const [availableProduct, setAvailableProduct] = useState(0);
     const [brands, setBrands] = useState([]);
     const [categories, setCategories] = useState([]);
     const [basicModal, setBasicModal] = useState(false);
-
-    const toggleShow = () => setBasicModal(!basicModal);
-
+    const [searchParams, setSearchParams] = useSearchParams();
     const { page } = useParams();
-
     const dispatch = useDispatch();
     const navigateSearch = useNaviagteSearch();
     const dataRender = useSelector((state) => state.searchState.products);
+
+    const toggleShow = () => setBasicModal(!basicModal);
 
     const brand = searchParams.get('brand');
     const sort = searchParams.get('sort');

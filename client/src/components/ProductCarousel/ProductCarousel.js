@@ -1,13 +1,18 @@
+//Local
+import CustomButton from './CustomButton';
+import Style from './ProductCarousel.module.scss';
+import ProductItem from '../ProductItem';
+//Carousel
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
-import CustomButton from './CustomButton';
-import axios from 'axios';
-import { useEffect, useState } from 'react';
-import Style from './ProductCarousel.module.scss';
-import classNames from 'classnames/bind';
-import { HiChevronDoubleRight } from 'react-icons/hi';
-import ProductItem from '../ProductItem';
+//React
 import { useNavigateSearch } from '../../CustomHook';
+import { useEffect, useState } from 'react';
+import { HiChevronDoubleRight } from 'react-icons/hi';
+//Other
+import axios from 'axios';
+import classNames from 'classnames/bind';
+
 const cx = classNames.bind(Style);
 function ProductCarousel({ title }) {
     const [products, setProducts] = useState([]);

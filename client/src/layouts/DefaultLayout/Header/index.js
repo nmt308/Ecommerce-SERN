@@ -4,11 +4,11 @@ import logoWeb from '../../../assets/img/logo.png';
 import logoMobile from '../../../assets/icon/logoIcon.png';
 import MenuItem from '../../../components/MenuItem';
 import Search from '../../../components/Search';
+// React
+import { useEffect, useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { useViewport, useNavigateSearch } from '../../../CustomHook';
 import { MDBBtn } from 'mdb-react-ui-kit';
-// React
-import { useContext, useEffect, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
 // Firebase
 import { auth } from '../../../config/Firebase';
 // Other
@@ -18,9 +18,7 @@ import HeadlessTippy from '@tippyjs/react/headless';
 import lottie from 'lottie-web';
 //Redux
 import { useDispatch, useSelector } from 'react-redux';
-import { cartChange, getUser, userLogin } from '../../../redux/actions/headerAction';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { cartChange, getUser } from '../../../redux/actions/headerAction';
 
 const cx = classNames.bind(Style);
 function Header() {
@@ -40,8 +38,8 @@ function Header() {
     const menuRef = useRef();
 
     const navigate = useNavigateSearch();
-    const viewPort = useViewport();
     const dispatch = useDispatch();
+    const viewPort = useViewport();
 
     const isMobile = viewPort.width <= 739;
     const isTablet = viewPort.width > 739 && viewPort.width <= 992;

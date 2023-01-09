@@ -1,11 +1,8 @@
 //Local
 import Title from '../../../components/Title';
-
 //React
 import React from 'react';
-
 import { MDBInput, MDBBtn, MDBTable, MDBTableHead, MDBTableBody } from 'mdb-react-ui-kit';
-
 //Icon
 import { ImSearch } from 'react-icons/im';
 

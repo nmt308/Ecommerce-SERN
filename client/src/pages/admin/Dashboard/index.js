@@ -11,14 +11,17 @@ import axios from 'axios';
 const cx = classNames.bind(Style);
 function Dashboard() {
     const [dashboard, setDashboard] = useState({});
+
     const formatCurrency = (value) => {
         return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(value);
     };
+
     useEffect(() => {
         axios.get('http://localhost:8080/api/dashboard').then((res) => {
             setDashboard(res.data.result);
         });
     }, []);
+
     return (
         <div className="dashboard">
             <Title name="Thống kê cửa hàng" />

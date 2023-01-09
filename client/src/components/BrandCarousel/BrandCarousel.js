@@ -1,13 +1,18 @@
+//Local
+import CustomButton from './CustomButton';
+import Style from './BrandCarousel.module.scss';
+//Carousel
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
-import CustomButton from './CustomButton';
-import axios from 'axios';
+//React
 import { useEffect, useState } from 'react';
-import Style from './BrandCarousel.module.scss';
-import classNames from 'classnames/bind';
-import Skeleton from 'react-loading-skeleton';
-import 'react-loading-skeleton/dist/skeleton.css';
 import useNavigateSearch from '../../CustomHook/useNavigateSearch';
+//Other
+import axios from 'axios';
+import classNames from 'classnames/bind';
+import 'react-loading-skeleton/dist/skeleton.css';
+import Skeleton from 'react-loading-skeleton';
+
 const cx = classNames.bind(Style);
 function BrandCarousel() {
     const [brands, setBrands] = useState([]);
@@ -17,6 +22,7 @@ function BrandCarousel() {
     const handleNavigate = (nameBrand) => {
         navigateSearch('/search/brand', { brand: nameBrand });
     };
+
     useEffect(() => {
         const getBrand = async () => {
             axios

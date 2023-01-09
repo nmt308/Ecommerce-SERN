@@ -1,26 +1,25 @@
 //Local
 import Style from './Search.module.scss';
 import SearchItem from '../SearchItem';
-import { useDebounce } from '../../CustomHook';
 //React
+import { useDebounce, useNavigateSearch } from '../../CustomHook';
 import { useEffect, useRef, useState } from 'react';
 import { AiOutlineLoading3Quarters } from 'react-icons/ai';
-import { useNavigateSearch } from '../../CustomHook';
+import { ImSearch } from 'react-icons/im';
+import { HiChevronDoubleRight } from 'react-icons/hi';
 //Other
 import HeadlessTippy from '@tippyjs/react/headless';
 import classNames from 'classnames/bind';
-import { ImSearch } from 'react-icons/im';
 import axios from 'axios';
-import { HiChevronDoubleRight } from 'react-icons/hi';
+
 const cx = classNames.bind(Style);
 function Search() {
     const [searchResult, setSearchResult] = useState([]);
     const [count, setCount] = useState(0);
-    const navigateSearch = useNavigateSearch();
     const [value, setValue] = useState('');
     const [hideToolTip, setToolTip] = useState(true);
     const [loading, setLoading] = useState(false);
-
+    const navigateSearch = useNavigateSearch();
     const inputRef = useRef();
     const debounce = useDebounce(value, 200);
 

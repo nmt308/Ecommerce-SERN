@@ -1,4 +1,4 @@
-import { Fragment, useEffect } from 'react';
+import { Fragment } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { UserRoute, AdminRoute } from './routes';
 import DefaultLayout from './layouts/DefaultLayout';

@@ -27,7 +27,6 @@ export const addOrderDetail = async (req, res) => {
 };
 
 export const detailUser = async (req, res) => {
-    // const idBrand = req.params.id;
     const email = req.params.email;
 
     const data = await db.Brand.findOne({ where: { email: email }, raw: true });

@@ -1,10 +1,9 @@
 import classNames from 'classnames/bind';
 import Style from './Order.module.scss';
-import { HiChevronDoubleRight, HiOutlineTruck } from 'react-icons/hi';
+import { HiChevronDoubleRight } from 'react-icons/hi';
 import { BiTimeFive } from 'react-icons/bi';
 import { BsTruck } from 'react-icons/bs';
 import { BsCheck2All } from 'react-icons/bs';
-
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigateSearch } from '../../../CustomHook';
@@ -17,12 +16,15 @@ import {
     MDBModalBody,
 } from 'mdb-react-ui-kit';
 import { useSelector } from 'react-redux';
-const cx = classNames.bind(Style);
 
+const cx = classNames.bind(Style);
 const Order = () => {
     const [orders, setOrders] = useState([]);
+    const [basicModal, setBasicModal] = useState(false);
+    const [details, setDetails] = useState([]);
     const navigateSearch = useNavigateSearch();
     const user = useSelector((state) => state.headerState.user);
+
     const formatDate = (date) => {
         var d = new Date(date),
             hour = d.getHours(),
@@ -33,12 +35,13 @@ const Order = () => {
             year = d.getFullYear();
         return `${day}-${month}-${year} ${hour}:${minute}:${second}`;
     };
+
     const formatCurrency = (value) => {
         return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(value);
     };
-    const [basicModal, setBasicModal] = useState(false);
-    const [details, setDetails] = useState([]);
+
     const toggleShow = () => setBasicModal(!basicModal);
+
     useEffect(() => {
         const getOrders = async () => {
             const getUserID = await axios.get('http://localhost:8080/api/user/detail', {

@@ -1,35 +1,38 @@
 //Local
 import Style from './ProductDetail.module.scss';
-
+import ModalSeeDetail from '../../../components/Modal/ModalSeeDetail';
 //React
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
+import { NumericFormat } from 'react-number-format';
+import { MDBBtn } from 'mdb-react-ui-kit';
+import { HiChevronDoubleRight } from 'react-icons/hi';
+//Redux
+import { useDispatch, useSelector } from 'react-redux';
+import { cartChange } from '../../../redux/actions/headerAction';
 //Toastify
 import notify from '../../../components/Toast';
 import { ToastContainer } from 'react-toastify';
 //Other
 import classNames from 'classnames/bind';
-import { NumericFormat } from 'react-number-format';
-import { MDBBtn } from 'mdb-react-ui-kit';
 import axios from 'axios';
 import parse from 'html-react-parser';
-import ModalSeeDetail from '../../../components/Modal/ModalSeeDetail';
-import { HiChevronDoubleRight } from 'react-icons/hi';
-import { useDispatch, useSelector } from 'react-redux';
-import { cartChange } from '../../../redux/actions/headerAction';
 
 const cx = classNames.bind(Style);
 function ProductDetail() {
     const [product, setProduct] = useState('');
-    const [imageCurrent, setImageCurrent] = useState(0);
-    const [searchParams, setSearchParams] = useSearchParams();
-    const name = searchParams.get('name');
     const [basicModal, setBasicModal] = useState(false);
-    let cart = localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : [];
+    const [imageCurrent, setImageCurrent] = useState(0);
+    const [qty, setQty] = useState(1);
+    const [searchParams, setSearchParams] = useSearchParams();
     const dispatch = useDispatch();
-    const user = useSelector((state) => state.headerState.user);
-    const toggleShow = () => setBasicModal(!basicModal);
     const navigate = useNavigate();
+    const user = useSelector((state) => state.headerState.user);
+
+    const name = searchParams.get('name');
+    let cart = localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : [];
+
+    const toggleShow = () => setBasicModal(!basicModal);
 
     useEffect(() => {
         const getProductDetail = async () => {
@@ -42,8 +45,6 @@ function ProductDetail() {
         };
         getProductDetail();
     }, []);
-
-    const [qty, setQty] = useState(1);
 
     useEffect(() => {
         window.scrollTo(0, 0);

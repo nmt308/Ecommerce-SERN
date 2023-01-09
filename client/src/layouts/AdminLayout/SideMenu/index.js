@@ -1,19 +1,21 @@
+//Local
 import Style from './SideMenu.scss';
 import logo1 from '../../../assets/icon/logo1.png';
+//Other
 import classNames from 'classnames/bind';
+//React
 import { useState } from 'react';
+import { NavLink } from 'react-router-dom';
 import { FiSearch } from 'react-icons/fi';
-import { MdOutlineSpaceDashboard, MdOutlineKeyboardArrowRight, MdNightlightRound } from 'react-icons/md';
+import { MdOutlineSpaceDashboard, MdNightlightRound } from 'react-icons/md';
 import { SlSocialDropbox } from 'react-icons/sl';
 import { FiSun } from 'react-icons/fi';
 import { TbReportMoney, TbDiscount2 } from 'react-icons/tb';
 import { BiCategory, BiCheckShield, BiNews, BiUser, BiCommentCheck } from 'react-icons/bi';
-import { NavLink } from 'react-router-dom';
-const cx = classNames.bind(Style);
 
+const cx = classNames.bind(Style);
 function SideMenu() {
     const [dark, setDark] = useState(false);
-
     const [search, setSearch] = useState(null);
 
     const handleSearch = (value) => {

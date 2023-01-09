@@ -6,18 +6,17 @@ import banner from '../../../assets/img/banner4.webp';
 import ship from '../../../assets/img/ship.webp';
 import './Home.scss';
 import ProductCarousel from '../../../components/ProductCarousel/ProductCarousel';
-
 //Other
 import { useEffect, useState } from 'react';
 import classNames from 'classnames';
-import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
 import { useNavigateSearch } from '../../../CustomHook';
+
 const cx = classNames;
 function Home() {
     const [categories, setCategories] = useState([]);
     const navigate = useNavigateSearch();
+
     useEffect(() => {
         axios
             .get('http://localhost:8080/api/categories', {

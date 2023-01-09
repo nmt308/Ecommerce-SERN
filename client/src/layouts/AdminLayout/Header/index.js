@@ -5,7 +5,6 @@ import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { getUser } from '../../../redux/actions/headerAction';
 import { auth } from '../../../config/Firebase';
-
 import HeadlessTippy from '@tippyjs/react/headless';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -21,6 +20,7 @@ function Header() {
             });
         }, 500);
     };
+
     useEffect(() => {
         auth.onAuthStateChanged(async (res) => {
             if (!res) {
@@ -30,6 +30,7 @@ function Header() {
             }
         });
     }, []);
+
     return (
         <div className={cx('header')}>
             <HeadlessTippy

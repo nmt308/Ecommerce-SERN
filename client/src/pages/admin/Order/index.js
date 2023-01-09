@@ -163,7 +163,7 @@ function Order() {
     } else {
         dataRender = orders;
     }
-    console.log(orders);
+
     return (
         <div>
             <Title name="Danh sách đơn hàng" />

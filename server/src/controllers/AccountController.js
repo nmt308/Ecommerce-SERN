@@ -21,9 +21,7 @@ export const getAccount = async (req, res) => {
 };
 
 export const detailUser = async (req, res) => {
-    // const idBrand = req.params.id;
     const email = req.params.email;
-
     const data = await db.Brand.findOne({ where: { email: email }, raw: true });
     return res.status(200).json({ user: data });
 };
@@ -43,15 +41,24 @@ export const editAccount = async (req, res) => {
 
 export const searchAccount = async (req, res) => {
     const email = req.query.email;
-    const user_id = req.query.user_id;
 
-    // const data = await db.User.findAll({
-    //     where: {
-    //         email: email,
-    //     },
-    //     raw: user_id ? true : false,
-    //     account: [['createdAt', 'DESC']],
-    // });
+    const pageCurrent = parseInt(req.query.page) || 1;
+    const pageSize = 4;
+    const offset = (pageCurrent - 1) * pageSize;
 
-    return res.status(200).json({ result: 'vailon' });
+    const data = await db.User.findAll({
+        where: {
+            email: { [Op.substring]: email },
+        },
+        offset: offset,
+        limit: pageSize,
+    });
+
+    const dataCount = await db.User.count({
+        where: {
+            email: { [Op.substring]: email },
+        },
+    });
+
+    return res.status(200).json({ result: data, availableUser: dataCount });
 };
