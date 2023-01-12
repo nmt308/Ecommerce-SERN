@@ -145,11 +145,13 @@ function Header() {
 
     useEffect(() => {
         //Check mobile hoặc tablet mới set height cho menu
-        if (isMobile || isTablet) {
-            if (openMenu) {
-                menuRef.current.style.height = menuRef.current.scrollHeight + 4 + 'px';
-            } else {
-                menuRef.current.style.height = 0;
+        if (menuRef.current) {
+            if (isMobile || isTablet) {
+                if (openMenu) {
+                    menuRef.current.style.height = menuRef.current.scrollHeight + 4 + 'px';
+                } else {
+                    menuRef.current.style.height = 0;
+                }
             }
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -167,9 +169,9 @@ function Header() {
     }, []);
 
     return (
-        <nav className={cx('navbar navbar-expand-lg navbar-light bg-light', 'navbar')}>
+        <nav className={cx('navbar navbar-light bg-light', 'navbar')}>
             <div className="container">
-                <div className="navbar-collapse justify-content-between" id="navbarTogglerDemo01">
+                <div className="navbar-collapse justify-content-between d-flex">
                     <div className={cx({ mobile: isMobile, tablet: isTablet, pc: isPc })}>
                         {isMobile || isTablet ? (
                             <img

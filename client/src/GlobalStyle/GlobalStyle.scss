@@ -87,6 +87,14 @@ html *::-webkit-scrollbar-track {
         max-width: 1250px !important;
     }
 }
+// @media (min-width: 992px) {
+//     .container-lg,
+//     .container-md,
+//     .container-sm,
+//     .container {
+//         max-width: 860px !important;
+//     }
+// }
 .wrapper {
     margin: 0;
     display: flex;
@@ -126,7 +134,9 @@ footer {
         max-height: 70vh;
         overflow-y: overlay;
         &.custom {
-            padding: 32px 20%;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 32px 15%;
             max-height: 80vh;
             img {
                 width: 100%;
@@ -137,6 +147,7 @@ footer {
         margin-bottom: 20px;
     }
     &-dialog {
+        padding: 12px;
         max-width: 750px !important;
         p {
             margin-bottom: 4px;
@@ -173,3 +184,25 @@ footer {
     top: 0;
     left: 0;
 }
+
+//Swiper
+
+//Responsive
+@media (max-width: 739px) {
+    .custom {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        padding: 18px !important;
+        max-height: 75vh;
+    }
+    .modal-dialog.custom {
+        max-width: unset !important;
+    }
+}
+// @media (min-width: 576px) {
+//     .container-sm,
+//     .container {
+//         max-width: 600px !important;
+//     }
+// }

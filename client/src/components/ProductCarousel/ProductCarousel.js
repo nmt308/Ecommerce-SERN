@@ -6,7 +6,7 @@ import ProductItem from '../ProductItem';
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 //React
-import { useNavigateSearch } from '../../CustomHook';
+import { useNavigateSearch, useViewport } from '../../CustomHook';
 import { useEffect, useState } from 'react';
 import { HiChevronDoubleRight } from 'react-icons/hi';
 //Other
@@ -17,7 +17,7 @@ const cx = classNames.bind(Style);
 function ProductCarousel({ title }) {
     const [products, setProducts] = useState([]);
     const navigateSearch = useNavigateSearch();
-
+    const viewPort = useViewport();
     const handleSeeAll = () => {
         navigateSearch(`/search/category`, { type: title });
     };
@@ -36,7 +36,7 @@ function ProductCarousel({ title }) {
         };
         getProduct();
     }, []);
-
+    console.log(viewPort.width);
     return (
         <div>
             <div className={cx('title')}>
@@ -68,6 +68,8 @@ function ProductCarousel({ title }) {
                     keyBoardControl
                     minimumTouchDrag={80}
                     pauseOnHover
+                    autoPlay
+                    infinite
                     renderArrowsWhenDisabled={false}
                     renderButtonGroupOutside={false}
                     renderDotsOutside={false}
@@ -76,23 +78,31 @@ function ProductCarousel({ title }) {
                         desktop: {
                             breakpoint: {
                                 max: 3000,
-                                min: 1024,
+                                min: 1200,
                             },
                             items: 5,
                             partialVisibilityGutter: 15,
                         },
-                        mobile: {
-                            breakpoint: {
-                                max: 464,
-                                min: 0,
-                            },
-                            items: 1,
-                            partialVisibilityGutter: 30,
-                        },
                         tablet: {
                             breakpoint: {
-                                max: 1024,
-                                min: 464,
+                                max: 1199,
+                                min: 992,
+                            },
+                            items: 4,
+                            partialVisibilityGutter: 30,
+                        },
+                        tabletSM: {
+                            breakpoint: {
+                                max: 989,
+                                min: 767,
+                            },
+                            items: 3,
+                            partialVisibilityGutter: 30,
+                        },
+                        mobile: {
+                            breakpoint: {
+                                max: 767,
+                                min: 0,
                             },
                             items: 2,
                             partialVisibilityGutter: 30,
@@ -101,7 +111,7 @@ function ProductCarousel({ title }) {
                     rewind={false}
                     rewindWithAnimation={false}
                     rtl={false}
-                    shouldResetAutoplay
+                    shouldResetAutoplay={true}
                     showDots={false}
                     sliderClass=""
                     slidesToSlide={1}

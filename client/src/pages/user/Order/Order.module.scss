@@ -113,7 +113,22 @@
             margin-top: 8px;
         }
     }
-    // span {
-    //     margin-left: auto;
-    // }
+}
+
+//Responsive
+@media (max-width: 739px) {
+    .product {
+        flex-direction: column;
+    }
+    .header {
+        flex-direction: column;
+    }
+    .status {
+        margin-top: 10px;
+    }
+}
+@media (min-width: 740px) and (max-width: 992px) {
+    .product {
+        flex-direction: column;
+    }
 }

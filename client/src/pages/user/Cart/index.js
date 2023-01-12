@@ -150,7 +150,7 @@ function Cart() {
                 <div className={cx('container cart')}>
                     <div className={cx('row')}>
                         <h4>Giỏ hàng ({products.length}) </h4>
-                        <main className={cx('col-xl-9 col-md-12 col-sm-12 col-12')}>
+                        <main className={cx('main')}>
                             {products.length > 0 ? (
                                 <>
                                     {' '}
@@ -192,7 +192,7 @@ function Cart() {
                                 </span>
                             </div>
                         </main>
-                        <aside className={cx('col-xl-3 col-md-12 col-sm-12 col-12')}>
+                        <aside className={cx('aside')}>
                             <div className={cx('card mb-3')}>
                                 <div className={cx('body')}>
                                     <div className={cx('form-group')}>

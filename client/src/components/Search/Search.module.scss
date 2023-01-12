@@ -108,12 +108,8 @@
     }
 }
 //Responsive
-@media (max-width: 739px) {
-    .search {
-        width: 70%;
-    }
-}
-@media (min-width: 740px) and (max-width: 992px) {
+
+@media (max-width: 993px) {
     .search {
         width: 70%;
     }

@@ -9,7 +9,8 @@
     }
 }
 .content {
-    padding: 24px 56px;
+    overflow-x: scroll;
+    padding: 0 56px;
     padding-top: 0;
     table {
         background-color: #fff;

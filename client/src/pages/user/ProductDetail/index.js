@@ -88,7 +88,7 @@ function ProductDetail() {
 
     return (
         <div className={cx('section-content')}>
-            <div className="container mt-4">
+            <div className="container ">
                 <div className={cx('info')}>
                     <div className="row">
                         <aside className="col-md-6">
@@ -144,20 +144,20 @@ function ProductDetail() {
                                 </div>
 
                                 <dl className="row">
-                                    <dt className="col-sm-3">Hãng sản xuất</dt>
-                                    <dd className="col-sm-9">{product && product.Brand.name}</dd>
+                                    <dt className="col-sm-3 col-md-6">Hãng sản xuất</dt>
+                                    <dd className="col-sm-9 col-md-6">{product && product.Brand.name}</dd>
 
-                                    <dt className="col-sm-3">Bảo hành</dt>
-                                    <dd className="col-sm-9">2 năm</dd>
+                                    <dt className="col-sm-3 col-md-6">Bảo hành</dt>
+                                    <dd className="col-sm-9 col-md-6">2 năm</dd>
 
-                                    <dt className="col-sm-3">Giao hàng</dt>
-                                    <dd className="col-sm-9">2-4 ngày</dd>
+                                    <dt className="col-sm-3 col-md-6">Giao hàng</dt>
+                                    <dd className="col-sm-9 col-md-6">2-4 ngày</dd>
 
-                                    <dt className="col-sm-3">Tình trạng</dt>
+                                    <dt className="col-sm-3 col-md-6">Tình trạng</dt>
                                     {product.quantity > 0 ? (
-                                        <dd className="col-sm-9">Còn hàng ( {product.quantity} còn lại )</dd>
+                                        <dd className="col-sm-9 col-md-6">Còn hàng ( {product.quantity} còn lại )</dd>
                                     ) : (
-                                        <dd className="col-sm-9">Hết hàng</dd>
+                                        <dd className="col-sm-9 col-md-6">Hết hàng</dd>
                                     )}
                                 </dl>
 
@@ -187,7 +187,7 @@ function ProductDetail() {
                     </div>
                 </div>
                 <div className={cx('description')}>
-                    <div className="row">
+                    <div className="row justify-content-around">
                         <div className={cx('col-lg-7', 'description-left')}>
                             <div>
                                 <h5>Mô tả sản phẩm</h5>

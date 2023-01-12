@@ -45,8 +45,8 @@
 
 .description {
     background: #fff;
-    margin-top: 24px;
-    padding: 18px;
+    margin-top: 16px;
+    padding: 24px 18px;
     border-radius: 12px;
     h5 {
         margin-bottom: 16px;
@@ -62,7 +62,6 @@
         overflow: hidden;
     }
     &-right {
-        margin: 0 48px;
         p:nth-child(even) {
             background: #ebebec;
         }
@@ -119,4 +118,34 @@
 
 .title {
     font-weight: 600;
+}
+@media (max-width: 739px) {
+    .title {
+        margin-top: 12px;
+    }
+    .description-left {
+        order: 2;
+        margin-top: 24px !important;
+    }
+    .description-right {
+        order: 1;
+    }
+    .image-display {
+        margin-left: 12px;
+    }
+}
+@media (min-width: 740px) and (max-width: 992px) {
+    .title {
+        margin-top: 12px;
+    }
+    .description-left {
+        order: 2;
+        margin-top: 24px !important;
+    }
+    .description-right {
+        order: 1;
+    }
+    .image-display {
+        margin-left: 18px;
+    }
 }

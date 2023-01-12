@@ -15,6 +15,7 @@ import {
     Account,
     Feedback,
     News,
+    NotFound,
     Notification,
 } from '../pages';
 import { DefaultLayout, AdminLayout } from '../layouts';
@@ -106,5 +107,10 @@ export const AdminRoute = [
         path: '/Admin/News',
         component: News,
         layout: AdminLayout,
+    },
+    {
+        path: '/Admin/NotFound',
+        component: NotFound,
+        layout: false,
     },
 ];

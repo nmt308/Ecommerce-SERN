@@ -3,11 +3,11 @@
     justify-content: space-between;
 }
 .cart {
-    .col-xl-9 {
-        width: 70% !important;
+    .main {
+        width: 70%;
     }
-    .col-xl-3 {
-        width: 30% !important;
+    .aside {
+        width: 30%;
     }
 }
 .text-right {
@@ -56,5 +56,44 @@
     hr {
         margin: 0;
         margin-bottom: 18px;
+    }
+}
+@media (max-width: 739px) {
+    .cart {
+        .main {
+            width: 100%;
+        }
+        .aside {
+            width: 100%;
+        }
+    }
+    .alert {
+        font-size: 14px;
+    }
+}
+@media (min-width: 740px) and (max-width: 992px) {
+    .cart {
+        .main {
+            width: 100%;
+        }
+        .aside {
+            width: 100%;
+        }
+    }
+    .alert {
+        font-size: 14px;
+    }
+}
+@media (min-width: 993px) and (max-width: 1199px) {
+    .cart {
+        .main {
+            width: 65%;
+        }
+        .aside {
+            width: 35%;
+        }
+    }
+    .alert {
+        font-size: 14px;
     }
 }

@@ -1,18 +1,15 @@
 //Local
 import Carousel from '../../../components/Carousel';
 import BrandCarousel from '../../../components/BrandCarousel/BrandCarousel';
-import { useViewport } from '../../../CustomHook';
 import banner from '../../../assets/img/banner4.webp';
 import ship from '../../../assets/img/ship.webp';
 import './Home.scss';
 import ProductCarousel from '../../../components/ProductCarousel/ProductCarousel';
 //Other
 import { useEffect, useState } from 'react';
-import classNames from 'classnames';
 import axios from 'axios';
 import { useNavigateSearch } from '../../../CustomHook';
 
-const cx = classNames;
 function Home() {
     const [categories, setCategories] = useState([]);
     const navigate = useNavigateSearch();
@@ -32,18 +29,14 @@ function Home() {
     useEffect(() => {
         window.scrollTo(0, 0);
     }, []);
-    //Open category
-
-    const viewPort = useViewport();
-    const isMobile = viewPort.width <= 739;
 
     return (
         <div className="container page-content">
             <div className="row">
-                <div className="col col-lg-9 ">
+                <div className="col col-lg-12 col-xl-9 ">
                     <Carousel />
                 </div>
-                <div className="col col-lg-3 d-none d-sm-none d-md-block">
+                <div className="col col-xl-3 d-none d-sm-none d-md-none d-lg-none d-xl-block">
                     <div className="policy-list">
                         <div className="policy-item">
                             <p>Bảo hành tận tâm</p>
@@ -68,7 +61,7 @@ function Home() {
                     navigate('/notification');
                 }}
             />
-            <h5 style={{ fontWeight: '700', marginBottom: '16px', marginTop: '8px' }}>Thương hiệu nổi bật</h5>
+            <h5 style={{ fontWeight: '700', marginBottom: '0', marginTop: '8px' }}>Thương hiệu nổi bật</h5>
             <BrandCarousel />
             <ProductCarousel title="Laptop" />
             <ProductCarousel title="Điện thoại" />
@@ -76,7 +69,7 @@ function Home() {
 
             <div className="category-home">
                 <h5 style={{ fontWeight: '700', marginBottom: 0 }}>Tất cả danh mục</h5>
-                <div className="row row-cols-5">
+                <div className="row row-cols-3 row-cols-md-5 row-cols-lg-5">
                     {categories.map((category, index) => {
                         return (
                             <div className="col" key={index}>

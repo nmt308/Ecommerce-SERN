@@ -293,11 +293,11 @@ export default function Search() {
 
             {dataRender.length === 0 ? (
                 <div className="text-center">
-                    <img src={NotFound} alt="404" />
+                    <img src={NotFound} alt="404" style={{ width: '100%' }} />
                     <p style={{ fontSize: '20px', fontWeight: '500' }}>Không tìm thấy dữ liệu tương ứng</p>
                 </div>
             ) : (
-                <div className="row row-cols-5">
+                <div className="row row-cols-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5">
                     {dataRender.map((product) => (
                         <div key={product.id} className="col" style={{ paddingRight: 0, marginTop: '12px' }}>
                             <ProductItem data={product} width="100%" />

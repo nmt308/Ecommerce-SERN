@@ -7,11 +7,20 @@ import { getUser } from '../../../redux/actions/headerAction';
 import { auth } from '../../../config/Firebase';
 import HeadlessTippy from '@tippyjs/react/headless';
 import { Link, useNavigate } from 'react-router-dom';
-
+import { useViewport } from '../../../CustomHook';
 const cx = classNames.bind(Style);
 function Header() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
+
+    const viewPort = useViewport();
+    const isMobile = viewPort.width < 650;
+
+    useEffect(() => {
+        if (isMobile) {
+            navigate('/Admin/NotFound');
+        }
+    }, []);
 
     const SignOut = () => {
         setTimeout(() => {

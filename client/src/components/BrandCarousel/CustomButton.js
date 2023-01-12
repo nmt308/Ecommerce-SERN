@@ -7,6 +7,10 @@ const CustomButton = ({ next, previous, goToSlide, ...rest }) => {
     const {
         carouselState: { currentSlide },
     } = rest;
+    const {
+        carouselState: { slidesToShow },
+    } = rest;
+
     return (
         <div className={cx('carousel-button-group')}>
             <button
@@ -19,7 +23,7 @@ const CustomButton = ({ next, previous, goToSlide, ...rest }) => {
             </button>
             <button
                 className={cx('btn', 'custom-btn', {
-                    disable: currentSlide === 3,
+                    disable: currentSlide === slidesToShow - 1,
                 })}
                 onClick={() => next()}
             >

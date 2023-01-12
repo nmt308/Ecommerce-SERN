@@ -104,3 +104,9 @@
     font-size: 12px;
     padding: 2px;
 }
+//Responsive
+@media (min-width: 767px) and (max-width: 992px) {
+    .product-img {
+        height: 150px;
+    }
+}

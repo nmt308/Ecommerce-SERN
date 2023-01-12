@@ -16,3 +16,4 @@ export { default as Account } from './admin/Account';
 export { default as Dashboard } from './admin/Dashboard';
 export { default as Feedback } from './admin/Feedback';
 export { default as News } from './admin/News';
+export { default as NotFound } from './admin/NotFound';

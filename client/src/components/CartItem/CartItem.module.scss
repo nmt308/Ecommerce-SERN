@@ -73,3 +73,14 @@
 .remove {
     margin-left: auto;
 }
+
+//Responsive
+@media (max-width: 739px) {
+    .item {
+        align-items: unset;
+        flex-direction: column;
+    }
+    .quantity {
+        margin: unset;
+    }
+}

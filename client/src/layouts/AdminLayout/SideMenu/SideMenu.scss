@@ -2,6 +2,7 @@
 .sidebar {
     height: 100vh;
     width: 20%;
+    min-width: 240px;
     padding: 10px 14px;
     background: var(--sidebar-color);
     transition: var(--tran-05);
@@ -15,9 +16,7 @@
         --toggle-color: #fff;
         --text-color: #ccc;
     }
-    &.close {
-        width: 88px;
-    }
+
     li {
         height: 50px;
         list-style: none;
@@ -120,9 +119,9 @@ header .image-text .profession {
     color: var(--text-color);
 }
 
-.sidebar.close .toggle {
-    transform: translateY(-50%) rotate(0deg);
-}
+// .sidebar.close .toggle {
+//     transform: translateY(-50%) rotate(0deg);
+// }
 
 .sidebar .menu {
     margin-top: 20px;
@@ -275,15 +274,42 @@ header .image-text .profession {
     padding: 12px 60px;
 }
 
-.sidebar.close ~ .home {
-    left: 78px;
-    height: 100vh;
-    width: calc(100% - 78px);
-}
 .sidebar.dark .home .text {
     color: var(--text-color);
 }
 
 .nav-link {
     cursor: pointer;
+}
+.sidebar header .toggle {
+    cursor: pointer;
+    display: none;
+}
+.sidemenu-bar {
+    cursor: pointer;
+    display: none;
+}
+//Responsive
+@media (max-width: 1250px) {
+    .sidebar header .toggle {
+        display: block;
+    }
+    .sidebar.close {
+        position: fixed;
+        transform: translateX(-255px);
+        transition: 0.5s ease;
+    }
+    .sidebar.open {
+        position: fixed;
+        z-index: 999;
+        transition: 0.5s ease;
+        transform: translateX(0);
+    }
+    .sidemenu-bar {
+        position: absolute;
+        display: block;
+        z-index: 998;
+        color: #fff;
+        padding: 15px 24px;
+    }
 }
