@@ -54,7 +54,7 @@ export const editOrder = async (req, res) => {
         const idOrder = req.params.id;
         const status = req.body.status;
         const order = await db.Order.findOne({ where: { id: idOrder } });
-        console.log(status);
+
         order.status = status;
         await order.save();
         return res.status(200).json({ message: 'Cập nhật thành công' });

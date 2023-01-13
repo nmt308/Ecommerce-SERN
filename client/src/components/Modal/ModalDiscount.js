@@ -77,7 +77,6 @@ function ModalDiscount({ modalAdd, setModalAdd, modalUpdate, setModalUpdate, tog
             name,
             image: url,
         };
-        console.log(data);
 
         const res = await dispatch(addDiscount(data, pageParam));
         notify(res.type, res.message);

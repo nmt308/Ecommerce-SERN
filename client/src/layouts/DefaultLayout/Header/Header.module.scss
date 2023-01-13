@@ -164,6 +164,9 @@
 .signin {
     display: none;
 }
+.authentication {
+    height: 100% !important;
+}
 //Responsive
 @media (max-width: 992px) {
     .mobile {
@@ -188,6 +191,7 @@
         display: block;
     }
     .authentication {
+        height: 100% !important;
         display: none;
     }
     .action.logged {

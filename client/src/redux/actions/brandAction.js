@@ -1,9 +1,9 @@
-import axios from 'axios';
+import request from '../../utils/request';
 
 export const getBrands = (currentPage) => {
     // Thunk action creator return 1 thunk action (1 action trả về 1 function)
     return async (dispatch) => {
-        const res = await axios.get('http://localhost:8080/api/brands', {
+        const res = await request.get('/brands', {
             params: {
                 page: currentPage,
             },
@@ -20,7 +20,7 @@ export const getBrands = (currentPage) => {
 export const getDetailBrand = (id) => {
     // Thunk action creator return 1 thunk action (1 action trả về 1 function)
     return async (dispatch) => {
-        const res = await axios.get(`http://localhost:8080/api/brand/detail/${id}`);
+        const res = await request.get(`/brand/detail/${id}`);
         const brand = res.data.brand;
         dispatch({
             type: 'GET_DETAIL_BRAND',
@@ -32,7 +32,7 @@ export const getDetailBrand = (id) => {
 
 export const addBrand = (data, page) => {
     return async (dispatch) => {
-        const res = await axios.post('http://localhost:8080/api/brand/add', data);
+        const res = await request.post('/brand/add', data);
         if (res.status === 200) {
             dispatch(getBrands(page));
             return {
@@ -50,7 +50,7 @@ export const addBrand = (data, page) => {
 
 export const updateBrand = (id, data, page) => {
     return async (dispatch) => {
-        const res = await axios.put(`http://localhost:8080/api/brand/edit/${id}`, data);
+        const res = await request.put(`/brand/edit/${id}`, data);
         if (res.status === 200) {
             dispatch(getBrands(page));
             return {
@@ -68,7 +68,7 @@ export const updateBrand = (id, data, page) => {
 
 export const deleteBrand = (id, page) => {
     return async (dispatch) => {
-        const res = await axios.delete(`http://localhost:8080/api/brand/delete/${id}`);
+        const res = await request.delete(`/brand/delete/${id}`);
         if (res.status === 200) {
             dispatch(getBrands(page));
             return {
@@ -86,7 +86,7 @@ export const deleteBrand = (id, page) => {
 
 export const searchBrand = (searchText, currentPage) => {
     return async (dispatch) => {
-        const res = await axios.get(`http://localhost:8080/api/brand/search`, {
+        const res = await request.get(`/brand/search`, {
             params: {
                 name: searchText,
                 page: currentPage,

@@ -1,9 +1,8 @@
-import axios from 'axios';
-
+import request from '../../utils/request';
 export const getOrders = (currentPage) => {
     // Thunk action creator return 1 thunk action (1 action trả về 1 function)
     return async (dispatch) => {
-        const res = await axios.get('http://localhost:8080/api/orders', {
+        const res = await request.get('/orders', {
             params: {
                 page: currentPage,
             },
@@ -20,7 +19,7 @@ export const getOrders = (currentPage) => {
 export const getDetailOrder = (id) => {
     // Thunk action creator return 1 thunk action (1 action trả về 1 function)
     return async (dispatch) => {
-        const res = await axios.get(`http://localhost:8080/api/Order/detail/${id}`);
+        const res = await request.get(`/Order/detail/${id}`);
         const Order = res.data.Order;
         dispatch({
             type: 'GET_DETAIL_ORDER',
@@ -31,7 +30,7 @@ export const getDetailOrder = (id) => {
 };
 export const updateOrder = (id, status, page) => {
     return async (dispatch) => {
-        const res = await axios.put(`http://localhost:8080/api/Order/edit/${id}`, {
+        const res = await request.put(`/Order/edit/${id}`, {
             status,
         });
         if (res.status === 200) {
@@ -51,7 +50,7 @@ export const updateOrder = (id, status, page) => {
 
 export const searchOrder = (searchID, currentPage) => {
     return async (dispatch) => {
-        const res = await axios.get(`http://localhost:8080/api/Order/search`, {
+        const res = await request.get(`/Order/search`, {
             params: {
                 order_id: searchID,
                 page: currentPage,

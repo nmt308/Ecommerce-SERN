@@ -7,7 +7,7 @@ import './Home.scss';
 import ProductCarousel from '../../../components/ProductCarousel/ProductCarousel';
 //Other
 import { useEffect, useState } from 'react';
-import axios from 'axios';
+import request from '../../../utils/request';
 import { useNavigateSearch } from '../../../CustomHook';
 
 function Home() {
@@ -15,8 +15,8 @@ function Home() {
     const navigate = useNavigateSearch();
 
     useEffect(() => {
-        axios
-            .get('http://localhost:8080/api/categories', {
+        request
+            .get('/categories', {
                 params: {
                     getAll: 'true',
                 },

@@ -1,9 +1,9 @@
-import axios from 'axios';
+import request from '../../utils/request';
 
 export const getCategories = (currentPage) => {
     // Thunk action creator return 1 thunk action (1 action trả về 1 function)
     return async (dispatch) => {
-        const res = await axios.get('http://localhost:8080/api/categories', {
+        const res = await request.get('/categories', {
             params: {
                 page: currentPage,
             },
@@ -20,7 +20,7 @@ export const getCategories = (currentPage) => {
 export const getDetailCategory = (id) => {
     // Thunk action creator return 1 thunk action (1 action trả về 1 function)
     return async (dispatch) => {
-        const res = await axios.get(`http://localhost:8080/api/category/detail/${id}`);
+        const res = await request.get(`/category/detail/${id}`);
         const category = res.data.category;
         dispatch({
             type: 'GET_DETAIL_CATEGORY',
@@ -32,7 +32,7 @@ export const getDetailCategory = (id) => {
 
 export const addCategory = (data, page) => {
     return async (dispatch) => {
-        const res = await axios.post('http://localhost:8080/api/category/add', data);
+        const res = await request.post('/category/add', data);
         if (res.status === 200) {
             dispatch(getCategories(page));
             return {
@@ -50,7 +50,7 @@ export const addCategory = (data, page) => {
 
 export const updateCategory = (id, data, page) => {
     return async (dispatch) => {
-        const res = await axios.put(`http://localhost:8080/api/category/edit/${id}`, data);
+        const res = await request.put(`/category/edit/${id}`, data);
         if (res.status === 200) {
             dispatch(getCategories(page));
             return {
@@ -68,7 +68,7 @@ export const updateCategory = (id, data, page) => {
 
 export const deleteCategory = (id, page) => {
     return async (dispatch) => {
-        const res = await axios.delete(`http://localhost:8080/api/category/delete/${id}`);
+        const res = await request.delete(`/category/delete/${id}`);
         console.log(res);
         if (res.status === 200) {
             dispatch(getCategories(page));
@@ -87,7 +87,7 @@ export const deleteCategory = (id, page) => {
 
 export const searchCategory = (searchText, currentPage) => {
     return async (dispatch) => {
-        const res = await axios.get(`http://localhost:8080/api/category/search`, {
+        const res = await request.get(`/category/search`, {
             params: {
                 name: searchText,
                 page: currentPage,

@@ -6,7 +6,7 @@ import { BsCartCheck, BsBoxSeam } from 'react-icons/bs';
 import { HiUserGroup } from 'react-icons/hi';
 import BarChart from '../../../components/BarChart';
 import { useEffect, useState } from 'react';
-import axios from 'axios';
+import request from '../../../utils/request';
 
 const cx = classNames.bind(Style);
 function Dashboard() {
@@ -17,7 +17,7 @@ function Dashboard() {
     };
 
     useEffect(() => {
-        axios.get('http://localhost:8080/api/dashboard').then((res) => {
+        request.get('/dashboard').then((res) => {
             setDashboard(res.data.result);
         });
     }, []);

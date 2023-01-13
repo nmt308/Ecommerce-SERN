@@ -10,7 +10,7 @@ import { HiChevronDoubleRight } from 'react-icons/hi';
 //Other
 import HeadlessTippy from '@tippyjs/react/headless';
 import classNames from 'classnames/bind';
-import axios from 'axios';
+import request from '../../utils/request';
 
 const cx = classNames.bind(Style);
 function Search() {
@@ -56,7 +56,7 @@ function Search() {
         }
         setLoading(true);
         const searchProducts = async () => {
-            const res = await axios.get('http://localhost:8080/api/product/search', {
+            const res = await request.get('/product/search', {
                 params: {
                     name: debounce,
                 },

@@ -6,37 +6,37 @@ import ProductItem from '../ProductItem';
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 //React
-import { useNavigateSearch, useViewport } from '../../CustomHook';
+import { useNavigateSearch } from '../../CustomHook';
 import { useEffect, useState } from 'react';
 import { HiChevronDoubleRight } from 'react-icons/hi';
 //Other
-import axios from 'axios';
+import request from '../../utils/request';
 import classNames from 'classnames/bind';
 
 const cx = classNames.bind(Style);
 function ProductCarousel({ title }) {
     const [products, setProducts] = useState([]);
     const navigateSearch = useNavigateSearch();
-    const viewPort = useViewport();
+
     const handleSeeAll = () => {
         navigateSearch(`/search/category`, { type: title });
     };
 
     useEffect(() => {
         const getProduct = async () => {
-            axios
-                .get('http://localhost:8080/api/products', {
+            request
+                .get('/search', {
                     params: {
-                        limit: 8,
+                        type: title,
                     },
                 })
                 .then((data) => {
-                    setProducts(data.data.products);
+                    setProducts(data.data.result);
                 });
         };
         getProduct();
     }, []);
-    console.log(viewPort.width);
+
     return (
         <div>
             <div className={cx('title')}>

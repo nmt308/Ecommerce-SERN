@@ -1,9 +1,9 @@
-import axios from 'axios';
+import request from '../../utils/request';
 
 export const getProducts = (currentPage) => {
     // Thunk action creator return 1 thunk action (1 action trả về 1 function)
     return async (dispatch) => {
-        const res = await axios.get('http://localhost:8080/api/products', {
+        const res = await request.get('/products', {
             params: {
                 page: currentPage,
             },
@@ -20,7 +20,7 @@ export const getProducts = (currentPage) => {
 export const getDetailProduct = (id) => {
     // Thunk action creator return 1 thunk action (1 action trả về 1 function)
     return async (dispatch) => {
-        const res = await axios.get(`http://localhost:8080/api/product/detail`, {
+        const res = await request.get(`/product/detail`, {
             params: {
                 id,
             },
@@ -36,7 +36,7 @@ export const getDetailProduct = (id) => {
 
 export const addProduct = (data, page) => {
     return async (dispatch) => {
-        const res = await axios.post('http://localhost:8080/api/product/add', data);
+        const res = await request.post('/product/add', data);
         if (res.status === 200) {
             dispatch(getProducts(page));
             return {
@@ -54,7 +54,7 @@ export const addProduct = (data, page) => {
 
 export const updateProduct = (id, data, page) => {
     return async (dispatch) => {
-        const res = await axios.put(`http://localhost:8080/api/product/edit/${id}`, data);
+        const res = await request.put(`/product/edit/${id}`, data);
         if (res.status === 200) {
             dispatch(getProducts(page));
             return {
@@ -72,7 +72,7 @@ export const updateProduct = (id, data, page) => {
 
 export const deleteProduct = (id, page) => {
     return async (dispatch) => {
-        const res = await axios.delete(`http://localhost:8080/api/product/delete/${id}`);
+        const res = await request.delete(`/product/delete/${id}`);
         if (res.status === 200) {
             dispatch(getProducts(page));
             return {
@@ -90,7 +90,7 @@ export const deleteProduct = (id, page) => {
 
 export const searchProduct = (searchText, currentPage) => {
     return async (dispatch) => {
-        const res = await axios.get(`http://localhost:8080/api/product/search`, {
+        const res = await request.get(`/product/search`, {
             params: {
                 name: searchText,
                 page: currentPage,

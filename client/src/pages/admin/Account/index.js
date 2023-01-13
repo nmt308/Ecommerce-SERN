@@ -32,7 +32,7 @@ import { BsCheck2All } from 'react-icons/bs';
 //Other
 import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
-import axios from 'axios';
+import request from '../../../utils/request';
 import classNames from 'classnames/bind';
 
 const cx = classNames.bind(Style);
@@ -135,7 +135,7 @@ function Account() {
     };
 
     const handleSeeDetail = async (accountID) => {
-        const getAccountDetail = await axios.get('http://localhost:8080/api/order/search', {
+        const getAccountDetail = await request.get('/order/search', {
             params: {
                 user_id: accountID,
             },

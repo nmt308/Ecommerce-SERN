@@ -1,9 +1,9 @@
-import axios from 'axios';
+import request from '../../utils/request';
 
 export const getDiscounts = (currentPage) => {
     // Thunk action creator return 1 thunk action (1 action trả về 1 function)
     return async (dispatch) => {
-        const res = await axios.get('http://localhost:8080/api/discounts', {
+        const res = await request.get('/discounts', {
             params: {
                 page: currentPage,
             },
@@ -20,7 +20,7 @@ export const getDiscounts = (currentPage) => {
 export const getDetailDiscount = (id) => {
     // Thunk action creator return 1 thunk action (1 action trả về 1 function)
     return async (dispatch) => {
-        const res = await axios.get(`http://localhost:8080/api/discount/detail/${id}`);
+        const res = await request.get(`/discount/detail/${id}`);
         const discount = res.data.discount;
         dispatch({
             type: 'GET_DETAIL_DISCOUNT',
@@ -32,7 +32,7 @@ export const getDetailDiscount = (id) => {
 
 export const addDiscount = (data, page) => {
     return async (dispatch) => {
-        const res = await axios.post('http://localhost:8080/api/discount/add', data);
+        const res = await request.post('/discount/add', data);
         if (res.status === 200) {
             dispatch(getDiscounts(page));
             return {
@@ -50,7 +50,7 @@ export const addDiscount = (data, page) => {
 
 export const updateDiscount = (id, data, page) => {
     return async (dispatch) => {
-        const res = await axios.put(`http://localhost:8080/api/discount/edit/${id}`, data);
+        const res = await request.put(`/discount/edit/${id}`, data);
         if (res.status === 200) {
             dispatch(getDiscounts(page));
             return {
@@ -68,7 +68,7 @@ export const updateDiscount = (id, data, page) => {
 
 export const deleteDiscount = (id, page) => {
     return async (dispatch) => {
-        const res = await axios.delete(`http://localhost:8080/api/discount/delete/${id}`);
+        const res = await request.delete(`/discount/delete/${id}`);
         if (res.status === 200) {
             dispatch(getDiscounts(page));
             return {
@@ -86,7 +86,7 @@ export const deleteDiscount = (id, page) => {
 
 export const searchDiscount = (searchText, currentPage) => {
     return async (dispatch) => {
-        const res = await axios.get(`http://localhost:8080/api/discount/search`, {
+        const res = await request.get(`/discount/search`, {
             params: {
                 name: searchText,
                 page: currentPage,

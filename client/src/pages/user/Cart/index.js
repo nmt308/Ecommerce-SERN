@@ -18,7 +18,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { cartChange, getCartProduct } from '../../../redux/actions/headerAction';
 //Other
 import classNames from 'classnames/bind';
-import axios from 'axios';
+import request from '../../../utils/request';
 
 const cx = classNames.bind(Style);
 function Cart() {
@@ -111,7 +111,7 @@ function Cart() {
             notify('warning', 'Đơn hàng đang trống !');
             return;
         }
-        const getUserID = await axios.get('http://localhost:8080/api/user/detail', {
+        const getUserID = await request.get('/user/detail', {
             params: {
                 email: user.email,
             },
@@ -124,7 +124,7 @@ function Cart() {
             total: TotalPrice,
         };
 
-        await axios.post('http://localhost:8080/api/order/add', order).then((res) => {
+        await request.post('/order/add', order).then((res) => {
             listCartProduct.forEach((detail) => {
                 const orderDetail = {
                     order_id: res.data.result.id,
@@ -132,7 +132,7 @@ function Cart() {
                     price: products.filter((item) => item.id === detail.id)[0].price * detail.quantity,
                     quantity: detail.quantity,
                 };
-                axios.post('http://localhost:8080/api/orderDetail/add', orderDetail);
+                request.post('/orderDetail/add', orderDetail);
             });
             notify(res.data.type, res.data.message);
         });

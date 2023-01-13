@@ -20,7 +20,7 @@
         }
         &:hover {
             img {
-                transform: scale(1.1);
+                transform: scale(1.05);
             }
         }
     }
@@ -31,7 +31,7 @@
         justify-content: center;
         height: 175px;
         img {
-            width: 85%;
+            width: 75%;
             position: relative;
             transition: 0.3s ease;
         }

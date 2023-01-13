@@ -18,7 +18,7 @@ import { FiTruck } from 'react-icons/fi';
 //Redux
 import { useDispatch, useSelector } from 'react-redux';
 import { getProducts } from '../../../redux/actions/searchAction';
-import axios from 'axios';
+import request from '../../../utils/request';
 
 const cx = classNames.bind(Style);
 let params = {};
@@ -131,7 +131,7 @@ export default function Search() {
     useEffect(() => {
         if (page === 'brand' || page === 'product') {
             const getCategories = async () => {
-                const res = await axios.get('http://localhost:8080/api/categories', {
+                const res = await request.get('/categories', {
                     params: {
                         getAll: true,
                     },
@@ -142,7 +142,7 @@ export default function Search() {
         }
         if (page === 'category' || page === 'product') {
             const getBrands = async () => {
-                const res = await axios.get('http://localhost:8080/api/brands', {
+                const res = await request.get('/brands', {
                     params: {
                         getAll: true,
                     },
@@ -293,8 +293,8 @@ export default function Search() {
 
             {dataRender.length === 0 ? (
                 <div className="text-center">
-                    <img src={NotFound} alt="404" style={{ width: '100%' }} />
-                    <p style={{ fontSize: '20px', fontWeight: '500' }}>Không tìm thấy dữ liệu tương ứng</p>
+                    <img src={NotFound} alt="404" style={{ width: '100%', maxWidth: '450px' }} />
+                    <p style={{ fontSize: '20px', fontWeight: '500' }}>Không tìm thấy sản phẩm nào</p>
                 </div>
             ) : (
                 <div className="row row-cols-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5">

@@ -14,7 +14,7 @@ import {
 import { useEffect, useRef, useState } from 'react';
 import { AiOutlineLoading3Quarters } from 'react-icons/ai';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import axios from 'axios';
+import request from '../../utils/request';
 //Toastify
 import notify from '../Toast';
 import { ToastContainer } from 'react-toastify';
@@ -67,6 +67,7 @@ function ModalProduct({ modalAdd, setModalAdd, modalUpdate, setModalUpdate, togg
         setSpecification('');
         setImage(null);
         setQuantity('');
+        URLImageLocal.current = [];
     };
 
     const handleImage = (e) => {
@@ -205,8 +206,8 @@ function ModalProduct({ modalAdd, setModalAdd, modalUpdate, setModalUpdate, togg
     };
 
     useEffect(() => {
-        axios
-            .get('http://localhost:8080/api/brands', {
+        request
+            .get('/brands', {
                 params: {
                     getAll: 'true',
                 },
@@ -214,8 +215,8 @@ function ModalProduct({ modalAdd, setModalAdd, modalUpdate, setModalUpdate, togg
             .then((data) => {
                 listBrands.current = data.data.brands;
             });
-        axios
-            .get('http://localhost:8080/api/categories', {
+        request
+            .get('/categories', {
                 params: {
                     getAll: 'true',
                 },

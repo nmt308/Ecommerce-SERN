@@ -202,7 +202,7 @@ function Product() {
                                             <img
                                                 src={product.image.split(',')[0]}
                                                 alt=""
-                                                style={{ width: '45px', height: '45px' }}
+                                                style={{ width: '45px', height: '40px' }}
                                             />
                                         </td>
                                         <td style={{ fontSize: '14px' }}>

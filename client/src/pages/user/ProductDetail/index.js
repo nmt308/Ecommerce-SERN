@@ -15,7 +15,7 @@ import notify from '../../../components/Toast';
 import { ToastContainer } from 'react-toastify';
 //Other
 import classNames from 'classnames/bind';
-import axios from 'axios';
+import request from '../../../utils/request';
 import parse from 'html-react-parser';
 
 const cx = classNames.bind(Style);
@@ -36,7 +36,7 @@ function ProductDetail() {
 
     useEffect(() => {
         const getProductDetail = async () => {
-            const res = await axios.get(`http://localhost:8080/api/product/detail`, {
+            const res = await request.get(`/product/detail`, {
                 params: {
                     name: name,
                 },
@@ -144,24 +144,28 @@ function ProductDetail() {
                                 </div>
 
                                 <dl className="row">
-                                    <dt className="col-sm-3 col-md-6">Hãng sản xuất</dt>
-                                    <dd className="col-sm-9 col-md-6">{product && product.Brand.name}</dd>
+                                    <dt className="col-6 col-sm-4 col-md-6 col-lg-4">Hãng sản xuất</dt>
+                                    <dd className="col-6 col-sm-8 col-md-6 col-lg-8">
+                                        {product && product.Brand.name}
+                                    </dd>
 
-                                    <dt className="col-sm-3 col-md-6">Bảo hành</dt>
-                                    <dd className="col-sm-9 col-md-6">2 năm</dd>
+                                    <dt className="col-6 col-sm-4 col-md-6 col-lg-4">Bảo hành</dt>
+                                    <dd className="col-6 col-sm-8 col-md-6 col-lg-8">2 năm</dd>
 
-                                    <dt className="col-sm-3 col-md-6">Giao hàng</dt>
-                                    <dd className="col-sm-9 col-md-6">2-4 ngày</dd>
+                                    <dt className="col-6 col-sm-4 col-md-6 col-lg-4">Giao hàng</dt>
+                                    <dd className="col-6 col-sm-8 col-md-6 col-lg-8">2-4 ngày</dd>
 
-                                    <dt className="col-sm-3 col-md-6">Tình trạng</dt>
+                                    <dt className="col-6 col-sm-4 col-md-6 col-lg-4">Tình trạng</dt>
                                     {product.quantity > 0 ? (
-                                        <dd className="col-sm-9 col-md-6">Còn hàng ( {product.quantity} còn lại )</dd>
+                                        <dd className="col-6 col-sm-8 col-md-6 col-lg-8">
+                                            Còn hàng ( {product.quantity} còn lại )
+                                        </dd>
                                     ) : (
-                                        <dd className="col-sm-9 col-md-6">Hết hàng</dd>
+                                        <dd className="col-6 col-sm-8 col-md-6 col-lg-8">Hết hàng</dd>
                                     )}
                                 </dl>
 
-                                <div className="d-flex mt-4">
+                                <div className="d-flex">
                                     <div className={cx('product-text', 'quantity-box')}>
                                         <div className={cx('action-btns', 'minus')} onClick={decreaseQty}>
                                             <button>-</button>

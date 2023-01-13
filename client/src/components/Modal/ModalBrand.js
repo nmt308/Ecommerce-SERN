@@ -130,7 +130,7 @@ function ModalBrand({ modalAdd, setModalAdd, modalUpdate, setModalUpdate, toggle
         getProduct();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [modalType]);
-    console.log(image);
+
     return (
         <MDBModal
             show={modalAdd || modalUpdate}

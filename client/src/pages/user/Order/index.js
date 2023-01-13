@@ -5,7 +5,7 @@ import { BiTimeFive } from 'react-icons/bi';
 import { BsTruck } from 'react-icons/bs';
 import { BsCheck2All } from 'react-icons/bs';
 import { useEffect, useState } from 'react';
-import axios from 'axios';
+import request from '../../../utils/request';
 import { useNavigateSearch } from '../../../CustomHook';
 import {
     MDBModal,
@@ -44,13 +44,13 @@ const Order = () => {
 
     useEffect(() => {
         const getOrders = async () => {
-            const getUserID = await axios.get('http://localhost:8080/api/user/detail', {
+            const getUserID = await request.get('/user/detail', {
                 params: {
                     email: user.email,
                 },
             });
             const userID = getUserID.data.user.id;
-            const getOrders = await axios.get('http://localhost:8080/api/order/search', {
+            const getOrders = await request.get('/order/search', {
                 params: {
                     user_id: userID,
                 },
@@ -62,7 +62,7 @@ const Order = () => {
     }, []);
 
     const handleSeeDetail = async (orderID) => {
-        const getOrderDetail = await axios.get('http://localhost:8080/api/orderDetail/search', {
+        const getOrderDetail = await request.get('/orderDetail/search', {
             params: {
                 order_id: orderID,
             },

@@ -217,10 +217,10 @@ function Header() {
                                 )}
                             >
                                 <div className={cx('signin')}>
-                                    <MDBBtn className={cx('btn', 'custom-btn')}>
+                                    <button className={cx('btn', 'custom-btn')}>
                                         <div ref={userIcon1} className={cx('userIcon1')} />
                                         <div ref={userIcon2} className={cx('userIcon2')} />
-                                    </MDBBtn>
+                                    </button>
                                 </div>
                             </HeadlessTippy>
                         )}
@@ -293,8 +293,8 @@ function Header() {
                             </MenuItem>
 
                             <MenuItem content="Đăng xuất" placement="bottom" isPc={isPc}>
-                                <div className={cx('action-item')}>
-                                    <button className={cx('btn', 'custom-btn')} onClick={SignOut}>
+                                <div className={cx('action-item')} onClick={SignOut}>
+                                    <button className={cx('btn', 'custom-btn')}>
                                         <div ref={logoutIcon1} className={cx('logoutIcon1')} />
                                         <div ref={logoutIcon2} className={cx('logoutIcon2')} />
                                     </button>

@@ -1,9 +1,9 @@
-import axios from 'axios';
+import request from '../../utils/request';
 
 export const getAccounts = (currentPage) => {
     // Thunk action creator return 1 thunk action (1 action trả về 1 function)
     return async (dispatch) => {
-        const res = await axios.get('http://localhost:8080/api/accounts', {
+        const res = await request.get('/accounts', {
             params: {
                 page: currentPage,
             },
@@ -20,7 +20,7 @@ export const getAccounts = (currentPage) => {
 
 export const updateAccount = (id, status, page) => {
     return async (dispatch) => {
-        const res = await axios.put(`http://localhost:8080/api/Account/edit/${id}`, {
+        const res = await request.put(`/Account/edit/${id}`, {
             status,
         });
         if (res.status === 200) {
@@ -40,7 +40,7 @@ export const updateAccount = (id, status, page) => {
 
 export const searchAccount = (email, currentPage) => {
     return async (dispatch) => {
-        const res = await axios.get(`http://localhost:8080/api/Account/search`, {
+        const res = await request.get(`/Account/search`, {
             params: {
                 email: email,
                 page: currentPage,

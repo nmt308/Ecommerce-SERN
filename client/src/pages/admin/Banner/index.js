@@ -42,7 +42,7 @@ function Banner() {
         if (name) {
             const getSearchResult = async () => {
                 const res = await dispatch(searchDiscount(name, page));
-                console.log(res.result);
+
                 setSearchCount(res.availableDiscount);
                 setSearchResult(res.result);
 

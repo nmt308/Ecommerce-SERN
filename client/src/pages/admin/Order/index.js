@@ -18,11 +18,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getOrders, searchOrder, updateOrder } from '../../../redux/actions/orderAction';
 //Icon
 import { ImSearch } from 'react-icons/im';
-import { AiFillCloseCircle, AiFillEye, AiFillDelete } from 'react-icons/ai';
+import { AiFillCloseCircle, AiFillEye } from 'react-icons/ai';
 //Tippy
 import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
-import axios from 'axios';
+import request from '../../../utils/request';
 import {
     MDBModal,
     MDBModalDialog,
@@ -133,7 +133,7 @@ function Order() {
     };
 
     const handleSeeDetail = async (orderID) => {
-        const getOrderDetail = await axios.get('http://localhost:8080/api/orderDetail/search', {
+        const getOrderDetail = await request.get('/orderDetail/search', {
             params: {
                 order_id: orderID,
             },

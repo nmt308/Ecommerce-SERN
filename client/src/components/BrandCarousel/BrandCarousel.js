@@ -12,15 +12,14 @@ import 'swiper/css';
 import 'swiper/css/grid';
 
 //React
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import useNavigateSearch from '../../CustomHook/useNavigateSearch';
-import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 //Other
-import axios from 'axios';
 import classNames from 'classnames/bind';
 import 'react-loading-skeleton/dist/skeleton.css';
 import Skeleton from 'react-loading-skeleton';
 import { useViewport } from '../../CustomHook';
+import request from '../../utils/request';
 
 const cx = classNames.bind(Style);
 function BrandCarousel() {
@@ -61,8 +60,8 @@ function BrandCarousel() {
     const isPc = viewPort.width > 1024;
     useEffect(() => {
         const getBrand = async () => {
-            axios
-                .get('http://localhost:8080/api/brands', {
+            request
+                .get('/brands', {
                     params: {
                         getAll: 'true',
                     },
@@ -134,7 +133,7 @@ function BrandCarousel() {
                         centerMode={false}
                         className={cx('custom')}
                         containerClass="container-padding-bottom"
-                        customButtonGroup={<CustomButton />}
+                        customButtonGroup={<CustomButton totalItems={brands.length} />}
                         dotListClass=""
                         draggable
                         focusOnSelect={false}

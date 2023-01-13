@@ -32,7 +32,7 @@ function SideMenu() {
     const handleSideMenu = () => {
         setOpen(!open);
     };
-    // console.log('side menu', );
+
     return (
         <>
             {console.log('side menu', breakPoint)}

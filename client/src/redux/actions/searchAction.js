@@ -1,8 +1,8 @@
-import axios from 'axios';
+import request from '../../utils/request';
 
 export const getProducts = (params, offset = 0) => {
     return async (dispatch) => {
-        const res = await axios.get(`http://localhost:8080/api/search`, {
+        const res = await request.get(`/search`, {
             params: {
                 ...params,
                 offset,

@@ -1,5 +1,4 @@
-import axios from 'axios';
-
+import request from '../../utils/request';
 export const cartChange = () => {
     return (dispatch) => {
         const cartQuantity = JSON.parse(localStorage.getItem('cart')).length || 0;
@@ -13,7 +12,7 @@ export const cartChange = () => {
 export const getCartProduct = (listProduct) => {
     return async (dispatch) => {
         if (listProduct.length > 0) {
-            const res = await axios.get('http://localhost:8080/api/search', {
+            const res = await request.get('/search', {
                 params: {
                     cartProduct: listProduct,
                 },
@@ -36,7 +35,7 @@ export const getCartProduct = (listProduct) => {
 export const getUser = (email) => {
     return async (dispatch) => {
         if (email) {
-            const res = await axios.get('http://localhost:8080/api/user/detail', {
+            const res = await request.get('/user/detail', {
                 params: {
                     email: email,
                 },

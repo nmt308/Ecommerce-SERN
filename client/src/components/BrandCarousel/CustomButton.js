@@ -8,6 +8,9 @@ const CustomButton = ({ next, previous, goToSlide, ...rest }) => {
         carouselState: { currentSlide },
     } = rest;
     const {
+        carouselState: { totalItems },
+    } = rest;
+    const {
         carouselState: { slidesToShow },
     } = rest;
 
@@ -23,7 +26,7 @@ const CustomButton = ({ next, previous, goToSlide, ...rest }) => {
             </button>
             <button
                 className={cx('btn', 'custom-btn', {
-                    disable: currentSlide === slidesToShow - 1,
+                    disable: currentSlide === totalItems - slidesToShow,
                 })}
                 onClick={() => next()}
             >

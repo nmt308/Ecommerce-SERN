@@ -1,4 +1,4 @@
-import axios from 'axios';
+import request from '../../utils/request';
 import { MDBCarousel, MDBCarouselItem } from 'mdb-react-ui-kit';
 import { useEffect, useState } from 'react';
 import './carousel.scss';
@@ -7,7 +7,7 @@ export default function App() {
 
     useEffect(() => {
         const getBanner = async () => {
-            const banners = await axios.get('http://localhost:8080/api/discounts', {
+            const banners = await request.get('/discounts', {
                 params: {
                     getAll: 'true',
                 },
