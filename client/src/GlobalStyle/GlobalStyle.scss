@@ -97,14 +97,14 @@ html *::-webkit-scrollbar-track {
 // }
 .wrapper {
     margin: 0;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
     background-color: (var(--body-color));
     // background-color: rgb(191 198 208 / 27%);
 }
 footer {
-    // margin-top: auto;
-    margin-top: 32px;
+    margin-top: auto;
 }
 
 .loading {

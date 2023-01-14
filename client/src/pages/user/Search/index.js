@@ -8,6 +8,7 @@ import ProductItem from '../../../components/ProductItem';
 import classNames from 'classnames/bind';
 import Style from './Search.module.scss';
 import NotFound from '../../../assets/icon/notfound.png';
+import Loading from '../../../components/Loading';
 //Icon
 import { BiSortDown, BiSortUp, BiFilterAlt } from 'react-icons/bi';
 import { AiOutlinePercentage, AiOutlineLoading3Quarters } from 'react-icons/ai';
@@ -25,6 +26,7 @@ let params = {};
 export default function Search() {
     const [offset, setOffset] = useState(0);
     const [loading, setLoading] = useState(false);
+    const [preload, setPreload] = useState(true);
     const [availableProduct, setAvailableProduct] = useState(0);
     const [brands, setBrands] = useState([]);
     const [categories, setCategories] = useState([]);
@@ -93,10 +95,8 @@ export default function Search() {
 
     const showMore = () => {
         setLoading(true);
-        setTimeout(() => {
-            setOffset(offset + 10);
-            setLoading(false);
-        }, 1500);
+
+        setOffset(offset + 10);
     };
 
     useEffect(() => {
@@ -114,6 +114,7 @@ export default function Search() {
         const getData = async () => {
             const res = await dispatch(getProducts(params));
             setAvailableProduct(res.data.availableProduct);
+            setPreload(false);
         };
         getData();
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -123,6 +124,7 @@ export default function Search() {
         const loadMore = async () => {
             const res = await dispatch(getProducts(params, offset));
             setAvailableProduct(res.data.availableProduct);
+            setLoading(false);
         };
         loadMore();
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -155,172 +157,175 @@ export default function Search() {
     }, []);
 
     return (
-        <div className="container">
-            <button className={cx('show-filter')} onClick={toggleShow}>
-                <BiFilterAlt />
-                Bộ lọc <span className={cx('quantity')}>{totalFilter - 1}</span>
-            </button>
-            <MDBModal show={basicModal} setShow={setBasicModal} tabIndex="-1">
-                <MDBModalDialog>
-                    <MDBModalContent>
-                        <MDBModalBody>
-                            <div className={cx('filter')}>
-                                <div className={cx('title')}>Sắp xếp theo</div>
-                                <div className={cx('action')}>
-                                    <button
-                                        className={cx({ active: sort === 'desc' })}
-                                        onClick={() => {
-                                            handleFilter('sort', 'desc');
-                                        }}
-                                    >
-                                        <BiSortDown />
-                                        Giá giảm dần
-                                    </button>
-                                    <button
-                                        className={cx({ active: sort === 'asc' })}
-                                        onClick={() => {
-                                            handleFilter('sort', 'asc');
-                                        }}
-                                    >
-                                        <BiSortUp />
-                                        Giá tăng dần
-                                    </button>
-                                    <button
-                                        className={cx({ active: sort === 'buyturn' })}
-                                        onClick={() => {
-                                            handleFilter('sort', 'buyturn');
-                                        }}
-                                    >
-                                        <AiOutlinePercentage />
-                                        Bán chạy
-                                    </button>
-                                    <button
-                                        className={cx({ active: sort === 'new' })}
-                                        onClick={() => {
-                                            handleFilter('sort', 'new');
-                                        }}
-                                    >
-                                        <FiTruck />
-                                        Mới về
-                                    </button>
-                                </div>
-                            </div>
-                            <div className={cx('filter')}>
-                                <div className={cx('title')}>Khoảng giá</div>
-                                <div className={cx('action')}>
-                                    <button
-                                        className={cx({ active: price === '0_5m' })}
-                                        onClick={() => {
-                                            handleFilter('price', '0_5m');
-                                        }}
-                                    >
-                                        <MdAttachMoney />
-                                        0-5 triệu
-                                    </button>
-                                    <button
-                                        className={cx({ active: price === '5m_10m' })}
-                                        onClick={() => {
-                                            handleFilter('price', '5m_10m');
-                                        }}
-                                    >
-                                        <MdAttachMoney />
-                                        5-10 triệu
-                                    </button>
-                                    <button
-                                        className={cx({ active: price === '10m_20m' })}
-                                        onClick={() => {
-                                            handleFilter('price', '10m_20m');
-                                        }}
-                                    >
-                                        <MdAttachMoney />
-                                        10-20 triệu
-                                    </button>
-                                    <button
-                                        className={cx({ active: price === '20m_over' })}
-                                        onClick={() => {
-                                            handleFilter('price', '20m_over');
-                                        }}
-                                    >
-                                        <MdAttachMoney />
-                                        Trên 20 triệu
-                                    </button>
-                                </div>
-                            </div>
-                            {(page === 'brand' || page === 'product') && (
+        <>
+            {preload && <Loading />}
+            <div className="container">
+                <button className={cx('show-filter')} onClick={toggleShow}>
+                    <BiFilterAlt />
+                    Bộ lọc <span className={cx('quantity')}>{totalFilter - 1}</span>
+                </button>
+                <MDBModal show={basicModal} setShow={setBasicModal} tabIndex="-1">
+                    <MDBModalDialog>
+                        <MDBModalContent>
+                            <MDBModalBody>
                                 <div className={cx('filter')}>
-                                    <div className={cx('title')}>Loại sản phẩm</div>
+                                    <div className={cx('title')}>Sắp xếp theo</div>
                                     <div className={cx('action')}>
-                                        {categories.map((category) => {
-                                            return (
+                                        <button
+                                            className={cx({ active: sort === 'desc' })}
+                                            onClick={() => {
+                                                handleFilter('sort', 'desc');
+                                            }}
+                                        >
+                                            <BiSortDown />
+                                            Giá giảm dần
+                                        </button>
+                                        <button
+                                            className={cx({ active: sort === 'asc' })}
+                                            onClick={() => {
+                                                handleFilter('sort', 'asc');
+                                            }}
+                                        >
+                                            <BiSortUp />
+                                            Giá tăng dần
+                                        </button>
+                                        <button
+                                            className={cx({ active: sort === 'buyturn' })}
+                                            onClick={() => {
+                                                handleFilter('sort', 'buyturn');
+                                            }}
+                                        >
+                                            <AiOutlinePercentage />
+                                            Bán chạy
+                                        </button>
+                                        <button
+                                            className={cx({ active: sort === 'new' })}
+                                            onClick={() => {
+                                                handleFilter('sort', 'new');
+                                            }}
+                                        >
+                                            <FiTruck />
+                                            Mới về
+                                        </button>
+                                    </div>
+                                </div>
+                                <div className={cx('filter')}>
+                                    <div className={cx('title')}>Khoảng giá</div>
+                                    <div className={cx('action')}>
+                                        <button
+                                            className={cx({ active: price === '0_5m' })}
+                                            onClick={() => {
+                                                handleFilter('price', '0_5m');
+                                            }}
+                                        >
+                                            <MdAttachMoney />
+                                            0-5 triệu
+                                        </button>
+                                        <button
+                                            className={cx({ active: price === '5m_10m' })}
+                                            onClick={() => {
+                                                handleFilter('price', '5m_10m');
+                                            }}
+                                        >
+                                            <MdAttachMoney />
+                                            5-10 triệu
+                                        </button>
+                                        <button
+                                            className={cx({ active: price === '10m_20m' })}
+                                            onClick={() => {
+                                                handleFilter('price', '10m_20m');
+                                            }}
+                                        >
+                                            <MdAttachMoney />
+                                            10-20 triệu
+                                        </button>
+                                        <button
+                                            className={cx({ active: price === '20m_over' })}
+                                            onClick={() => {
+                                                handleFilter('price', '20m_over');
+                                            }}
+                                        >
+                                            <MdAttachMoney />
+                                            Trên 20 triệu
+                                        </button>
+                                    </div>
+                                </div>
+                                {(page === 'brand' || page === 'product') && (
+                                    <div className={cx('filter')}>
+                                        <div className={cx('title')}>Loại sản phẩm</div>
+                                        <div className={cx('action')}>
+                                            {categories.map((category) => {
+                                                return (
+                                                    <button
+                                                        className={cx({ active: type === category.name })}
+                                                        onClick={() => {
+                                                            handleFilter('type', category.name);
+                                                        }}
+                                                    >
+                                                        {category.name}
+                                                    </button>
+                                                );
+                                            })}
+                                        </div>
+                                    </div>
+                                )}
+                                {(page === 'category' || page === 'product') && (
+                                    <div className={cx('filter')}>
+                                        <div className={cx('title')}>Thương hiệu</div>
+                                        <div className={cx('action')}>
+                                            {brands.map((item) => (
                                                 <button
-                                                    className={cx({ active: type === category.name })}
+                                                    className={cx({ active: brand === item.name })}
                                                     onClick={() => {
-                                                        handleFilter('type', category.name);
+                                                        handleFilter('brand', item.name);
                                                     }}
                                                 >
-                                                    {category.name}
+                                                    {item.name}
                                                 </button>
-                                            );
-                                        })}
+                                            ))}
+                                        </div>
                                     </div>
-                                </div>
-                            )}
-                            {(page === 'category' || page === 'product') && (
-                                <div className={cx('filter')}>
-                                    <div className={cx('title')}>Thương hiệu</div>
-                                    <div className={cx('action')}>
-                                        {brands.map((item) => (
-                                            <button
-                                                className={cx({ active: brand === item.name })}
-                                                onClick={() => {
-                                                    handleFilter('brand', item.name);
-                                                }}
-                                            >
-                                                {item.name}
-                                            </button>
-                                        ))}
-                                    </div>
-                                </div>
-                            )}
+                                )}
 
-                            <MDBBtn rounded className={cx('btn')} style={{ marginTop: '8px' }} onClick={toggleShow}>
-                                Xem sản phẩm
-                            </MDBBtn>
-                        </MDBModalBody>
-                    </MDBModalContent>
-                </MDBModalDialog>
-            </MDBModal>
+                                <MDBBtn rounded className={cx('btn')} style={{ marginTop: '8px' }} onClick={toggleShow}>
+                                    Xem sản phẩm
+                                </MDBBtn>
+                            </MDBModalBody>
+                        </MDBModalContent>
+                    </MDBModalDialog>
+                </MDBModal>
 
-            {dataRender.length === 0 ? (
-                <div className="text-center">
-                    <img src={NotFound} alt="404" style={{ width: '100%', maxWidth: '450px' }} />
-                    <p style={{ fontSize: '20px', fontWeight: '500' }}>Không tìm thấy sản phẩm nào</p>
-                </div>
-            ) : (
-                <div className="row row-cols-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5">
-                    {dataRender.map((product) => (
-                        <div key={product.id} className="col" style={{ paddingRight: 0, marginTop: '12px' }}>
-                            <ProductItem data={product} width="100%" />
-                        </div>
-                    ))}
-                </div>
-            )}
+                {dataRender.length === 0 ? (
+                    <div className="text-center">
+                        <img src={NotFound} alt="404" style={{ width: '100%', maxWidth: '450px' }} />
+                        <p style={{ fontSize: '20px', fontWeight: '500' }}>Không tìm thấy sản phẩm nào</p>
+                    </div>
+                ) : (
+                    <div className="row row-cols-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5">
+                        {dataRender.map((product) => (
+                            <div key={product.id} className="col" style={{ paddingRight: 0, marginTop: '12px' }}>
+                                <ProductItem data={product} width="100%" />
+                            </div>
+                        ))}
+                    </div>
+                )}
 
-            {dataRender.length !== availableProduct && (
-                <MDBBtn rounded className={cx('btn')} onClick={showMore} disabled={loading}>
-                    {loading ? (
-                        <span className="text">
-                            Đang tải
-                            <AiOutlineLoading3Quarters className="loading" />
-                        </span>
-                    ) : (
-                        <span className="text">
-                            Xem thêm
-                            <HiChevronDoubleDown />
-                        </span>
-                    )}
-                </MDBBtn>
-            )}
-        </div>
+                {dataRender.length !== availableProduct && (
+                    <MDBBtn rounded className={cx('btn')} onClick={showMore} disabled={loading}>
+                        {loading ? (
+                            <span className="text">
+                                Đang tải
+                                <AiOutlineLoading3Quarters className="loading" />
+                            </span>
+                        ) : (
+                            <span className="text">
+                                Xem thêm
+                                <HiChevronDoubleDown />
+                            </span>
+                        )}
+                    </MDBBtn>
+                )}
+            </div>
+        </>
     );
 }

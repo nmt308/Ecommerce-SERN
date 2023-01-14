@@ -95,7 +95,9 @@ function BrandCarousel() {
                                         handleNavigate(brand.name);
                                     }}
                                 >
-                                    {loading && <Skeleton width={120} height={80}></Skeleton>}
+                                    {loading && (
+                                        <Skeleton className={cx('skeleton')} width={120} height={80}></Skeleton>
+                                    )}
                                     {brand.name === 'Apple' ||
                                     brand.name === 'Xiaomi' ||
                                     brand.name === 'Dell' ||

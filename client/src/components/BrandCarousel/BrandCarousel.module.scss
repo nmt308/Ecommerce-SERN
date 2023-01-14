@@ -54,8 +54,9 @@
     }
 }
 @media (max-width: 389px) {
-    .card-item {
-        width: 105px;
+    .card-item,
+    .skeleton {
+        width: 105px !important;
         img[alt='brand-logo'] {
             width: 75% !important;
         }
@@ -65,8 +66,9 @@
     }
 }
 @media (min-width: 390px) and (max-device-width: 425px) {
-    .card-item {
-        width: 115px;
+    .card-item,
+    .skeleton {
+        width: 115px !important;
         img[alt='brand-logo'] {
             width: 75% !important;
         }
@@ -76,8 +78,9 @@
     }
 }
 @media (min-width: 426px) and (max-device-width: 450px) {
-    .card-item {
-        width: 125px;
+    .card-item,
+    .skeleton {
+        width: 125px !important;
         img[alt='brand-logo'] {
             width: 65% !important;
         }
@@ -87,8 +90,9 @@
     }
 }
 @media (min-width: 451px) and (max-device-width: 493px) {
-    .card-item {
-        width: 135px;
+    .card-item,
+    .skeleton {
+        width: 135px !important;
         img[alt='brand-logo'] {
             width: 65% !important;
         }
@@ -98,8 +102,9 @@
     }
 }
 @media (min-width: 494px) and (max-width: 524px) {
-    .card-item {
-        width: 148px;
+    .card-item,
+    .skeleton {
+        width: 148px !important;
         img[alt='brand-logo'] {
             width: 60% !important;
         }
@@ -109,8 +114,9 @@
     }
 }
 @media (min-width: 991px) and (max-device-width: 1025px) {
-    .card-item {
-        width: 140px;
+    .card-item,
+    .skeleton {
+        width: 140px !important;
         img[alt='brand-logo'] {
             width: 65% !important;
         }

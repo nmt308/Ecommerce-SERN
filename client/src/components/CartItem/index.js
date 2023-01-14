@@ -9,7 +9,7 @@ function CartItem({ data, quantity, deleteProduct, increaseQty, decreaseQty }) {
     const navigateSearch = useNavigateSearch();
     return (
         <div className={cx('item')}>
-            <div className="d-flex align-items-center">
+            <div className="d-flex align-items-center w-100">
                 <div className={cx('image')}>
                     <img src={data.image} alt={data.name} />
                 </div>
