@@ -10,10 +10,19 @@ import Loading from '../../../components/Loading';
 import { useEffect, useState } from 'react';
 import request from '../../../utils/request';
 import { useNavigateSearch } from '../../../CustomHook';
+import { MDBBtn, MDBModal, MDBModalDialog, MDBModalContent, MDBModalBody } from 'mdb-react-ui-kit';
 
 function Home() {
+    let showFirstNotification;
+    if (localStorage.getItem('notified')) {
+        showFirstNotification = false;
+    } else {
+        localStorage.setItem('notified', true);
+        showFirstNotification = true;
+    }
     const [categories, setCategories] = useState([]);
     const [preload, setPreload] = useState(true);
+    const [basicModal, setBasicModal] = useState(showFirstNotification);
     const navigate = useNavigateSearch();
 
     useEffect(() => {
@@ -98,6 +107,22 @@ function Home() {
                 </div>
                 <img src={banner} alt="banner" className="banner" />
             </div>
+
+            {categories.length > 0 && (
+                <MDBModal show={basicModal} setShow={setBasicModal} tabIndex="-1">
+                    <MDBModalDialog>
+                        <MDBModalContent
+                            style={{ width: '100%', maxWidth: '500px', marginLeft: 'auto', marginRight: 'auto' }}
+                        >
+                            <MDBModalBody style={{ padding: '24px 18px' }}>
+                                <h5>Chào mừng đến với NowShop</h5>
+                                <p>- Demo admin: admin@gmail.com - 123456 </p>
+                                <p>- Demo user: user@gmail.com - 123456 </p>
+                            </MDBModalBody>
+                        </MDBModalContent>
+                    </MDBModalDialog>
+                </MDBModal>
+            )}
         </>
     );
 }

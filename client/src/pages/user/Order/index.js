@@ -17,6 +17,7 @@ import {
 } from 'mdb-react-ui-kit';
 import { useSelector } from 'react-redux';
 import Loading from '../../../components/Loading';
+import EmptyOrder from '../../../assets/icon/noorder.png';
 
 const cx = classNames.bind(Style);
 const Order = () => {
@@ -80,72 +81,82 @@ const Order = () => {
             {preload && <Loading />}
             <div className="container">
                 <div className={cx('content')}>
-                    <h4>Đơn hàng của tôi</h4>
-                    {orders.map((order) => {
-                        return (
-                            <div className={cx('item')} key={order.id}>
-                                <div className={cx('header')}>
-                                    <div>
-                                        <div className={cx('name')}>Đơn hàng #{order.id}</div>
-                                        <div className={cx('date')}>Ngày đặt: {formatDate(order.createdAt)}</div>
-                                    </div>
-                                    <div
-                                        className={cx('status', {
-                                            handling: order.status === 0,
-                                            handled: order.status === 1,
-                                            shipping: order.status === 2,
-                                        })}
-                                    >
-                                        <span>
-                                            {order.status === 0 && (
-                                                <>
-                                                    <BiTimeFive size={18} />
-                                                    Đang xử lí
-                                                </>
-                                            )}
-                                            {order.status === 1 && (
-                                                <>
-                                                    <BsCheck2All size={18} />
-                                                    Đã xác nhận
-                                                </>
-                                            )}
-                                            {order.status === 2 && (
-                                                <>
-                                                    <BsTruck size={18} />
-                                                    Đang giao hàng
-                                                </>
-                                            )}
-                                        </span>
-                                    </div>
-                                </div>
-                                <div className={cx('container')}>
-                                    <div className={cx('image')}>
-                                        <img src={order.order_display.Product.image} alt="productt" />
-                                    </div>
-                                    <div className={cx('product')}>
-                                        <div>
-                                            <p className={cx('product-name')}>{order.order_display.Product.name}</p>
-                                            <p className={cx('product-quantity')}>
-                                                Số lượng: {order.order_display.quantity} x{' '}
-                                                {formatCurrency(order.order_display.Product.price)}
-                                            </p>
-                                        </div>
-                                        <div>
-                                            <p
-                                                className={cx('detail')}
-                                                onClick={() => {
-                                                    handleSeeDetail(order.id);
-                                                }}
+                    {orders.length > 0 ? (
+                        <>
+                            <h4>Đơn hàng của tôi</h4>
+                            {orders.map((order) => {
+                                return (
+                                    <div className={cx('item')} key={order.id}>
+                                        <div className={cx('header')}>
+                                            <div>
+                                                <div className={cx('name')}>Đơn hàng #{order.id}</div>
+                                                <div className={cx('date')}>
+                                                    Ngày đặt: {formatDate(order.createdAt)}
+                                                </div>
+                                            </div>
+                                            <div
+                                                className={cx('status', {
+                                                    handling: order.status === 0,
+                                                    handled: order.status === 1,
+                                                    shipping: order.status === 2,
+                                                })}
                                             >
-                                                Xem chi tiết <HiChevronDoubleRight />
-                                            </p>
+                                                <span>
+                                                    {order.status === 0 && (
+                                                        <>
+                                                            <BiTimeFive size={18} />
+                                                            Đang xử lí
+                                                        </>
+                                                    )}
+                                                    {order.status === 1 && (
+                                                        <>
+                                                            <BsCheck2All size={18} />
+                                                            Đã xác nhận
+                                                        </>
+                                                    )}
+                                                    {order.status === 2 && (
+                                                        <>
+                                                            <BsTruck size={18} />
+                                                            Đang giao hàng
+                                                        </>
+                                                    )}
+                                                </span>
+                                            </div>
                                         </div>
+                                        <div className={cx('container')}>
+                                            <div className={cx('image')}>
+                                                <img src={order.order_display.Product.image} alt="productt" />
+                                            </div>
+                                            <div className={cx('product')}>
+                                                <div>
+                                                    <p className={cx('product-name')}>
+                                                        {order.order_display.Product.name}
+                                                    </p>
+                                                    <p className={cx('product-quantity')}>
+                                                        Số lượng: {order.order_display.quantity} x{' '}
+                                                        {formatCurrency(order.order_display.Product.price)}
+                                                    </p>
+                                                </div>
+                                                <div>
+                                                    <p
+                                                        className={cx('detail')}
+                                                        onClick={() => {
+                                                            handleSeeDetail(order.id);
+                                                        }}
+                                                    >
+                                                        Xem chi tiết <HiChevronDoubleRight />
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className={cx('price')}>Tổng tiền: {formatCurrency(order.total)}</div>
                                     </div>
-                                </div>
-                                <div className={cx('price')}>Tổng tiền: {formatCurrency(order.total)}</div>
-                            </div>
-                        );
-                    })}
+                                );
+                            })}
+                        </>
+                    ) : (
+                        <div className="fw-500">Bạn chưa có đơn hàng nào</div>
+                    )}
                 </div>
                 <>
                     <MDBModal show={basicModal} setShow={setBasicModal} tabIndex="-1">

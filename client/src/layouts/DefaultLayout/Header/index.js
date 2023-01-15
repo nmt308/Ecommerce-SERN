@@ -304,11 +304,25 @@ function Header() {
                         </div>
                     ) : (
                         <div className={cx('authentication')}>
-                            <MDBBtn rounded className={cx('btn-login')} color="link" rippleColor="light">
-                                <Link to="/login">Đăng nhập</Link>
+                            <MDBBtn
+                                rounded
+                                className={cx('btn-login')}
+                                color="link"
+                                rippleColor="light"
+                                onClick={() => {
+                                    navigate('/login');
+                                }}
+                            >
+                                Đăng nhập
                             </MDBBtn>
-                            <MDBBtn rounded className={cx('btn-register')}>
-                                <Link to="/register">Đăng kí</Link>
+                            <MDBBtn
+                                rounded
+                                className={cx('btn-register')}
+                                onClick={() => {
+                                    navigate('/register');
+                                }}
+                            >
+                                Đăng kí
                             </MDBBtn>
                         </div>
                     )}

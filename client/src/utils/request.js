@@ -1,5 +1,5 @@
 import axios from 'axios';
 const request = axios.create({
-    baseURL: 'http://localhost:8080/api',
+    baseURL: 'https://nowshop-ecommerce.onrender.com/api',
 });
 export default request;
