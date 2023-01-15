@@ -23,6 +23,8 @@ import request from '../../../utils/request';
 
 const cx = classNames.bind(Style);
 function Cart() {
+    localStorage.getItem('cart') ?? localStorage.setItem('cart', JSON.stringify([]));
+
     const [render, setRender] = useState(true);
     const [preload, setPreload] = useState(true);
 

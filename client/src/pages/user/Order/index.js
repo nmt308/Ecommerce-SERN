@@ -17,7 +17,6 @@ import {
 } from 'mdb-react-ui-kit';
 import { useSelector } from 'react-redux';
 import Loading from '../../../components/Loading';
-import EmptyOrder from '../../../assets/icon/noorder.png';
 
 const cx = classNames.bind(Style);
 const Order = () => {

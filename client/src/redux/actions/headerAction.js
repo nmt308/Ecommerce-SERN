@@ -1,6 +1,7 @@
 import request from '../../utils/request';
 export const cartChange = () => {
     return (dispatch) => {
+        localStorage.getItem('cart') ?? localStorage.setItem('cart', JSON.stringify([]));
         const cartQuantity = JSON.parse(localStorage.getItem('cart')).length || 0;
         dispatch({
             type: 'CART_CHANGE',
