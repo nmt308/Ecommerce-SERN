@@ -1,5 +1,5 @@
 import axios from 'axios';
 const request = axios.create({
-    baseURL: 'https://ecommerce-sern-production.up.railway.app/api',
+    baseURL: 'https://nowshop-ecommerce.onrender.com/api',
 });
 export default request;
