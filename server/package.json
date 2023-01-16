@@ -7,7 +7,7 @@
         "node": "14.x"
     },
     "scripts": {
-        "start": "node index.js"
+        "start": "nodemon --inspect --exec babel-node index.js"
     },
     "author": "",
     "license": "ISC",
