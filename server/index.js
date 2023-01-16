@@ -1,13 +1,11 @@
 import { initAPIRoutes } from './src/route/web.js';
 import express from 'express';
 import dotenv from 'dotenv';
-const cors = require('cors');
 
 dotenv.config();
 const app = express();
 const port = process.env.PORT;
 
-app.use(cors());
 //Hỗ trợ gửi data lên server và ngược lại
 
 app.use(express.json());
