@@ -7,7 +7,6 @@ const app = express();
 const port = process.env.PORT;
 
 //Hỗ trợ gửi data lên server và ngược lại
-
 app.use(express.json());
 app.use(
     express.urlencoded({

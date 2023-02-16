@@ -4,6 +4,7 @@ import { UserRoute, AdminRoute } from './routes';
 import DefaultLayout from './layouts/DefaultLayout';
 import Loading from './components/Loading';
 import { useSelector } from 'react-redux';
+
 function App() {
     const loading = useSelector((state) => state.headerState.user.isLoading);
     const role = useSelector((state) => state.headerState.user.role);

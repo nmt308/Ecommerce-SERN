@@ -2,6 +2,7 @@
 import CustomButton from './CustomButton';
 import Style from './ProductCarousel.module.scss';
 import ProductItem from '../ProductItem';
+import SkeletonLoading from '../ProductItem/SkeletonLoading';
 //Carousel
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
@@ -16,6 +17,7 @@ import classNames from 'classnames/bind';
 const cx = classNames.bind(Style);
 function ProductCarousel({ title }) {
     const [products, setProducts] = useState([]);
+    const [loading, setLoading] = useState(true);
     const navigateSearch = useNavigateSearch();
 
     const handleSeeAll = () => {
@@ -32,11 +34,25 @@ function ProductCarousel({ title }) {
                 })
                 .then((data) => {
                     setProducts(data.data.result);
+                    setLoading(false);
                 });
         };
         getProduct();
     }, []);
-
+    const renderProducts = () => {
+        if (products.length > 0 && !loading) {
+            return products.map((product) => {
+                return <ProductItem data={product} width="95%" />;
+            });
+        }
+        if (products.length === 0) {
+            if (loading) {
+                return Array.from(Array(10)).map((item) => <SkeletonLoading width="95%" />);
+            } else {
+                return <div className="w-100 mt-5 text-center">Lỗi bất định thử lại sau</div>;
+            }
+        }
+    };
     return (
         <div>
             <div className={cx('title')}>
@@ -68,7 +84,7 @@ function ProductCarousel({ title }) {
                     keyBoardControl
                     minimumTouchDrag={80}
                     pauseOnHover
-                    autoPlay
+                    // autoPlay
                     infinite
                     renderArrowsWhenDisabled={false}
                     renderButtonGroupOutside={false}
@@ -117,9 +133,7 @@ function ProductCarousel({ title }) {
                     slidesToSlide={1}
                     swipeable
                 >
-                    {products.map((product, index) => (
-                        <ProductItem key={index} data={product} width="95%" />
-                    ))}
+                    {renderProducts()}
                 </Carousel>
             </div>
         </div>

@@ -5,7 +5,7 @@ import ModalProduct from '../../../components/Modal/ModalProduct';
 import notify from '../../../components/Toast';
 import { useNavigateSearch } from '../../../CustomHook';
 //React
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
 import ReactPaginate from 'react-paginate';
 import { useSearchParams } from 'react-router-dom';
 import { MDBBadge, MDBInput, MDBBtn, MDBTable, MDBTableHead, MDBTableBody } from 'mdb-react-ui-kit';
@@ -42,7 +42,7 @@ function Product() {
     const name = searchParams.get('name');
     const page = searchParams.get('page');
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         if (name) {
             const getSearchResult = async () => {
                 const res = await dispatch(searchProduct(name, page));

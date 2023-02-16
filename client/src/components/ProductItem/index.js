@@ -4,7 +4,6 @@ import FreeShipIcon from '../../assets/icon/freeship';
 import { NumericFormat } from 'react-number-format';
 import { useState } from 'react';
 import { useNavigateSearch } from '../../CustomHook';
-
 const cx = classNames.bind(Style);
 export default function ProductItem({ data, width }) {
     const discount = 100 - Math.ceil((data.price / data.oldprice) * 100);
