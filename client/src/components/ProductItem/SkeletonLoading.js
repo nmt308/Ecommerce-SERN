@@ -4,9 +4,9 @@ import classNames from 'classnames/bind';
 const cx = classNames.bind(Style);
 export default function SkeletonLoading({ width }) {
     return (
-        <div className={cx('product-item')} style={{ width: width }}>
+        <div className={cx('product-item')} style={{ width: width, paddingTop: '12px' }}>
             <div className={cx('product-img')}>
-                <Skeleton width="100%" variant="rectangular" height="100%" style={{ paddingTop: '12px' }} />
+                <Skeleton width="100%" variant="rectangular" height="100%" />
             </div>
             <div>
                 <div className={cx('product-title')}>

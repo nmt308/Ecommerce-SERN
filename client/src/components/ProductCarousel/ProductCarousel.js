@@ -41,9 +41,7 @@ function ProductCarousel({ title }) {
     }, []);
     const renderProducts = () => {
         if (products.length > 0 && !loading) {
-            return products.map((product) => {
-                return <ProductItem data={product} width="95%" />;
-            });
+            return Array.from(Array(10)).map((item) => <SkeletonLoading width="95%" />);
         }
         if (products.length === 0) {
             if (loading) {
