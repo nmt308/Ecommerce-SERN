@@ -111,6 +111,31 @@
         margin-top: 14px;
     }
 }
+
+.home-title {
+    background-color: #fff;
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 18px;
+
+    h5 {
+        font-weight: 700;
+        margin-bottom: 0;
+    }
+    div {
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        font-size: 14px;
+        color: rgb(67 66 66);
+        svg {
+            margin-left: 6px;
+        }
+    }
+}
+
 //Responsive
 @media (max-width: 739px) {
     .list-group {

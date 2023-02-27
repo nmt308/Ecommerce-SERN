@@ -7,6 +7,7 @@ import {
     discountReducer,
     orderReducer,
     accountReducer,
+    articleReducer,
 } from './reducers';
 import { combineReducers } from 'redux';
 
@@ -17,6 +18,7 @@ const rootReducer = combineReducers({
     discountState: discountReducer,
     orderState: orderReducer,
     accountState: accountReducer,
+    articleState: articleReducer,
 
     headerState: headerReducer,
     searchState: searchReducer,

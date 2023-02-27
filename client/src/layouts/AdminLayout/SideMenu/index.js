@@ -143,7 +143,7 @@ function SideMenu() {
                                     'd-none': search && !'Tin tức'.toLowerCase().includes(search.toLowerCase()),
                                 })}
                             >
-                                <NavLink to="/admin/news">
+                                <NavLink to="/admin/article">
                                     <BiNews className={cx('icon')} />
                                     <span className={cx('text nav-text')}>Tin tức</span>
                                 </NavLink>

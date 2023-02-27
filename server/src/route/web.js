@@ -7,6 +7,7 @@ import * as UserController from '../controllers/UserController.js';
 import * as OrderController from '../controllers/OrderController.js';
 import * as OrderDetailController from '../controllers/OrderDetailController.js';
 import * as AccountController from '../controllers/AccountController.js';
+import * as ArticleController from '../controllers/ArticleController.js';
 import HomeController from '../controllers/HomeController.js';
 import DashboardController from '../controllers/DashboardController.js';
 const router = express.Router();
@@ -29,6 +30,14 @@ export const initAPIRoutes = (app) => {
     router.get('/category/detail/:id', CategoryController.detailCategory);
     router.delete('/category/delete/:id', CategoryController.deleteCategory);
     router.get('/category/search', CategoryController.searchCategory);
+
+    //Article
+    router.get('/articles', ArticleController.getArticle);
+    router.post('/article/add', ArticleController.addArticle);
+    router.put('/article/edit/:id', ArticleController.editArticle);
+    router.get('/article/detail/:id', ArticleController.detailArticle);
+    router.delete('/article/delete/:id', ArticleController.deleteArticle);
+    router.get('/article/search', ArticleController.searchArticle);
 
     //Brand
     router.get('/brands', BrandController.getBrand);
