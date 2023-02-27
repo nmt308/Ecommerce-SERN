@@ -1,0 +1,118 @@
+.search {
+    display: flex;
+    border: 2px solid rgba(255, 255, 255, 0.344);
+    background-color: white;
+    border-radius: 50px;
+    width: 30%;
+    overflow: hidden;
+    transition: all 0.2s linear;
+    align-items: center;
+
+    input {
+        width: 100%;
+        padding: 6px 0;
+
+        background-color: white;
+        border: none;
+        outline: none;
+        background-color: transparent;
+        &:focus ~ .searchBtn {
+            color: var(--primary-color);
+        }
+    }
+    &:focus-within {
+        transition: all 0.2s linear;
+        border-color: var(--primary-color);
+    }
+}
+.searchBtn {
+    padding: 8px 20px;
+    background-color: #dadadc73;
+    color: #6f6c6c;
+    margin-left: 12px;
+    &:hover {
+        color: #6f6c6c;
+        cursor: pointer;
+        background-color: #dedede;
+    }
+
+    &:active {
+        background-color: #dedede;
+    }
+}
+.more {
+    font-weight: 500;
+    text-align: center;
+    font-size: 14px;
+    margin-top: 4px;
+    cursor: pointer;
+    transition: 0.1s ease-in-out;
+    &:hover {
+        color: var(--primary-color);
+    }
+}
+.wrapper {
+    width: 100%;
+    border-radius: 10px;
+    padding-top: 8px;
+    padding-bottom: 12px;
+    background: rgb(255, 255, 255);
+    box-shadow: rgb(0 0 0 / 12%) 0px 2px 12px;
+    overflow-y: overlay;
+}
+.result {
+    width: 380px;
+}
+.title {
+    font-weight: 500;
+    margin-left: 12px;
+}
+
+//Loading icon
+@keyframes placeHolderShimmer {
+    from {
+        background-position: -468px 0;
+    }
+    to {
+        background-position: 468px 0;
+    }
+}
+
+@mixin loading($width, $height) {
+    animation-duration: 1s;
+    animation-fill-mode: forwards;
+    animation-iteration-count: infinite;
+    animation-name: placeHolderShimmer;
+    animation-timing-function: linear;
+    background: #f6f7f8;
+    background: linear-gradient(to right, #eeeeee 8%, #dddddd 18%, #eeeeee 33%);
+    background-size: 800px 104px;
+    position: relative;
+    width: $width;
+    height: $height;
+}
+.loading {
+    display: flex;
+    padding: 0 12px;
+    &-info {
+        width: 100%;
+        padding-left: 12px;
+    }
+    &-avt {
+        @include loading(60px, 50px);
+    }
+    &-name {
+        @include loading(100%, 15px);
+    }
+    &-price {
+        @include loading(50%, 15px);
+        margin-top: 12px;
+    }
+}
+//Responsive
+
+@media (max-width: 993px) {
+    .search {
+        width: 70%;
+    }
+}
