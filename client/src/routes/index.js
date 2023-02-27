@@ -14,11 +14,13 @@ import {
     Dashboard,
     Account,
     Feedback,
-    News,
     NotFound,
     Notification,
+    Article,
+    News,
 } from '../pages';
 import { DefaultLayout, AdminLayout } from '../layouts';
+import AllArticle from '../pages/user/AllArticles';
 
 export const UserRoute = [
     {
@@ -49,6 +51,16 @@ export const UserRoute = [
     {
         path: '/order',
         component: MyOrder,
+        layout: DefaultLayout,
+    },
+    {
+        path: '/article/:id',
+        component: News,
+        layout: DefaultLayout,
+    },
+    {
+        path: '/articles',
+        component: AllArticle,
         layout: DefaultLayout,
     },
     {
@@ -104,8 +116,8 @@ export const AdminRoute = [
         layout: AdminLayout,
     },
     {
-        path: '/Admin/News',
-        component: News,
+        path: '/Admin/Article',
+        component: Article,
         layout: AdminLayout,
     },
     {
