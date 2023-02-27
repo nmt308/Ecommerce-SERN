@@ -35,7 +35,6 @@ function SideMenu() {
 
     return (
         <>
-            {console.log('side menu', breakPoint)}
             {!open && (
                 <div className="sidemenu-bar" onClick={handleSideMenu}>
                     <i className="fa-solid fa-bars"></i>
