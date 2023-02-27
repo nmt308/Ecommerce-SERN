@@ -36,7 +36,7 @@ export default function News() {
     return preload ? (
         <Loading />
     ) : (
-        <section className="py-5 mx-auto" style={{ width: '800px' }}>
+        <section className="container py-5 mx-auto article-container">
             <div className="mt-5 py-md-4">
                 <div className="container">
                     <div className="blog-title">

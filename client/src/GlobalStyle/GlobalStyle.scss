@@ -186,7 +186,16 @@ footer {
 }
 
 //Swiper
-
+.article-container {
+    img {
+        width: 100%;
+    }
+}
+@media (min-width: 1400px) {
+    .article-container {
+        max-width: 800px !important;
+    }
+}
 //Responsive
 @media (max-width: 739px) {
     .custom {
