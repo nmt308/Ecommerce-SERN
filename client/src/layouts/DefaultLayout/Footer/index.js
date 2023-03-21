@@ -97,7 +97,7 @@ function Footer() {
                                 minhthanh0946@gmail.com
                             </p>
                             <p>
-                                <MDBIcon icon="phone" className="me-4" />+ 84 92 2828 411
+                                <MDBIcon icon="phone" className="me-4" />0879369388
                             </p>
                         </MDBCol>
                     </MDBRow>
